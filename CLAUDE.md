@@ -124,69 +124,129 @@ flutter pub run build_runner build --delete-conflicting-outputs
 
 ### Git and Commit Guidelines
 
-**Commit Message Format (Korean):**
-```
-<타입>: <제목>
+This project follows **Conventional Commits** specification for consistent and meaningful commit messages.
 
-<상세 설명>
+**Commit Message Format:**
+```
+<type>: <subject>
+
+<body>
 ```
 
 **Commit Types:**
-- `의존성 추가` / `의존성 업데이트` - Dependency changes
-- `Core 레이어 구현` / `Domain 레이어 구현` / `Data 레이어 구현` / `Presentation 레이어 구현` - Layer implementation
-- `UI 개선` - UI improvements
-- `기능 추가` - New features
-- `버그 수정` - Bug fixes
-- `리팩토링` - Code refactoring
-- `문서 추가` / `문서 수정` - Documentation
-- `테스트 추가` - Tests
-- `성능 개선` - Performance improvements
+- `feat` - New feature or functionality
+- `fix` - Bug fix
+- `docs` - Documentation changes
+- `style` - Code style changes (formatting, missing semicolons, etc.)
+- `refactor` - Code refactoring (neither fixes a bug nor adds a feature)
+- `perf` - Performance improvements
+- `test` - Adding or updating tests
+- `chore` - Build process, dependencies, tooling changes
+
+**Examples by Category:**
+
+**Features:**
+```bash
+feat: add habit tracking domain layer
+feat: implement Riverpod providers
+feat: add navigation between todos and habits
+```
+
+**Bug Fixes:**
+```bash
+fix: resolve CardTheme type error
+fix: remove deprecated color.shade800 API
+fix: resolve FloatingActionButton Hero tag conflict
+```
+
+**UI/Style:**
+```bash
+style: modernize TodoItem widget design
+style: improve app theme with dark mode support
+```
+
+**Documentation:**
+```bash
+docs: add Git commit guidelines to CLAUDE.md
+docs: update CLAUDE.md with project structure
+```
+
+**Refactoring:**
+```bash
+refactor: migrate to Riverpod 3.0 API
+refactor: extract common utility functions
+```
 
 **Commit Best Practices:**
-1. **작업 단위별로 커밋 분리**
-   - 하나의 커밋은 하나의 논리적 변경사항만 포함
-   - 예: UI 개선 시 위젯별로 분리 커밋
 
-2. **의미있는 커밋 메시지**
-   - 제목은 50자 이내로 간결하게
-   - 상세 설명에 변경 이유와 주요 내용 나열
-   - 불릿 포인트(-)로 여러 변경사항 정리
+1. **Separate commits by logical units**
+   - One commit = one logical change
+   - Example: Separate commits for each widget when improving UI
 
-3. **AI 정보 제외**
-   - 커밋 메시지에 AI 관련 정보 포함하지 않음
-   - 자동 생성 메시지 등 제거
+2. **Write meaningful commit messages**
+   - Subject line: 50 characters or less, imperative mood
+   - Body: Explain what and why, not how
+   - Use bullet points (-) for multiple changes
 
-4. **커밋 예시:**
+3. **NO AI-related information**
+   - Do not include AI attribution in commits
+   - Remove auto-generated messages
+
+4. **Good vs Bad Examples:**
 ```bash
-# 좋은 예
-git commit -m "UI 개선: TodoItem 위젯 모던 디자인 적용
+# Good Examples
+git commit -m "feat: implement habit tracking domain layer
 
-- 카드 스타일 개선 (둥근 모서리, 그림자)
-- 커스텀 체크박스 디자인
-- 우선순위 칩 그라데이션 추가"
+- Add HabitEntity and HabitLogEntity with Freezed
+- Define HabitRepository interface
+- Create use cases for CRUD operations"
 
-# 나쁜 예
-git commit -m "변경사항"
-git commit -m "수정"
+git commit -m "fix: resolve Drift Companion database insertion error
+
+- Remove createdAt from toInsertCompanion (use DB default)
+- Handle empty description with Value.absent()
+- Add error logging with stack traces"
+
+# Bad Examples
+git commit -m "update"
+git commit -m "fix bug"
+git commit -m "changes"
 ```
 
 **Committing Workflow:**
 ```bash
-# 1. 변경사항 확인
+# 1. Review changes
 git status
 git diff
 
-# 2. 파일별로 staged 영역에 추가
+# 2. Stage files by logical units
 git add <file_path>
 
-# 3. 작업 단위별로 커밋
-git commit -m "타입: 제목
+# 3. Commit with conventional format
+git commit -m "type: subject
 
-- 변경사항 1
-- 변경사항 2"
+- detailed change 1
+- detailed change 2
+- detailed change 3"
 
-# 4. 모든 작업 단위 커밋 후 확인
+# 4. Verify commits
 git log --oneline -10
+```
+
+**Multi-line Commit Messages:**
+```bash
+# Use heredoc for proper formatting
+git commit -m "$(cat <<'EOF'
+feat: add habit tracking data layer
+
+Implements data persistence for habit tracking feature
+
+- Add Drift database tables (Habits, HabitLogs)
+- Implement database migration strategy (v1 -> v2)
+- Create entity-model mappers
+- Implement repository with Drift operations
+EOF
+)"
 ```
 
 ## Code Architecture
