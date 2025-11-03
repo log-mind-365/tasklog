@@ -241,7 +241,7 @@ class _PriorityChip extends StatelessWidget {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: color.shade800,
+              color: color,
             ),
           ),
         ],
@@ -291,7 +291,7 @@ class _DueDateChip extends StatelessWidget {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: color.shade800,
+              color: color,
             ),
           ),
         ],
