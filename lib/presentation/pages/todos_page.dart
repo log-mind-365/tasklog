@@ -315,6 +315,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
           ],
         ),
         child: FloatingActionButton.extended(
+          heroTag: 'todos_fab',
           onPressed: () {
             Navigator.push(
               context,
