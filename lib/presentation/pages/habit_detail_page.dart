@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../providers/habit_providers.dart';
 import '../widgets/habit_heatmap.dart';
@@ -16,7 +17,7 @@ class HabitDetailPage extends ConsumerWidget {
 
     // Get logs for the last 12 weeks
     final today = DateTime.now();
-    final startDate = today.subtract(const Duration(days: 84));
+    final startDate = today.subtract(const Duration(days: AppConstants.defaultHistoryDays));
     final logsAsync = ref.watch(
       habitLogsByDateRangeProvider(habit.id, startDate, today),
     );
@@ -37,11 +38,11 @@ class HabitDetailPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHabitHeader(context, habitColor),
-              const Divider(height: 32),
+              const Divider(height: AppConstants.dividerHeight),
               _buildStatistics(context, ref, logs),
-              const Divider(height: 32),
+              const Divider(height: AppConstants.dividerHeight),
               _buildHeatmapSection(context, logs),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppConstants.spacingHuge),
             ],
           ),
         ),
@@ -56,38 +57,38 @@ class HabitDetailPage extends ConsumerWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            habitColor.withValues(alpha: 0.2),
-            habitColor.withValues(alpha: 0.1),
+            habitColor.withValues(alpha: AppConstants.alphaMedium),
+            habitColor.withValues(alpha: AppConstants.alphaLight),
           ],
         ),
       ),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppConstants.spacingLarge),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
               boxShadow: [
                 BoxShadow(
-                  color: habitColor.withValues(alpha: 0.3),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
+                  color: habitColor.withValues(alpha: AppConstants.alphaHigh),
+                  blurRadius: AppConstants.spacingMedium,
+                  offset: const Offset(0, AppConstants.spacingXSmall),
                 ),
               ],
             ),
             child: Text(
               habit.icon,
-              style: const TextStyle(fontSize: 48),
+              style: const TextStyle(fontSize: AppConstants.iconSizeHuge),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppConstants.spacingLarge),
           Text(
             habit.name,
             style: theme.textTheme.headlineSmall?.copyWith(
@@ -96,21 +97,24 @@ class HabitDetailPage extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
           if (habit.description.isNotEmpty) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: AppConstants.spacingSmall),
             Text(
               habit.description,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
               ),
               textAlign: TextAlign.center,
             ),
           ],
-          const SizedBox(height: 16),
+          const SizedBox(height: AppConstants.spacingLarge),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.spacingLarge,
+              vertical: AppConstants.spacingSmall,
+            ),
             decoration: BoxDecoration(
-              color: habitColor.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
+              color: habitColor.withValues(alpha: AppConstants.alphaMedium),
+              borderRadius: BorderRadius.circular(AppConstants.radiusXXLarge),
             ),
             child: Text(
               'Daily Goal: ${habit.goalCount}',
@@ -144,7 +148,7 @@ class HabitDetailPage extends ConsumerWidget {
     final longestStreak = _calculateLongestStreak(logs);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -154,7 +158,7 @@ class HabitDetailPage extends ConsumerWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppConstants.spacingLarge),
           Row(
             children: [
               Expanded(
@@ -166,7 +170,7 @@ class HabitDetailPage extends ConsumerWidget {
                   habitColor,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppConstants.spacingMedium),
               Expanded(
                 child: _buildStatCard(
                   context,
@@ -178,7 +182,7 @@ class HabitDetailPage extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppConstants.spacingMedium),
           Row(
             children: [
               Expanded(
@@ -190,7 +194,7 @@ class HabitDetailPage extends ConsumerWidget {
                   habitColor,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppConstants.spacingMedium),
               Expanded(
                 child: _buildStatCard(
                   context,
@@ -217,19 +221,19 @@ class HabitDetailPage extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppConstants.spacingLarge),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        color: color.withValues(alpha: AppConstants.alphaLight),
+        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         border: Border.all(
-          color: color.withValues(alpha: 0.3),
-          width: 1,
+          color: color.withValues(alpha: AppConstants.alphaHigh),
+          width: AppConstants.borderWidthNormal,
         ),
       ),
       child: Column(
         children: [
-          Icon(icon, color: color, size: 28),
-          const SizedBox(height: 8),
+          Icon(icon, color: color, size: AppConstants.iconSizeXLarge),
+          const SizedBox(height: AppConstants.spacingSmall),
           Text(
             value,
             style: theme.textTheme.titleLarge?.copyWith(
@@ -237,7 +241,7 @@ class HabitDetailPage extends ConsumerWidget {
               color: color,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppConstants.spacingXSmall),
           Text(
             label,
             style: theme.textTheme.bodySmall,
@@ -255,7 +259,7 @@ class HabitDetailPage extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge),
           child: Text(
             'Activity Heatmap',
             style: theme.textTheme.titleLarge?.copyWith(
@@ -263,7 +267,7 @@ class HabitDetailPage extends ConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppConstants.spacingSmall),
         HabitHeatmap(
           habit: habit,
           logs: logs.cast(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../providers/habit_providers.dart';
 
@@ -29,36 +30,36 @@ class HabitItem extends ConsumerWidget {
     final normalizedToday = DateTime(today.year, today.month, today.day);
 
     return Card(
-      elevation: 2,
+      elevation: AppConstants.elevationSmall,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
         side: BorderSide(
-          color: habitColor.withValues(alpha: 0.3),
-          width: 2,
+          color: habitColor.withValues(alpha: AppConstants.alphaHigh),
+          width: AppConstants.borderWidthThick,
         ),
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppConstants.spacingLarge),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(AppConstants.spacingSmall),
                     decoration: BoxDecoration(
-                      color: habitColor.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(8),
+                      color: habitColor.withValues(alpha: AppConstants.alphaMedium),
+                      borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
                     ),
                     child: Text(
                       habit.icon,
-                      style: const TextStyle(fontSize: 24),
+                      style: const TextStyle(fontSize: AppConstants.iconSizeLarge),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: AppConstants.spacingMedium),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,11 +71,11 @@ class HabitItem extends ConsumerWidget {
                           ),
                         ),
                         if (habit.description.isNotEmpty) ...[
-                          const SizedBox(height: 4),
+                          const SizedBox(height: AppConstants.spacingXSmall),
                           Text(
                             habit.description,
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                              color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -90,7 +91,7 @@ class HabitItem extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppConstants.spacingLarge),
               _buildTodayProgress(context, ref, normalizedToday, habitColor),
             ],
           ),
@@ -133,10 +134,10 @@ class HabitItem extends ConsumerWidget {
                           Text(
                             'Today',
                             style: theme.textTheme.labelMedium?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                              color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: AppConstants.spacingSmall),
                           Text(
                             '$completedCount / ${habit.goalCount}',
                             style: theme.textTheme.titleMedium?.copyWith(
@@ -146,36 +147,36 @@ class HabitItem extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: AppConstants.spacingSmall),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(AppConstants.radiusSmall),
                         child: LinearProgressIndicator(
                           value: clampedProgress,
-                          backgroundColor: habitColor.withValues(alpha: 0.2),
+                          backgroundColor: habitColor.withValues(alpha: AppConstants.alphaMedium),
                           valueColor: AlwaysStoppedAnimation(habitColor),
-                          minHeight: 8,
+                          minHeight: AppConstants.spacingSmall,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: AppConstants.spacingLarge),
                 Row(
                   children: [
                     IconButton.filled(
                       onPressed: completedCount > 0 ? onDecrement : null,
-                      icon: const Icon(Icons.remove, size: 20),
+                      icon: const Icon(Icons.remove, size: AppConstants.iconSizeMedium),
                       style: IconButton.styleFrom(
-                        backgroundColor: habitColor.withValues(alpha: 0.2),
+                        backgroundColor: habitColor.withValues(alpha: AppConstants.alphaMedium),
                         foregroundColor: habitColor,
                         disabledBackgroundColor: theme.colorScheme.surfaceContainerHighest,
-                        disabledForegroundColor: theme.colorScheme.onSurface.withValues(alpha: 0.3),
+                        disabledForegroundColor: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaHigh),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppConstants.spacingSmall),
                     IconButton.filled(
                       onPressed: onIncrement,
-                      icon: const Icon(Icons.add, size: 20),
+                      icon: const Icon(Icons.add, size: AppConstants.iconSizeMedium),
                       style: IconButton.styleFrom(
                         backgroundColor: habitColor,
                         foregroundColor: Colors.white,
