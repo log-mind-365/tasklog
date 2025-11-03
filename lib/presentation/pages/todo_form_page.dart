@@ -80,7 +80,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
           ),
         );
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print('Error saving todo: $e');
+      print('Stack trace: $stackTrace');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -88,7 +90,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               children: [
                 const Icon(Icons.error, color: Colors.white),
                 const SizedBox(width: 8),
-                Text('오류 발생: $e'),
+                Expanded(child: Text('오류 발생: $e')),
               ],
             ),
             backgroundColor: Colors.red,

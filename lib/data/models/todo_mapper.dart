@@ -35,12 +35,11 @@ extension TodoEntityMapper on TodoEntity {
   TodosCompanion toInsertCompanion() {
     return TodosCompanion.insert(
       title: title,
-      description: Value(description),
+      description: description.isEmpty ? const Value.absent() : Value(description),
       isDone: Value(isDone),
       priority: Value(priority.value),
       dueDate: Value(dueDate),
       categoryId: Value(categoryId),
-      createdAt: Value(createdAt),
     );
   }
 
