@@ -6,7 +6,7 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appDatabaseHash() => r'68c9ad772c198d1a34d2dcccc0a6a35f43092fd5';
+String _$appDatabaseHash() => r'18ce5c8c4d8ddbfe5a7d819d8fb7d5aca76bf416';
 
 /// See also [appDatabase].
 @ProviderFor(appDatabase)
@@ -23,7 +23,7 @@ final appDatabaseProvider = AutoDisposeProvider<AppDatabase>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AppDatabaseRef = AutoDisposeProviderRef<AppDatabase>;
-String _$todoRepositoryHash() => r'91a63c127326c838d62671be730b94be13d67c45';
+String _$todoRepositoryHash() => r'dd2ffe28cb0c53f14678c1d09eb56c397d7c0794';
 
 /// See also [todoRepository].
 @ProviderFor(todoRepository)
@@ -41,7 +41,7 @@ final todoRepositoryProvider = AutoDisposeProvider<TodoRepository>.internal(
 // ignore: unused_element
 typedef TodoRepositoryRef = AutoDisposeProviderRef<TodoRepository>;
 String _$categoryRepositoryHash() =>
-    r'b4806cfddf4fe5e9487c54cd7cbf4e00408ae0a9';
+    r'2ddce4e391cf7ea34379d2d8a8c2c4bc08d12700';
 
 /// See also [categoryRepository].
 @ProviderFor(categoryRepository)
@@ -59,7 +59,7 @@ final categoryRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CategoryRepositoryRef = AutoDisposeProviderRef<CategoryRepository>;
-String _$getTodosUseCaseHash() => r'ae9b49b411482cd26ad8095b5167f241290152d5';
+String _$getTodosUseCaseHash() => r'3750b0600f0b1a0a8625f69d4aabeca764eecd53';
 
 /// See also [getTodosUseCase].
 @ProviderFor(getTodosUseCase)
@@ -76,7 +76,7 @@ final getTodosUseCaseProvider = AutoDisposeProvider<GetTodosUseCase>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetTodosUseCaseRef = AutoDisposeProviderRef<GetTodosUseCase>;
-String _$addTodoUseCaseHash() => r'47bc44b467728866e56c0201c3787b53f23b0e5d';
+String _$addTodoUseCaseHash() => r'4f3292e9fe1c3ce6c138075f5f56fccf2e9a6662';
 
 /// See also [addTodoUseCase].
 @ProviderFor(addTodoUseCase)
@@ -93,7 +93,7 @@ final addTodoUseCaseProvider = AutoDisposeProvider<AddTodoUseCase>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AddTodoUseCaseRef = AutoDisposeProviderRef<AddTodoUseCase>;
-String _$updateTodoUseCaseHash() => r'49a2b3fdf15a3ef8992953b8cb744c2adf0bede3';
+String _$updateTodoUseCaseHash() => r'7e611a6318af8e3894ef249b571ebf19977d6ccf';
 
 /// See also [updateTodoUseCase].
 @ProviderFor(updateTodoUseCase)
@@ -111,7 +111,7 @@ final updateTodoUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef UpdateTodoUseCaseRef = AutoDisposeProviderRef<UpdateTodoUseCase>;
-String _$deleteTodoUseCaseHash() => r'cf7435bc8ffaad04a48780fcedffe42107dd1d37';
+String _$deleteTodoUseCaseHash() => r'7c260875e6d2d0eecd8d4fd91aed4e8ab7d155ce';
 
 /// See also [deleteTodoUseCase].
 @ProviderFor(deleteTodoUseCase)
@@ -130,7 +130,7 @@ final deleteTodoUseCaseProvider =
 // ignore: unused_element
 typedef DeleteTodoUseCaseRef = AutoDisposeProviderRef<DeleteTodoUseCase>;
 String _$toggleTodoDoneUseCaseHash() =>
-    r'b45ec9c0b03bb9b231e799d06e4c91942e25583e';
+    r'b9953bf732f7ad9ae0709d41a94e171794634bdf';
 
 /// See also [toggleTodoDoneUseCase].
 @ProviderFor(toggleTodoDoneUseCase)
@@ -150,7 +150,7 @@ final toggleTodoDoneUseCaseProvider =
 typedef ToggleTodoDoneUseCaseRef =
     AutoDisposeProviderRef<ToggleTodoDoneUseCase>;
 String _$searchTodosUseCaseHash() =>
-    r'd2fa43dabaec20086a59795dd75c4fe08a64a43e';
+    r'c643dfb2031cda6d20d74a9b9bff23135e89e0a2';
 
 /// See also [searchTodosUseCase].
 @ProviderFor(searchTodosUseCase)
@@ -169,7 +169,7 @@ final searchTodosUseCaseProvider =
 // ignore: unused_element
 typedef SearchTodosUseCaseRef = AutoDisposeProviderRef<SearchTodosUseCase>;
 String _$getCategoriesUseCaseHash() =>
-    r'fdd7076494a15ef2972db50e2682d7c59161be62';
+    r'5c6407af06a2068abfac9b2f90a61b5f2f63906f';
 
 /// See also [getCategoriesUseCase].
 @ProviderFor(getCategoriesUseCase)
@@ -188,7 +188,7 @@ final getCategoriesUseCaseProvider =
 // ignore: unused_element
 typedef GetCategoriesUseCaseRef = AutoDisposeProviderRef<GetCategoriesUseCase>;
 String _$addCategoryUseCaseHash() =>
-    r'cc57092dfcfd5d5cf494617766b9bddbedc0c3c8';
+    r'ecf33deafbf3a507bbfe708d3cd557908d080366';
 
 /// See also [addCategoryUseCase].
 @ProviderFor(addCategoryUseCase)

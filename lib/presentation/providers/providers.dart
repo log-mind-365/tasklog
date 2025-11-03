@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../data/datasources/local/database.dart';
 import '../../data/repositories/todo_repository_impl.dart';
@@ -17,68 +18,68 @@ part 'providers.g.dart';
 
 // Database provider
 @riverpod
-AppDatabase appDatabase(AppDatabaseRef ref) {
+AppDatabase appDatabase(Ref ref) {
   return AppDatabase();
 }
 
 // Repository providers
 @riverpod
-TodoRepository todoRepository(TodoRepositoryRef ref) {
+TodoRepository todoRepository(Ref ref) {
   final database = ref.watch(appDatabaseProvider);
   return TodoRepositoryImpl(database);
 }
 
 @riverpod
-CategoryRepository categoryRepository(CategoryRepositoryRef ref) {
+CategoryRepository categoryRepository(Ref ref) {
   final database = ref.watch(appDatabaseProvider);
   return CategoryRepositoryImpl(database);
 }
 
 // UseCase providers
 @riverpod
-GetTodosUseCase getTodosUseCase(GetTodosUseCaseRef ref) {
+GetTodosUseCase getTodosUseCase(Ref ref) {
   final repository = ref.watch(todoRepositoryProvider);
   return GetTodosUseCase(repository);
 }
 
 @riverpod
-AddTodoUseCase addTodoUseCase(AddTodoUseCaseRef ref) {
+AddTodoUseCase addTodoUseCase(Ref ref) {
   final repository = ref.watch(todoRepositoryProvider);
   return AddTodoUseCase(repository);
 }
 
 @riverpod
-UpdateTodoUseCase updateTodoUseCase(UpdateTodoUseCaseRef ref) {
+UpdateTodoUseCase updateTodoUseCase(Ref ref) {
   final repository = ref.watch(todoRepositoryProvider);
   return UpdateTodoUseCase(repository);
 }
 
 @riverpod
-DeleteTodoUseCase deleteTodoUseCase(DeleteTodoUseCaseRef ref) {
+DeleteTodoUseCase deleteTodoUseCase(Ref ref) {
   final repository = ref.watch(todoRepositoryProvider);
   return DeleteTodoUseCase(repository);
 }
 
 @riverpod
-ToggleTodoDoneUseCase toggleTodoDoneUseCase(ToggleTodoDoneUseCaseRef ref) {
+ToggleTodoDoneUseCase toggleTodoDoneUseCase(Ref ref) {
   final repository = ref.watch(todoRepositoryProvider);
   return ToggleTodoDoneUseCase(repository);
 }
 
 @riverpod
-SearchTodosUseCase searchTodosUseCase(SearchTodosUseCaseRef ref) {
+SearchTodosUseCase searchTodosUseCase(Ref ref) {
   final repository = ref.watch(todoRepositoryProvider);
   return SearchTodosUseCase(repository);
 }
 
 @riverpod
-GetCategoriesUseCase getCategoriesUseCase(GetCategoriesUseCaseRef ref) {
+GetCategoriesUseCase getCategoriesUseCase(Ref ref) {
   final repository = ref.watch(categoryRepositoryProvider);
   return GetCategoriesUseCase(repository);
 }
 
 @riverpod
-AddCategoryUseCase addCategoryUseCase(AddCategoryUseCaseRef ref) {
+AddCategoryUseCase addCategoryUseCase(Ref ref) {
   final repository = ref.watch(categoryRepositoryProvider);
   return AddCategoryUseCase(repository);
 }

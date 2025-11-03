@@ -6,7 +6,7 @@ part of 'todo_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todosStreamHash() => r'f9e1b0a3892f45cb3a59accd9ac020e134aa7cb8';
+String _$todosStreamHash() => r'690f2c634044c61dab3eb8136e3e43f65b9e568a';
 
 /// See also [todosStream].
 @ProviderFor(todosStream)
@@ -25,7 +25,7 @@ final todosStreamProvider =
 // ignore: unused_element
 typedef TodosStreamRef = AutoDisposeStreamProviderRef<List<TodoEntity>>;
 String _$incompleteTodosStreamHash() =>
-    r'aa2fa9148a3dd22a8bf1d5ed8e5424654a88c18c';
+    r'238bf4c54d5967fe3b4aad4c27b66e0d5048cc7f';
 
 /// See also [incompleteTodosStream].
 @ProviderFor(incompleteTodosStream)
@@ -45,7 +45,7 @@ final incompleteTodosStreamProvider =
 typedef IncompleteTodosStreamRef =
     AutoDisposeStreamProviderRef<List<TodoEntity>>;
 String _$completedTodosStreamHash() =>
-    r'4fcb49afe407a7dd6f451f9605dbeae2d8235b6c';
+    r'e5136cf87827dca8067a9ff3d66d27a45739baab';
 
 /// See also [completedTodosStream].
 @ProviderFor(completedTodosStream)
