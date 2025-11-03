@@ -31,11 +31,14 @@ class AppConstants {
   static const double spacingLarge = 16.0;
   static const double spacingXLarge = 20.0;
   static const double spacingXXLarge = 24.0;
+  static const double spacingXXXLarge = 40.0;
   static const double spacingHuge = 32.0;
   static const double spacingXHuge = 48.0;
   static const double spacingXXHuge = 64.0;
-  static const double spacingGiant = 80.0;
-  static const double spacingXGiant = 84.0;
+  static const double spacingGiant = 56.0;
+  static const double spacingXGiant = 80.0;
+  static const double spacingXXGiant = 84.0;
+  static const double spacingMassive = 120.0;
 
   // Elevation 값
   static const double elevationNone = 0.0;
@@ -45,10 +48,12 @@ class AppConstants {
   static const double elevationXLarge = 12.0;
 
   // Icon Size 값
+  static const double iconSizeXSmall = 14.0;
   static const double iconSizeSmall = 16.0;
   static const double iconSizeMedium = 20.0;
   static const double iconSizeLarge = 24.0;
   static const double iconSizeXLarge = 28.0;
+  static const double iconSizeXXLarge = 40.0;
   static const double iconSizeHuge = 48.0;
   static const double iconSizeXHuge = 64.0;
 
@@ -66,7 +71,8 @@ class AppConstants {
   // Border Width 값
   static const double borderWidthThin = 0.5;
   static const double borderWidthNormal = 1.0;
-  static const double borderWidthThick = 2.0;
+  static const double borderWidthMedium = 2.0;
+  static const double borderWidthThick = 3.0;
 
   // 기타 크기 값
   static const double cellSize = 14.0;
