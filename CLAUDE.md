@@ -124,127 +124,127 @@ flutter pub run build_runner build --delete-conflicting-outputs
 
 ### Git and Commit Guidelines
 
-This project follows **Conventional Commits** specification for consistent and meaningful commit messages.
+이 프로젝트는 **Conventional Commits** 스펙을 따르되, 한국어로 작성합니다.
 
-**Commit Message Format:**
+**커밋 메시지 형식:**
 ```
-<type>: <subject>
+<type>: <제목>
 
-<body>
+<본문>
 ```
 
-**Commit Types:**
-- `feat` - New feature or functionality
-- `fix` - Bug fix
-- `docs` - Documentation changes
-- `style` - Code style changes (formatting, missing semicolons, etc.)
-- `refactor` - Code refactoring (neither fixes a bug nor adds a feature)
-- `perf` - Performance improvements
-- `test` - Adding or updating tests
-- `chore` - Build process, dependencies, tooling changes
+**커밋 타입:**
+- `feat` - 새로운 기능 추가
+- `fix` - 버그 수정
+- `docs` - 문서 변경
+- `style` - 코드 스타일 변경 (포맷팅, 세미콜론 누락 등)
+- `refactor` - 코드 리팩토링 (기능 변경 없음)
+- `perf` - 성능 개선
+- `test` - 테스트 추가 또는 수정
+- `chore` - 빌드 프로세스, 의존성, 도구 변경
 
-**Examples by Category:**
+**카테고리별 예시:**
 
-**Features:**
+**기능 추가:**
 ```bash
-feat: add habit tracking domain layer
-feat: implement Riverpod providers
-feat: add navigation between todos and habits
+feat: 습관 추적 도메인 레이어 추가
+feat: Riverpod Provider 구현
+feat: 할일-습관 네비게이션 추가
 ```
 
-**Bug Fixes:**
+**버그 수정:**
 ```bash
-fix: resolve CardTheme type error
-fix: remove deprecated color.shade800 API
-fix: resolve FloatingActionButton Hero tag conflict
+fix: CardTheme 타입 에러 수정
+fix: 더 이상 사용되지 않는 color.shade800 API 제거
+fix: FloatingActionButton Hero 태그 충돌 해결
 ```
 
-**UI/Style:**
+**UI/스타일:**
 ```bash
-style: modernize TodoItem widget design
-style: improve app theme with dark mode support
+style: TodoItem 위젯 디자인 개선
+style: 앱 테마 및 다크모드 지원 개선
 ```
 
-**Documentation:**
+**문서:**
 ```bash
-docs: add Git commit guidelines to CLAUDE.md
-docs: update CLAUDE.md with project structure
+docs: Git 커밋 가이드라인 추가
+docs: CLAUDE.md 프로젝트 구조 문서화
 ```
 
-**Refactoring:**
+**리팩토링:**
 ```bash
-refactor: migrate to Riverpod 3.0 API
-refactor: extract common utility functions
+refactor: Riverpod 3.0 API로 마이그레이션
+refactor: 공통 유틸리티 함수 추출
 ```
 
-**Commit Best Practices:**
+**커밋 모범 사례:**
 
-1. **Separate commits by logical units**
-   - One commit = one logical change
-   - Example: Separate commits for each widget when improving UI
+1. **논리적 단위로 커밋 분리**
+   - 하나의 커밋 = 하나의 논리적 변경
+   - 예시: UI 개선 시 각 위젯마다 별도의 커밋
 
-2. **Write meaningful commit messages**
-   - Subject line: 50 characters or less, imperative mood
-   - Body: Explain what and why, not how
-   - Use bullet points (-) for multiple changes
+2. **의미 있는 커밋 메시지 작성**
+   - 제목: 50자 이내, 명령형으로 작성
+   - 본문: 무엇을, 왜 변경했는지 설명 (어떻게가 아닌)
+   - 여러 변경사항은 불릿 포인트(-) 사용
 
-3. **NO AI-related information**
-   - Do not include AI attribution in commits
-   - Remove auto-generated messages
+3. **AI 관련 정보 제외**
+   - 커밋에 AI 출처 정보를 포함하지 않음
+   - 자동 생성된 메시지 제거
 
-4. **Good vs Bad Examples:**
+4. **좋은 예시 vs 나쁜 예시:**
 ```bash
-# Good Examples
-git commit -m "feat: implement habit tracking domain layer
+# 좋은 예시
+git commit -m "feat: 습관 추적 도메인 레이어 구현
 
-- Add HabitEntity and HabitLogEntity with Freezed
-- Define HabitRepository interface
-- Create use cases for CRUD operations"
+- Freezed를 사용한 HabitEntity와 HabitLogEntity 추가
+- HabitRepository 인터페이스 정의
+- CRUD 작업을 위한 Use Case 생성"
 
-git commit -m "fix: resolve Drift Companion database insertion error
+git commit -m "fix: Drift Companion 데이터베이스 삽입 오류 해결
 
-- Remove createdAt from toInsertCompanion (use DB default)
-- Handle empty description with Value.absent()
-- Add error logging with stack traces"
+- toInsertCompanion에서 createdAt 제거 (DB 기본값 사용)
+- 빈 description을 Value.absent()로 처리
+- 스택 트레이스와 함께 에러 로깅 추가"
 
-# Bad Examples
-git commit -m "update"
-git commit -m "fix bug"
-git commit -m "changes"
+# 나쁜 예시
+git commit -m "업데이트"
+git commit -m "버그 수정"
+git commit -m "변경사항"
 ```
 
-**Committing Workflow:**
+**커밋 작업 흐름:**
 ```bash
-# 1. Review changes
+# 1. 변경사항 확인
 git status
 git diff
 
-# 2. Stage files by logical units
+# 2. 논리적 단위로 파일 스테이징
 git add <file_path>
 
-# 3. Commit with conventional format
-git commit -m "type: subject
+# 3. Conventional Commits 형식으로 커밋
+git commit -m "type: 제목
 
-- detailed change 1
-- detailed change 2
-- detailed change 3"
+- 상세 변경사항 1
+- 상세 변경사항 2
+- 상세 변경사항 3"
 
-# 4. Verify commits
+# 4. 커밋 확인
 git log --oneline -10
 ```
 
-**Multi-line Commit Messages:**
+**여러 줄 커밋 메시지:**
 ```bash
-# Use heredoc for proper formatting
+# heredoc을 사용한 올바른 형식
 git commit -m "$(cat <<'EOF'
-feat: add habit tracking data layer
+feat: 습관 추적 데이터 레이어 추가
 
-Implements data persistence for habit tracking feature
+습관 추적 기능을 위한 데이터 영속성 구현
 
-- Add Drift database tables (Habits, HabitLogs)
-- Implement database migration strategy (v1 -> v2)
-- Create entity-model mappers
-- Implement repository with Drift operations
+- Drift 데이터베이스 테이블 추가 (Habits, HabitLogs)
+- 데이터베이스 마이그레이션 전략 구현 (v1 -> v2)
+- Entity-Model 매퍼 생성
+- Drift 작업을 포함한 Repository 구현
 EOF
 )"
 ```
