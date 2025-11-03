@@ -122,6 +122,73 @@ flutter pub run build_runner build --delete-conflicting-outputs
 - After adding/modifying Riverpod providers with `@riverpod` annotation
 - After pulling changes that include any of the above
 
+### Git and Commit Guidelines
+
+**Commit Message Format (Korean):**
+```
+<타입>: <제목>
+
+<상세 설명>
+```
+
+**Commit Types:**
+- `의존성 추가` / `의존성 업데이트` - Dependency changes
+- `Core 레이어 구현` / `Domain 레이어 구현` / `Data 레이어 구현` / `Presentation 레이어 구현` - Layer implementation
+- `UI 개선` - UI improvements
+- `기능 추가` - New features
+- `버그 수정` - Bug fixes
+- `리팩토링` - Code refactoring
+- `문서 추가` / `문서 수정` - Documentation
+- `테스트 추가` - Tests
+- `성능 개선` - Performance improvements
+
+**Commit Best Practices:**
+1. **작업 단위별로 커밋 분리**
+   - 하나의 커밋은 하나의 논리적 변경사항만 포함
+   - 예: UI 개선 시 위젯별로 분리 커밋
+
+2. **의미있는 커밋 메시지**
+   - 제목은 50자 이내로 간결하게
+   - 상세 설명에 변경 이유와 주요 내용 나열
+   - 불릿 포인트(-)로 여러 변경사항 정리
+
+3. **AI 정보 제외**
+   - 커밋 메시지에 AI 관련 정보 포함하지 않음
+   - 자동 생성 메시지 등 제거
+
+4. **커밋 예시:**
+```bash
+# 좋은 예
+git commit -m "UI 개선: TodoItem 위젯 모던 디자인 적용
+
+- 카드 스타일 개선 (둥근 모서리, 그림자)
+- 커스텀 체크박스 디자인
+- 우선순위 칩 그라데이션 추가"
+
+# 나쁜 예
+git commit -m "변경사항"
+git commit -m "수정"
+```
+
+**Committing Workflow:**
+```bash
+# 1. 변경사항 확인
+git status
+git diff
+
+# 2. 파일별로 staged 영역에 추가
+git add <file_path>
+
+# 3. 작업 단위별로 커밋
+git commit -m "타입: 제목
+
+- 변경사항 1
+- 변경사항 2"
+
+# 4. 모든 작업 단위 커밋 후 확인
+git log --oneline -10
+```
+
 ## Code Architecture
 
 This project follows **Clean Architecture** principles with **MVVM** pattern, separating concerns into three distinct layers:
