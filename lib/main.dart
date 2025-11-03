@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'presentation/pages/todos_page.dart';
+import 'presentation/pages/home_page.dart';
 
 void main() {
   runApp(
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: _buildLightTheme(),
       darkTheme: _buildDarkTheme(),
       themeMode: ThemeMode.system,
-      home: const TodosPage(),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
