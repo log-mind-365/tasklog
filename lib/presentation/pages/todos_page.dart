@@ -78,6 +78,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                               style: theme.textTheme.headlineMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: -0.5,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
                             const SizedBox(height: AppConstants.spacingXSmall),
