@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_log_entity.dart';
 
@@ -12,13 +13,13 @@ class HabitHeatmap extends StatelessWidget {
     super.key,
     required this.habit,
     required this.logs,
-    this.weeksToShow = 12,
+    this.weeksToShow = AppConstants.defaultWeeksToShow,
   });
 
   @override
   Widget build(BuildContext context) {
     final today = DateTime.now();
-    final startDate = today.subtract(Duration(days: weeksToShow * 7 - 1));
+    final startDate = today.subtract(Duration(days: weeksToShow * AppConstants.daysPerWeek - 1));
 
     // Normalize to start of day
     final normalizedToday = DateTime(today.year, today.month, today.day);
@@ -32,21 +33,21 @@ class HabitHeatmap extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppConstants.spacingLarge),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildMonthLabels(startMonday, weeksToShow),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppConstants.spacingSmall),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildDayLabels(),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppConstants.spacingSmall),
                 _buildHeatmapGrid(context, startMonday, normalizedToday, weeksToShow),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppConstants.spacingLarge),
             _buildLegend(context),
           ],
         ),
@@ -64,21 +65,21 @@ class HabitHeatmap extends StatelessWidget {
 
       monthLabels.add(
         SizedBox(
-          width: 16,
+          width: AppConstants.spacingLarge,
           child: isFirstWeekOfMonth
               ? Text(
                   DateFormat('MMM').format(currentDate),
-                  style: const TextStyle(fontSize: 10),
+                  style: const TextStyle(fontSize: AppConstants.fontSizeXSmall),
                 )
               : null,
         ),
       );
 
-      currentDate = currentDate.add(const Duration(days: 7));
+      currentDate = currentDate.add(const Duration(days: AppConstants.daysPerWeek));
     }
 
     return Padding(
-      padding: const EdgeInsets.only(left: 28),
+      padding: const EdgeInsets.only(left: AppConstants.spacingXLarge + AppConstants.spacingSmall),
       child: Row(children: monthLabels),
     );
   }
@@ -89,15 +90,15 @@ class HabitHeatmap extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: List.generate(7, (index) {
+      children: List.generate(AppConstants.daysPerWeek, (index) {
         final dayIndex = dayIndices.indexOf(index);
         return SizedBox(
-          height: 16,
-          width: 20,
+          height: AppConstants.spacingLarge,
+          width: AppConstants.spacingXLarge,
           child: dayIndex != -1
               ? Text(
                   days[dayIndex],
-                  style: const TextStyle(fontSize: 10),
+                  style: const TextStyle(fontSize: AppConstants.fontSizeXSmall),
                   textAlign: TextAlign.right,
                 )
               : null,
@@ -122,10 +123,10 @@ class HabitHeatmap extends StatelessWidget {
 
     return Row(
       children: List.generate(weeks, (weekIndex) {
-        final weekStartDate = startDate.add(Duration(days: weekIndex * 7));
+        final weekStartDate = startDate.add(Duration(days: weekIndex * AppConstants.daysPerWeek));
 
         return Column(
-          children: List.generate(7, (dayIndex) {
+          children: List.generate(AppConstants.daysPerWeek, (dayIndex) {
             final currentDate = weekStartDate.add(Duration(days: dayIndex));
             final isInFuture = currentDate.isAfter(today);
             final dateKey = DateFormat('yyyy-MM-dd').format(currentDate);
@@ -154,7 +155,7 @@ class HabitHeatmap extends StatelessWidget {
 
     Color cellColor;
     if (isInFuture) {
-      cellColor = colorScheme.surfaceContainerHighest.withValues(alpha: 0.3);
+      cellColor = colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaHigh);
     } else if (log == null || log.completedCount == 0) {
       cellColor = colorScheme.surfaceContainerHighest;
     } else {
@@ -166,26 +167,26 @@ class HabitHeatmap extends StatelessWidget {
       if (clampedRate >= 1.0) {
         cellColor = habitColor;
       } else if (clampedRate >= 0.75) {
-        cellColor = habitColor.withValues(alpha: 0.75);
+        cellColor = habitColor.withValues(alpha: AppConstants.alphaVeryIntense);
       } else if (clampedRate >= 0.5) {
-        cellColor = habitColor.withValues(alpha: 0.5);
+        cellColor = habitColor.withValues(alpha: AppConstants.alphaStrong);
       } else {
-        cellColor = habitColor.withValues(alpha: 0.3);
+        cellColor = habitColor.withValues(alpha: AppConstants.alphaHigh);
       }
     }
 
     return Tooltip(
       message: _buildTooltipMessage(date, log, isInFuture),
       child: Container(
-        width: 14,
-        height: 14,
-        margin: const EdgeInsets.all(1),
+        width: AppConstants.cellSize,
+        height: AppConstants.cellSize,
+        margin: const EdgeInsets.all(AppConstants.spacingXXSmall),
         decoration: BoxDecoration(
           color: cellColor,
-          borderRadius: BorderRadius.circular(2),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXSmall),
           border: Border.all(
-            color: colorScheme.outline.withValues(alpha: 0.2),
-            width: 0.5,
+            color: colorScheme.outline.withValues(alpha: AppConstants.alphaMedium),
+            width: AppConstants.borderWidthThin,
           ),
         ),
       ),
@@ -212,27 +213,27 @@ class HabitHeatmap extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text('Less', style: TextStyle(fontSize: 10)),
-        const SizedBox(width: 4),
+        const Text('Less', style: TextStyle(fontSize: AppConstants.fontSizeXSmall)),
+        const SizedBox(width: AppConstants.spacingXSmall),
         _buildLegendCell(colorScheme.surfaceContainerHighest),
-        _buildLegendCell(habitColor.withValues(alpha: 0.3)),
-        _buildLegendCell(habitColor.withValues(alpha: 0.5)),
-        _buildLegendCell(habitColor.withValues(alpha: 0.75)),
+        _buildLegendCell(habitColor.withValues(alpha: AppConstants.alphaHigh)),
+        _buildLegendCell(habitColor.withValues(alpha: AppConstants.alphaStrong)),
+        _buildLegendCell(habitColor.withValues(alpha: AppConstants.alphaVeryIntense)),
         _buildLegendCell(habitColor),
-        const SizedBox(width: 4),
-        const Text('More', style: TextStyle(fontSize: 10)),
+        const SizedBox(width: AppConstants.spacingXSmall),
+        const Text('More', style: TextStyle(fontSize: AppConstants.fontSizeXSmall)),
       ],
     );
   }
 
   Widget _buildLegendCell(Color color) {
     return Container(
-      width: 14,
-      height: 14,
-      margin: const EdgeInsets.all(1),
+      width: AppConstants.cellSize,
+      height: AppConstants.cellSize,
+      margin: const EdgeInsets.all(AppConstants.spacingXXSmall),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(2),
+        borderRadius: BorderRadius.circular(AppConstants.radiusXSmall),
       ),
     );
   }

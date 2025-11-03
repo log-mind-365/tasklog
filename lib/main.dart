@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/constants/app_constants.dart';
 import 'presentation/pages/home_page.dart';
 
 void main() {
@@ -38,52 +39,55 @@ class MyApp extends StatelessWidget {
       fontFamily: 'SF Pro Display',
       scaffoldBackgroundColor: colorScheme.surface,
       cardTheme: CardThemeData(
-        elevation: 0,
+        elevation: AppConstants.elevationNone,
         color: colorScheme.surface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
         ),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
-        elevation: 0,
+        elevation: AppConstants.elevationNone,
         centerTitle: false,
         titleTextStyle: TextStyle(
           color: colorScheme.onSurface,
-          fontSize: 28,
+          fontSize: AppConstants.fontSizeXHuge,
           fontWeight: FontWeight.bold,
         ),
         iconTheme: IconThemeData(color: colorScheme.onSurface),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        elevation: 4,
+        elevation: AppConstants.elevationMedium,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
+        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
           borderSide: BorderSide.none,
         ),
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 16,
+          horizontal: AppConstants.spacingXLarge,
+          vertical: AppConstants.spacingLarge,
         ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: colorScheme.surfaceContainerHighest,
         labelStyle: TextStyle(
           color: colorScheme.onSurface,
-          fontSize: 12,
+          fontSize: AppConstants.fontSizeSmall,
           fontWeight: FontWeight.w600,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppConstants.spacingMedium,
+          vertical: AppConstants.spacingSmall,
+        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         ),
       ),
     );
@@ -102,52 +106,55 @@ class MyApp extends StatelessWidget {
       fontFamily: 'SF Pro Display',
       scaffoldBackgroundColor: colorScheme.surface,
       cardTheme: CardThemeData(
-        elevation: 0,
+        elevation: AppConstants.elevationNone,
         color: colorScheme.surface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
         ),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
-        elevation: 0,
+        elevation: AppConstants.elevationNone,
         centerTitle: false,
         titleTextStyle: TextStyle(
           color: colorScheme.onSurface,
-          fontSize: 28,
+          fontSize: AppConstants.fontSizeXHuge,
           fontWeight: FontWeight.bold,
         ),
         iconTheme: IconThemeData(color: colorScheme.onSurface),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        elevation: 4,
+        elevation: AppConstants.elevationMedium,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
+        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
           borderSide: BorderSide.none,
         ),
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 16,
+          horizontal: AppConstants.spacingXLarge,
+          vertical: AppConstants.spacingLarge,
         ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: colorScheme.surfaceContainerHighest,
         labelStyle: TextStyle(
           color: colorScheme.onSurface,
-          fontSize: 12,
+          fontSize: AppConstants.fontSizeSmall,
           fontWeight: FontWeight.w600,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppConstants.spacingMedium,
+          vertical: AppConstants.spacingSmall,
+        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         ),
       ),
     );

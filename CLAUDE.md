@@ -281,6 +281,135 @@ final backgroundColor = theme.colorScheme.surface.withValues(alpha: 0.3);
 - alpha 값은 0.0 (완전 투명) ~ 1.0 (완전 불투명) 범위
 - 기존 `withOpacity(value)` 호출을 `withValues(alpha: value)`로 변경
 
+### 하드코딩된 값 상수화
+
+코드 가독성과 유지보수성을 위해 반복되는 하드코딩된 값은 상수로 정의하여 사용합니다.
+
+#### 상수 파일 위치
+
+```
+lib/core/constants/app_constants.dart
+```
+
+#### 정의된 상수 카테고리
+
+**1. Alpha (투명도) 값**
+```dart
+AppConstants.alphaVeryLight    // 0.08
+AppConstants.alphaLight        // 0.1
+AppConstants.alphaMediumLight  // 0.15
+AppConstants.alphaMedium       // 0.2
+AppConstants.alphaMediumHigh   // 0.25
+AppConstants.alphaHigh         // 0.3
+AppConstants.alphaStrong       // 0.5
+AppConstants.alphaVeryStrong   // 0.6
+AppConstants.alphaIntense      // 0.7
+AppConstants.alphaVeryIntense  // 0.75
+```
+
+**2. Border Radius 값**
+```dart
+AppConstants.radiusXSmall   // 2.0
+AppConstants.radiusSmall    // 4.0
+AppConstants.radiusMedium   // 8.0
+AppConstants.radiusLarge    // 12.0
+AppConstants.radiusXLarge   // 16.0
+AppConstants.radiusXXLarge  // 20.0
+AppConstants.radiusHuge     // 24.0
+```
+
+**3. Spacing (Padding/Margin) 값**
+```dart
+AppConstants.spacingXXSmall  // 1.0
+AppConstants.spacingXSmall   // 4.0
+AppConstants.spacingSmall    // 8.0
+AppConstants.spacingMedium   // 12.0
+AppConstants.spacingLarge    // 16.0
+AppConstants.spacingXLarge   // 20.0
+AppConstants.spacingXXLarge  // 24.0
+AppConstants.spacingHuge     // 32.0
+// ... 더 많은 spacing 값들
+```
+
+**4. 기타 상수**
+```dart
+// Elevation
+AppConstants.elevationNone    // 0.0
+AppConstants.elevationSmall   // 2.0
+AppConstants.elevationMedium  // 4.0
+
+// Icon Size
+AppConstants.iconSizeSmall    // 16.0
+AppConstants.iconSizeMedium   // 20.0
+AppConstants.iconSizeLarge    // 24.0
+
+// Font Size
+AppConstants.fontSizeXSmall   // 10.0
+AppConstants.fontSizeSmall    // 12.0
+AppConstants.fontSizeMedium   // 14.0
+
+// Border Width
+AppConstants.borderWidthThin     // 0.5
+AppConstants.borderWidthNormal   // 1.0
+AppConstants.borderWidthThick    // 2.0
+```
+
+#### 사용 예시
+
+**❌ 하드코딩 (피해야 할 방식):**
+```dart
+Container(
+  padding: const EdgeInsets.all(16.0),
+  decoration: BoxDecoration(
+    color: Colors.blue.withValues(alpha: 0.3),
+    borderRadius: BorderRadius.circular(12),
+  ),
+  child: Text(
+    'Hello',
+    style: TextStyle(fontSize: 14),
+  ),
+)
+```
+
+**✅ 상수 사용 (권장):**
+```dart
+import '../../core/constants/app_constants.dart';
+
+Container(
+  padding: const EdgeInsets.all(AppConstants.spacingLarge),
+  decoration: BoxDecoration(
+    color: Colors.blue.withValues(alpha: AppConstants.alphaHigh),
+    borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+  ),
+  child: Text(
+    'Hello',
+    style: TextStyle(fontSize: AppConstants.fontSizeMedium),
+  ),
+)
+```
+
+#### 상수화 가이드라인
+
+1. **새로운 UI 컴포넌트 작성 시**
+   - 처음부터 상수를 사용하여 작성
+   - 하드코딩된 값 대신 적절한 상수 선택
+
+2. **기존 코드 리팩토링 시**
+   - 반복되는 값을 발견하면 상수로 교체
+   - 파일 단위로 점진적으로 상수화 진행
+
+3. **새로운 상수 추가 시**
+   - `app_constants.dart`에 의미 있는 이름으로 추가
+   - 기존 명명 규칙 따르기 (size + 크기 수준)
+
+4. **상수 선택 기준**
+   - 의미적으로 가장 가까운 상수 선택
+   - 예: 0.3 투명도 → `alphaHigh`, 16px padding → `spacingLarge`
+
+**참고 예시 파일:**
+- `lib/presentation/widgets/habit_heatmap.dart` - 완전히 상수화된 예시
+- `lib/main.dart` - 테마 설정에서 상수 사용 예시
+
 ## Code Architecture
 
 This project follows **Clean Architecture** principles with **MVVM** pattern, separating concerns into three distinct layers:
