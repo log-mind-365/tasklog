@@ -37,9 +37,13 @@ class HabitsPage extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return SliverAppBar.large(
-      title: const Text('Habits'),
+      title: Text(
+        'Habits',
+        style: TextStyle(color: theme.colorScheme.onSurface),
+      ),
       centerTitle: false,
       floating: true,
+      backgroundColor: theme.colorScheme.surface,
       expandedHeight: AppConstants.spacingMassive,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(left: AppConstants.spacingXLarge, bottom: AppConstants.spacingXLarge),
