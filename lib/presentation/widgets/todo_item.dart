@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants/app_constants.dart';
 import '../../core/utils/date_formatter.dart';
 import '../../domain/entities/priority.dart';
 import '../../domain/entities/todo_entity.dart';
@@ -34,20 +35,20 @@ class TodoItem extends ConsumerWidget {
       key: Key(todo.id.toString()),
       direction: DismissDirection.endToStart,
       background: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        margin: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge, vertical: AppConstants.spacingSmall),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.red.shade400, Colors.red.shade700],
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
         ),
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 24),
+        padding: const EdgeInsets.only(right: AppConstants.spacingXXLarge),
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.delete_outline, color: Colors.white, size: 32),
-            SizedBox(height: 4),
+            Icon(Icons.delete_outline, color: Colors.white, size: AppConstants.iconSizeLarge),
+            SizedBox(height: AppConstants.spacingXSmall),
             Text(
               '삭제',
               style: TextStyle(
@@ -66,27 +67,27 @@ class TodoItem extends ConsumerWidget {
               content: Row(
                 children: [
                   const Icon(Icons.check_circle, color: Colors.white),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppConstants.spacingMedium),
                   Text('${todo.title} 삭제됨'),
                 ],
               ),
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
               ),
             ),
           );
         }
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        margin: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge, vertical: AppConstants.spacingSmall),
         decoration: BoxDecoration(
           color: theme.cardColor,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
           boxShadow: [
             BoxShadow(
-              color: theme.shadowColor.withValues(alpha: 0.08),
-              blurRadius: 8,
+              color: theme.shadowColor.withValues(alpha: AppConstants.alphaVeryLight),
+              blurRadius: AppConstants.spacingMedium,
               offset: const Offset(0, 2),
             ),
           ],
@@ -95,16 +96,16 @@ class TodoItem extends ConsumerWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: onTap,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
                 border: Border(
                   left: BorderSide(color: priorityColor, width: 4),
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppConstants.spacingXLarge),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -112,15 +113,15 @@ class TodoItem extends ConsumerWidget {
                         await toggleUseCase(todo.id);
                       },
                       child: Container(
-                        width: 28,
-                        height: 28,
+                        width: AppConstants.iconSizeMedium,
+                        height: AppConstants.iconSizeMedium,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: todo.isDone
                                 ? priorityColor
                                 : theme.dividerColor,
-                            width: 2,
+                            width: AppConstants.borderWidthMedium,
                           ),
                           color: todo.isDone
                               ? priorityColor
@@ -129,13 +130,13 @@ class TodoItem extends ConsumerWidget {
                         child: todo.isDone
                             ? const Icon(
                                 Icons.check,
-                                size: 18,
+                                size: AppConstants.iconSizeSmall,
                                 color: Colors.white,
                               )
                             : null,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: AppConstants.spacingXLarge),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +154,7 @@ class TodoItem extends ConsumerWidget {
                             ),
                           ),
                           if (todo.description.isNotEmpty) ...[
-                            const SizedBox(height: 6),
+                            const SizedBox(height: AppConstants.spacingSmall),
                             Text(
                               todo.description,
                               maxLines: 2,
@@ -161,15 +162,15 @@ class TodoItem extends ConsumerWidget {
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: todo.isDone
                                     ? theme.textTheme.bodySmall?.color
-                                          ?.withValues(alpha: 0.5)
+                                          ?.withValues(alpha: AppConstants.alphaStrong)
                                     : theme.textTheme.bodySmall?.color,
                               ),
                             ),
                           ],
-                          const SizedBox(height: 8),
+                          const SizedBox(height: AppConstants.spacingMedium),
                           Wrap(
-                            spacing: 8,
-                            runSpacing: 4,
+                            spacing: AppConstants.spacingMedium,
+                            runSpacing: AppConstants.spacingXSmall,
                             children: [
                               _PriorityChip(priority: todo.priority),
                               if (todo.dueDate != null)
@@ -216,26 +217,26 @@ class _PriorityChip extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingSmall, vertical: AppConstants.spacingXSmall),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            color.withValues(alpha: 0.15),
-            color.withValues(alpha: 0.25),
+            color.withValues(alpha: AppConstants.alphaLight),
+            color.withValues(alpha: AppConstants.alphaMedium),
           ],
         ),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
+        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+        border: Border.all(color: color.withValues(alpha: AppConstants.alphaHigh), width: AppConstants.borderWidthThin),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: color),
-          const SizedBox(width: 4),
+          Icon(icon, size: AppConstants.iconSizeXSmall, color: color),
+          const SizedBox(width: AppConstants.spacingXSmall),
           Text(
             priority.displayName,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: AppConstants.fontSizeSmall,
               fontWeight: FontWeight.w600,
               color: color,
             ),
@@ -266,26 +267,26 @@ class _DueDateChip extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingSmall, vertical: AppConstants.spacingXSmall),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            color.withValues(alpha: 0.15),
-            color.withValues(alpha: 0.25),
+            color.withValues(alpha: AppConstants.alphaLight),
+            color.withValues(alpha: AppConstants.alphaMedium),
           ],
         ),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
+        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+        border: Border.all(color: color.withValues(alpha: AppConstants.alphaHigh), width: AppConstants.borderWidthThin),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.calendar_today_outlined, size: 12, color: color),
-          const SizedBox(width: 4),
+          Icon(Icons.calendar_today_outlined, size: AppConstants.fontSizeSmall, color: color),
+          const SizedBox(width: AppConstants.spacingXSmall),
           Text(
             DateFormatter.formatDisplayDate(dueDate),
             style: TextStyle(
-              fontSize: 12,
+              fontSize: AppConstants.fontSizeSmall,
               fontWeight: FontWeight.w600,
               color: color,
             ),

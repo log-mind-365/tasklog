@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/constants/app_constants.dart';
 import '../providers/todo_providers.dart';
 import '../widgets/todo_item.dart';
 import 'todo_form_page.dart';
@@ -62,7 +63,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
           children: [
             // Custom AppBar
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+              padding: const EdgeInsets.fromLTRB(AppConstants.spacingXXLarge, AppConstants.spacingXXLarge, AppConstants.spacingXXLarge, AppConstants.spacingLarge),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -79,11 +80,11 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                                 letterSpacing: -0.5,
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: AppConstants.spacingXSmall),
                             Text(
                               '오늘도 화이팅! 💪',
                               style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurface.withValues(alpha:0.6),
+                                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
                               ),
                             ),
                           ],
@@ -93,12 +94,12 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                       Container(
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primaryContainer,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
                         ),
                         child: Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
                             onTap: () {
                               showModalBottomSheet(
                                 context: context,
@@ -116,18 +117,18 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
+                                horizontal: AppConstants.spacingXLarge,
+                                vertical: AppConstants.spacingLarge,
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
                                     _getFilterIcon(),
-                                    size: 20,
+                                    size: AppConstants.iconSizeXSmall,
                                     color: theme.colorScheme.onPrimaryContainer,
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: AppConstants.spacingMedium),
                                   Text(
                                     _getFilterLabel(),
                                     style: TextStyle(
@@ -143,14 +144,14 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppConstants.spacingXLarge),
                   // Search Bar
                   Container(
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withValues(alpha:0.5),
-                      borderRadius: BorderRadius.circular(16),
+                      color: theme.colorScheme.surfaceVariant.withValues(alpha: AppConstants.alphaStrong),
+                      borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
                       border: Border.all(
-                        color: theme.colorScheme.outline.withValues(alpha:0.1),
+                        color: theme.colorScheme.outline.withValues(alpha: AppConstants.alphaLight),
                       ),
                     ),
                     child: TextField(
@@ -158,17 +159,17 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                       decoration: InputDecoration(
                         hintText: '할일 검색...',
                         hintStyle: TextStyle(
-                          color: theme.colorScheme.onSurface.withValues(alpha:0.5),
+                          color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
                         ),
                         prefixIcon: Icon(
                           Icons.search,
-                          color: theme.colorScheme.onSurface.withValues(alpha:0.5),
+                          color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
                         ),
                         suffixIcon: _searchQuery.isNotEmpty
                             ? IconButton(
                                 icon: Icon(
                                   Icons.clear,
-                                  color: theme.colorScheme.onSurface.withValues(alpha:0.5),
+                                  color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
                                 ),
                                 onPressed: () {
                                   _searchController.clear();
@@ -180,8 +181,8 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                             : null,
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 14,
+                          horizontal: AppConstants.spacingXLarge,
+                          vertical: AppConstants.spacingMedium,
                         ),
                       ),
                       onChanged: (value) {
@@ -211,20 +212,20 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(24),
+                            padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
                             decoration: BoxDecoration(
-                              color: theme.colorScheme.primaryContainer.withValues(alpha:0.3),
+                              color: theme.colorScheme.primaryContainer.withValues(alpha: AppConstants.alphaHigh),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               _searchQuery.isNotEmpty
                                   ? Icons.search_off
                                   : Icons.inbox_outlined,
-                              size: 64,
+                              size: AppConstants.iconSizeXLarge,
                               color: theme.colorScheme.primary,
                             ),
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: AppConstants.spacingXXLarge),
                           Text(
                             _searchQuery.isNotEmpty
                                 ? '검색 결과가 없습니다'
@@ -233,13 +234,13 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: AppConstants.spacingMedium),
                           Text(
                             _searchQuery.isNotEmpty
                                 ? '다른 키워드로 검색해보세요'
                                 : '새로운 할일을 추가해보세요 ✨',
                             style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha:0.6),
+                              color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
                             ),
                           ),
                         ],
@@ -248,7 +249,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                   }
 
                   return ListView.builder(
-                    padding: const EdgeInsets.only(top: 8, bottom: 80),
+                    padding: const EdgeInsets.only(top: AppConstants.spacingMedium, bottom: AppConstants.spacingHuge),
                     itemCount: filteredTodos.length,
                     itemBuilder: (context, index) {
                       final todo = filteredTodos[index];
@@ -273,15 +274,15 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                     children: [
                       Icon(
                         Icons.error_outline,
-                        size: 64,
+                        size: AppConstants.iconSizeXLarge,
                         color: theme.colorScheme.error,
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: AppConstants.spacingXLarge),
                       Text(
                         '오류가 발생했습니다',
                         style: theme.textTheme.titleLarge,
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: AppConstants.spacingMedium),
                       Text(
                         error.toString(),
                         style: theme.textTheme.bodySmall,
@@ -297,7 +298,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
       ),
       floatingActionButton: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
           gradient: LinearGradient(
             colors: [
               theme.colorScheme.primary,
@@ -308,8 +309,8 @@ class _TodosPageState extends ConsumerState<TodosPage> {
           ),
           boxShadow: [
             BoxShadow(
-              color: theme.colorScheme.primary.withValues(alpha:0.4),
-              blurRadius: 12,
+              color: theme.colorScheme.primary.withValues(alpha: AppConstants.alphaStrong),
+              blurRadius: AppConstants.spacingLarge,
               offset: const Offset(0, 4),
             ),
           ],
@@ -355,31 +356,31 @@ class _FilterBottomSheet extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      margin: const EdgeInsets.all(12),
+      margin: const EdgeInsets.all(AppConstants.spacingLarge),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(AppConstants.radiusXXLarge),
       ),
       child: SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 12),
+            const SizedBox(height: AppConstants.spacingLarge),
             Container(
-              width: 40,
-              height: 4,
+              width: AppConstants.spacingXXXLarge,
+              height: AppConstants.spacingXSmall,
               decoration: BoxDecoration(
                 color: theme.dividerColor,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(AppConstants.radiusXSmall),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppConstants.spacingXXLarge),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingXXLarge),
               child: Row(
                 children: [
                   Icon(Icons.filter_list, color: theme.colorScheme.primary),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: AppConstants.spacingLarge),
                   Text(
                     '필터 선택',
                     style: theme.textTheme.titleLarge?.copyWith(
@@ -389,7 +390,7 @@ class _FilterBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppConstants.spacingXLarge),
             _FilterOption(
               icon: Icons.all_inclusive,
               label: '전체',
@@ -408,7 +409,7 @@ class _FilterBottomSheet extends StatelessWidget {
               isSelected: currentFilter == TodoFilter.completed,
               onTap: () => onFilterSelected(TodoFilter.completed),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppConstants.spacingLarge),
           ],
         ),
       ),
@@ -438,10 +439,10 @@ class _FilterOption extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingXXLarge, vertical: AppConstants.spacingXLarge),
           decoration: BoxDecoration(
             color: isSelected
-                ? theme.colorScheme.primaryContainer.withValues(alpha:0.5)
+                ? theme.colorScheme.primaryContainer.withValues(alpha: AppConstants.alphaStrong)
                 : Colors.transparent,
           ),
           child: Row(
@@ -450,9 +451,9 @@ class _FilterOption extends StatelessWidget {
                 icon,
                 color: isSelected
                     ? theme.colorScheme.primary
-                    : theme.colorScheme.onSurface.withValues(alpha:0.6),
+                    : theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppConstants.spacingXLarge),
               Expanded(
                 child: Text(
                   label,

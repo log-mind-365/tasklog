@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../providers/habit_providers.dart';
 import '../widgets/habit_item.dart';
@@ -39,17 +40,17 @@ class HabitsPage extends ConsumerWidget {
       title: const Text('Habits'),
       centerTitle: false,
       floating: true,
-      expandedHeight: 120,
+      expandedHeight: AppConstants.spacingMassive,
       flexibleSpace: FlexibleSpaceBar(
-        titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
+        titlePadding: const EdgeInsets.only(left: AppConstants.spacingXLarge, bottom: AppConstants.spacingXLarge),
         background: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                theme.colorScheme.primary.withValues(alpha:0.1),
-                theme.colorScheme.secondary.withValues(alpha:0.1),
+                theme.colorScheme.primary.withValues(alpha: AppConstants.alphaLight),
+                theme.colorScheme.secondary.withValues(alpha: AppConstants.alphaLight),
               ],
             ),
           ),
@@ -69,16 +70,16 @@ class HabitsPage extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.track_changes, size: 64, color: Colors.grey),
-              SizedBox(height: 16),
+              Icon(Icons.track_changes, size: AppConstants.iconSizeXLarge, color: Colors.grey),
+              SizedBox(height: AppConstants.spacingXLarge),
               Text(
                 'No habits yet',
-                style: TextStyle(fontSize: 18, color: Colors.grey),
+                style: TextStyle(fontSize: AppConstants.fontSizeLarge, color: Colors.grey),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: AppConstants.spacingMedium),
               Text(
                 'Tap + to create your first habit',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                style: TextStyle(fontSize: AppConstants.fontSizeMedium, color: Colors.grey),
               ),
             ],
           ),
@@ -87,13 +88,13 @@ class HabitsPage extends ConsumerWidget {
     }
 
     return SliverPadding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppConstants.spacingXLarge),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
             final habit = habits[index];
             return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.only(bottom: AppConstants.spacingLarge),
               child: HabitItem(
                 habit: habit,
                 onTap: () => _navigateToDetail(context, habit),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/constants/app_constants.dart';
 import 'package:tasklog/domain/entities/habit_entity.dart';
 import 'package:tasklog/presentation/providers/habit_providers.dart';
 
@@ -78,22 +79,22 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppConstants.spacingXLarge),
           children: [
             _buildSectionLabel('Basic Information'),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppConstants.spacingLarge),
             _buildNameField(theme),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppConstants.spacingXLarge),
             _buildDescriptionField(theme),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppConstants.spacingXLarge),
             _buildGoalField(theme),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppConstants.spacingHuge),
             _buildSectionLabel('Appearance'),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppConstants.spacingLarge),
             _buildIconSelector(),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppConstants.spacingXXLarge),
             _buildColorSelector(),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppConstants.spacingHuge),
             SafeArea(child: _buildSaveButton(context, isEditing)),
           ],
         ),
@@ -105,7 +106,7 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
     return Text(
       label,
       style: const TextStyle(
-        fontSize: 14,
+        fontSize: AppConstants.fontSizeMedium,
         fontWeight: FontWeight.bold,
         color: Colors.grey,
         letterSpacing: 0.5,
@@ -121,7 +122,7 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         hintText: 'e.g., Drink Water',
         prefixIcon: const Icon(Icons.label),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         ),
         filled: true,
       ),
@@ -142,7 +143,7 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         hintText: 'Add more details...',
         prefixIcon: const Icon(Icons.description),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         ),
         filled: true,
       ),
@@ -159,7 +160,7 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         prefixIcon: const Icon(Icons.flag),
         suffixText: 'times/day',
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         ),
         filled: true,
       ),
@@ -184,43 +185,43 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         Text(
           'Select Icon',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: AppConstants.fontSizeMedium,
             fontWeight: FontWeight.w600,
             color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppConstants.spacingLarge),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppConstants.spacingXLarge),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
           ),
           child: Wrap(
             children: _availableIcons.map((icon) {
               final isSelected = icon == _selectedIcon;
               return InkWell(
                 onTap: () => setState(() => _selectedIcon = icon),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppConstants.spacingMedium),
                 child: Container(
-                  width: 46,
-                  height: 46,
+                  width: AppConstants.iconSizeXXLarge,
+                  height: AppConstants.iconSizeXXLarge,
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? _selectedColor.withValues(alpha: 0.2)
+                        ? _selectedColor.withValues(alpha: AppConstants.alphaMedium)
                         : Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppConstants.spacingMedium),
                     border: Border.all(
                       color: isSelected
                           ? _selectedColor
                           : Colors.transparent,
-                      width: 2,
+                      width: AppConstants.borderWidthMedium,
                     ),
                   ),
                   child: Center(
                     child: Text(
                       icon,
-                      style: const TextStyle(fontSize: 24),
+                      style: const TextStyle(fontSize: AppConstants.fontSizeXXLarge),
                     ),
                   ),
                 ),
@@ -239,29 +240,29 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         Text(
           'Select Color',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: AppConstants.fontSizeMedium,
             fontWeight: FontWeight.w600,
             color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppConstants.spacingLarge),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppConstants.spacingXLarge),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
           ),
           child: Wrap(
-            spacing: 6,
-            runSpacing: 8,
+            spacing: AppConstants.spacingSmall,
+            runSpacing: AppConstants.spacingMedium,
             children: _availableColors.map((color) {
               final isSelected = color == _selectedColor;
               return InkWell(
                 onTap: () => setState(() => _selectedColor = color),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(AppConstants.spacingXXLarge),
                 child: Container(
-                  width: 40,
-                  height: 40,
+                  width: AppConstants.iconSizeXXLarge,
+                  height: AppConstants.iconSizeXXLarge,
                   decoration: BoxDecoration(
                     color: color,
                     shape: BoxShape.circle,
@@ -269,14 +270,14 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
                       color: isSelected
                           ? Theme.of(context).colorScheme.onSurface
                           : Colors.transparent,
-                      width: 3,
+                      width: AppConstants.borderWidthThick,
                     ),
                   ),
                   child: isSelected
                       ? const Icon(
                           Icons.check,
                           color: Colors.white,
-                          size: 20,
+                          size: AppConstants.iconSizeXSmall,
                         )
                       : null,
                 ),
@@ -292,14 +293,14 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
     return FilledButton(
       onPressed: () => _saveHabit(context, isEditing),
       style: FilledButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: AppConstants.spacingXLarge),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         ),
       ),
       child: Text(
         isEditing ? 'Update Habit' : 'Create Habit',
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: AppConstants.fontSizeMedium, fontWeight: FontWeight.bold),
       ),
     );
   }
