@@ -37,8 +37,10 @@ class MyApp extends StatelessWidget {
       useMaterial3: true,
       fontFamily: 'SF Pro Display',
       scaffoldBackgroundColor: colorScheme.surface,
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0,
+        color: colorScheme.surface,
+        surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -62,7 +64,7 @@ class MyApp extends StatelessWidget {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colorScheme.surfaceVariant.withOpacity(0.5),
+        fillColor: colorScheme.surfaceContainerHighest.withOpacity(0.5),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
@@ -73,9 +75,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: colorScheme.surfaceVariant,
+        backgroundColor: colorScheme.surfaceContainerHighest,
         labelStyle: TextStyle(
-          color: colorScheme.onSurfaceVariant,
+          color: colorScheme.onSurface,
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
@@ -99,8 +101,10 @@ class MyApp extends StatelessWidget {
       useMaterial3: true,
       fontFamily: 'SF Pro Display',
       scaffoldBackgroundColor: colorScheme.surface,
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0,
+        color: colorScheme.surface,
+        surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -124,7 +128,7 @@ class MyApp extends StatelessWidget {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colorScheme.surfaceVariant.withOpacity(0.5),
+        fillColor: colorScheme.surfaceContainerHighest.withOpacity(0.5),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
@@ -135,9 +139,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: colorScheme.surfaceVariant,
+        backgroundColor: colorScheme.surfaceContainerHighest,
         labelStyle: TextStyle(
-          color: colorScheme.onSurfaceVariant,
+          color: colorScheme.onSurface,
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
