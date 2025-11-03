@@ -160,7 +160,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               '제목',
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
             ),
             const SizedBox(height: 8),
@@ -169,7 +169,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               decoration: InputDecoration(
                 hintText: '할일 제목을 입력하세요',
                 filled: true,
-                fillColor: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+                fillColor: theme.colorScheme.surfaceVariant.withValues(alpha:0.5),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide.none,
@@ -194,7 +194,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               '설명',
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
             ),
             const SizedBox(height: 8),
@@ -203,7 +203,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               decoration: InputDecoration(
                 hintText: '상세 내용을 입력하세요 (선택)',
                 filled: true,
-                fillColor: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+                fillColor: theme.colorScheme.surfaceVariant.withValues(alpha:0.5),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide.none,
@@ -223,7 +223,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               '우선순위',
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
             ),
             const SizedBox(height: 8),
@@ -259,13 +259,13 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? color.withOpacity(0.2)
-                                : theme.colorScheme.surfaceVariant.withOpacity(0.5),
+                                ? color.withValues(alpha:0.2)
+                                : theme.colorScheme.surfaceVariant.withValues(alpha:0.5),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
                               color: isSelected
                                   ? color
-                                  : theme.colorScheme.outline.withOpacity(0.2),
+                                  : theme.colorScheme.outline.withValues(alpha:0.2),
                               width: isSelected ? 2 : 1,
                             ),
                           ),
@@ -273,7 +273,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                             children: [
                               Icon(
                                 icon,
-                                color: isSelected ? color : theme.colorScheme.onSurface.withOpacity(0.5),
+                                color: isSelected ? color : theme.colorScheme.onSurface.withValues(alpha:0.5),
                                 size: 24,
                               ),
                               const SizedBox(height: 4),
@@ -282,7 +282,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                                  color: isSelected ? color : theme.colorScheme.onSurface.withOpacity(0.7),
+                                  color: isSelected ? color : theme.colorScheme.onSurface.withValues(alpha:0.7),
                                 ),
                               ),
                             ],
@@ -301,7 +301,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               '마감일',
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
             ),
             const SizedBox(height: 8),
@@ -313,7 +313,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+                    color: theme.colorScheme.surfaceVariant.withValues(alpha:0.5),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Row(
@@ -322,7 +322,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: _dueDate != null
-                              ? theme.colorScheme.primary.withOpacity(0.1)
+                              ? theme.colorScheme.primary.withValues(alpha:0.1)
                               : theme.colorScheme.surfaceVariant,
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -330,7 +330,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                           Icons.calendar_today_outlined,
                           color: _dueDate != null
                               ? theme.colorScheme.primary
-                              : theme.colorScheme.onSurface.withOpacity(0.5),
+                              : theme.colorScheme.onSurface.withValues(alpha:0.5),
                           size: 20,
                         ),
                       ),
@@ -345,7 +345,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                             fontWeight: _dueDate != null ? FontWeight.w600 : FontWeight.normal,
                             color: _dueDate != null
                                 ? theme.colorScheme.onSurface
-                                : theme.colorScheme.onSurface.withOpacity(0.5),
+                                : theme.colorScheme.onSurface.withValues(alpha:0.5),
                           ),
                         ),
                       ),
@@ -353,7 +353,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                         IconButton(
                           icon: Icon(
                             Icons.clear,
-                            color: theme.colorScheme.onSurface.withOpacity(0.5),
+                            color: theme.colorScheme.onSurface.withValues(alpha:0.5),
                           ),
                           onPressed: () => setState(() => _dueDate = null),
                         ),
@@ -369,7 +369,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               '카테고리',
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
             ),
             const SizedBox(height: 8),
@@ -378,7 +378,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+                    color: theme.colorScheme.surfaceVariant.withValues(alpha:0.5),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: DropdownButtonFormField<int?>(
@@ -389,7 +389,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                     ),
                     icon: Icon(
                       Icons.keyboard_arrow_down,
-                      color: theme.colorScheme.onSurface.withOpacity(0.5),
+                      color: theme.colorScheme.onSurface.withValues(alpha:0.5),
                     ),
                     items: [
                       const DropdownMenuItem(
@@ -457,7 +457,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: theme.colorScheme.primary.withOpacity(0.4),
+                    color: theme.colorScheme.primary.withValues(alpha:0.4),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),

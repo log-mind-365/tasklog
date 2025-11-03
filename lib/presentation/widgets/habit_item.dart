@@ -33,7 +33,7 @@ class HabitItem extends ConsumerWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
-          color: habitColor.withOpacity(0.3),
+          color: habitColor.withValues(alpha: 0.3),
           width: 2,
         ),
       ),
@@ -50,7 +50,7 @@ class HabitItem extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: habitColor.withOpacity(0.2),
+                      color: habitColor.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -74,7 +74,7 @@ class HabitItem extends ConsumerWidget {
                           Text(
                             habit.description,
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -133,7 +133,7 @@ class HabitItem extends ConsumerWidget {
                           Text(
                             'Today',
                             style: theme.textTheme.labelMedium?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -151,7 +151,7 @@ class HabitItem extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(4),
                         child: LinearProgressIndicator(
                           value: clampedProgress,
-                          backgroundColor: habitColor.withOpacity(0.2),
+                          backgroundColor: habitColor.withValues(alpha: 0.2),
                           valueColor: AlwaysStoppedAnimation(habitColor),
                           minHeight: 8,
                         ),
@@ -166,10 +166,10 @@ class HabitItem extends ConsumerWidget {
                       onPressed: completedCount > 0 ? onDecrement : null,
                       icon: const Icon(Icons.remove, size: 20),
                       style: IconButton.styleFrom(
-                        backgroundColor: habitColor.withOpacity(0.2),
+                        backgroundColor: habitColor.withValues(alpha: 0.2),
                         foregroundColor: habitColor,
                         disabledBackgroundColor: theme.colorScheme.surfaceContainerHighest,
-                        disabledForegroundColor: theme.colorScheme.onSurface.withOpacity(0.3),
+                        disabledForegroundColor: theme.colorScheme.onSurface.withValues(alpha: 0.3),
                       ),
                     ),
                     const SizedBox(width: 8),

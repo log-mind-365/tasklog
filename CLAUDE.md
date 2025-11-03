@@ -249,6 +249,38 @@ EOF
 )"
 ```
 
+## Flutter 코딩 가이드라인
+
+### Deprecated API 마이그레이션
+
+#### Color.withOpacity() → Color.withValues()
+
+Flutter에서 `Color.withOpacity()`는 deprecated API입니다. 대신 `Color.withValues()`를 사용해야 합니다.
+
+**❌ 사용하지 말 것 (Deprecated):**
+```dart
+final color = Colors.blue.withOpacity(0.5);
+final backgroundColor = theme.colorScheme.surface.withOpacity(0.3);
+```
+
+**✅ 사용할 것 (최신 API):**
+```dart
+final color = Colors.blue.withValues(alpha: 0.5);
+final backgroundColor = theme.colorScheme.surface.withValues(alpha: 0.3);
+```
+
+**마이그레이션 방법:**
+```bash
+# 프로젝트 전체에서 withOpacity를 withValues로 변경
+# 파일 단위로 replace_all 사용하거나 IDE의 Find & Replace 기능 사용
+# .withOpacity( → .withValues(alpha:
+```
+
+**주의사항:**
+- `withValues`는 여러 색상 채널을 동시에 변경할 수 있습니다 (alpha, red, green, blue)
+- alpha 값은 0.0 (완전 투명) ~ 1.0 (완전 불투명) 범위
+- 기존 `withOpacity(value)` 호출을 `withValues(alpha: value)`로 변경
+
 ## Code Architecture
 
 This project follows **Clean Architecture** principles with **MVVM** pattern, separating concerns into three distinct layers:

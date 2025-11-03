@@ -83,7 +83,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                             Text(
                               '오늘도 화이팅! 💪',
                               style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                                color: theme.colorScheme.onSurface.withValues(alpha:0.6),
                               ),
                             ),
                           ],
@@ -147,10 +147,10 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                   // Search Bar
                   Container(
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+                      color: theme.colorScheme.surfaceVariant.withValues(alpha:0.5),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: theme.colorScheme.outline.withOpacity(0.1),
+                        color: theme.colorScheme.outline.withValues(alpha:0.1),
                       ),
                     ),
                     child: TextField(
@@ -158,17 +158,17 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                       decoration: InputDecoration(
                         hintText: '할일 검색...',
                         hintStyle: TextStyle(
-                          color: theme.colorScheme.onSurface.withOpacity(0.5),
+                          color: theme.colorScheme.onSurface.withValues(alpha:0.5),
                         ),
                         prefixIcon: Icon(
                           Icons.search,
-                          color: theme.colorScheme.onSurface.withOpacity(0.5),
+                          color: theme.colorScheme.onSurface.withValues(alpha:0.5),
                         ),
                         suffixIcon: _searchQuery.isNotEmpty
                             ? IconButton(
                                 icon: Icon(
                                   Icons.clear,
-                                  color: theme.colorScheme.onSurface.withOpacity(0.5),
+                                  color: theme.colorScheme.onSurface.withValues(alpha:0.5),
                                 ),
                                 onPressed: () {
                                   _searchController.clear();
@@ -213,7 +213,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                           Container(
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
-                              color: theme.colorScheme.primaryContainer.withOpacity(0.3),
+                              color: theme.colorScheme.primaryContainer.withValues(alpha:0.3),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
@@ -239,7 +239,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                                 ? '다른 키워드로 검색해보세요'
                                 : '새로운 할일을 추가해보세요 ✨',
                             style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withValues(alpha:0.6),
                             ),
                           ),
                         ],
@@ -308,7 +308,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
           ),
           boxShadow: [
             BoxShadow(
-              color: theme.colorScheme.primary.withOpacity(0.4),
+              color: theme.colorScheme.primary.withValues(alpha:0.4),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -441,7 +441,7 @@ class _FilterOption extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           decoration: BoxDecoration(
             color: isSelected
-                ? theme.colorScheme.primaryContainer.withOpacity(0.5)
+                ? theme.colorScheme.primaryContainer.withValues(alpha:0.5)
                 : Colors.transparent,
           ),
           child: Row(
@@ -450,7 +450,7 @@ class _FilterOption extends StatelessWidget {
                 icon,
                 color: isSelected
                     ? theme.colorScheme.primary
-                    : theme.colorScheme.onSurface.withOpacity(0.6),
+                    : theme.colorScheme.onSurface.withValues(alpha:0.6),
               ),
               const SizedBox(width: 16),
               Expanded(

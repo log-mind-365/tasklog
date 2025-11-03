@@ -62,8 +62,8 @@ class HabitDetailPage extends ConsumerWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            habitColor.withOpacity(0.2),
-            habitColor.withOpacity(0.1),
+            habitColor.withValues(alpha: 0.2),
+            habitColor.withValues(alpha: 0.1),
           ],
         ),
       ),
@@ -76,7 +76,7 @@ class HabitDetailPage extends ConsumerWidget {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: habitColor.withOpacity(0.3),
+                  color: habitColor.withValues(alpha: 0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -100,7 +100,7 @@ class HabitDetailPage extends ConsumerWidget {
             Text(
               habit.description,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
               ),
               textAlign: TextAlign.center,
             ),
@@ -109,7 +109,7 @@ class HabitDetailPage extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: habitColor.withOpacity(0.2),
+              color: habitColor.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -219,10 +219,10 @@ class HabitDetailPage extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: color.withOpacity(0.3),
+          color: color.withValues(alpha: 0.3),
           width: 1,
         ),
       ),

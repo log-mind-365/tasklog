@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/habit_entity.dart';
-import '../providers/habit_providers.dart';
+import 'package:tasklog/domain/entities/habit_entity.dart';
+import 'package:tasklog/presentation/providers/habit_providers.dart';
 
 class HabitFormPage extends ConsumerStatefulWidget {
   final HabitEntity? habit;
@@ -94,7 +94,7 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
             const SizedBox(height: 24),
             _buildColorSelector(),
             const SizedBox(height: 32),
-            _buildSaveButton(context, isEditing),
+            SafeArea(child: _buildSaveButton(context, isEditing)),
           ],
         ),
       ),
@@ -179,7 +179,7 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
 
   Widget _buildIconSelector() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           'Select Icon',
@@ -197,19 +197,17 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Wrap(
-            spacing: 8,
-            runSpacing: 8,
             children: _availableIcons.map((icon) {
               final isSelected = icon == _selectedIcon;
               return InkWell(
                 onTap: () => setState(() => _selectedIcon = icon),
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
-                  width: 48,
-                  height: 48,
+                  width: 46,
+                  height: 46,
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? _selectedColor.withOpacity(0.2)
+                        ? _selectedColor.withValues(alpha: 0.2)
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
@@ -236,7 +234,7 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
 
   Widget _buildColorSelector() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           'Select Color',
@@ -254,7 +252,7 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Wrap(
-            spacing: 8,
+            spacing: 6,
             runSpacing: 8,
             children: _availableColors.map((color) {
               final isSelected = color == _selectedColor;

@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/todo_entity.dart';
-import '../../domain/entities/priority.dart';
+
 import '../../core/utils/date_formatter.dart';
+import '../../domain/entities/priority.dart';
+import '../../domain/entities/todo_entity.dart';
 import '../providers/providers.dart';
 
 class TodoItem extends ConsumerWidget {
   final TodoEntity todo;
   final VoidCallback onTap;
 
-  const TodoItem({
-    super.key,
-    required this.todo,
-    required this.onTap,
-  });
+  const TodoItem({super.key, required this.todo, required this.onTap});
 
   Color _getPriorityColor() {
     switch (todo.priority) {
@@ -53,7 +50,10 @@ class TodoItem extends ConsumerWidget {
             SizedBox(height: 4),
             Text(
               '삭제',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
@@ -85,7 +85,7 @@ class TodoItem extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: theme.shadowColor.withOpacity(0.08),
+              color: theme.shadowColor.withValues(alpha: 0.08),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -100,10 +100,7 @@ class TodoItem extends ConsumerWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 border: Border(
-                  left: BorderSide(
-                    color: priorityColor,
-                    width: 4,
-                  ),
+                  left: BorderSide(color: priorityColor, width: 4),
                 ),
               ),
               child: Padding(
@@ -125,7 +122,9 @@ class TodoItem extends ConsumerWidget {
                                 : theme.dividerColor,
                             width: 2,
                           ),
-                          color: todo.isDone ? priorityColor : Colors.transparent,
+                          color: todo.isDone
+                              ? priorityColor
+                              : Colors.transparent,
                         ),
                         child: todo.isDone
                             ? const Icon(
@@ -162,7 +161,7 @@ class TodoItem extends ConsumerWidget {
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: todo.isDone
                                     ? theme.textTheme.bodySmall?.color
-                                        ?.withOpacity(0.5)
+                                          ?.withValues(alpha: 0.5)
                                     : theme.textTheme.bodySmall?.color,
                               ),
                             ),
@@ -180,10 +179,7 @@ class TodoItem extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    Icon(
-                      Icons.chevron_right,
-                      color: theme.dividerColor,
-                    ),
+                    Icon(Icons.chevron_right, color: theme.dividerColor),
                   ],
                 ),
               ),
@@ -224,12 +220,12 @@ class _PriorityChip extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            color.withOpacity(0.15),
-            color.withOpacity(0.25),
+            color.withValues(alpha: 0.15),
+            color.withValues(alpha: 0.25),
           ],
         ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3), width: 1),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -274,12 +270,12 @@ class _DueDateChip extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            color.withOpacity(0.15),
-            color.withOpacity(0.25),
+            color.withValues(alpha: 0.15),
+            color.withValues(alpha: 0.25),
           ],
         ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3), width: 1),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

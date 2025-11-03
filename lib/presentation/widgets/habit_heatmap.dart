@@ -154,7 +154,7 @@ class HabitHeatmap extends StatelessWidget {
 
     Color cellColor;
     if (isInFuture) {
-      cellColor = colorScheme.surfaceContainerHighest.withOpacity(0.3);
+      cellColor = colorScheme.surfaceContainerHighest.withValues(alpha: 0.3);
     } else if (log == null || log.completedCount == 0) {
       cellColor = colorScheme.surfaceContainerHighest;
     } else {
@@ -166,11 +166,11 @@ class HabitHeatmap extends StatelessWidget {
       if (clampedRate >= 1.0) {
         cellColor = habitColor;
       } else if (clampedRate >= 0.75) {
-        cellColor = habitColor.withOpacity(0.75);
+        cellColor = habitColor.withValues(alpha: 0.75);
       } else if (clampedRate >= 0.5) {
-        cellColor = habitColor.withOpacity(0.5);
+        cellColor = habitColor.withValues(alpha: 0.5);
       } else {
-        cellColor = habitColor.withOpacity(0.3);
+        cellColor = habitColor.withValues(alpha: 0.3);
       }
     }
 
@@ -184,7 +184,7 @@ class HabitHeatmap extends StatelessWidget {
           color: cellColor,
           borderRadius: BorderRadius.circular(2),
           border: Border.all(
-            color: colorScheme.outline.withOpacity(0.2),
+            color: colorScheme.outline.withValues(alpha: 0.2),
             width: 0.5,
           ),
         ),
@@ -215,9 +215,9 @@ class HabitHeatmap extends StatelessWidget {
         const Text('Less', style: TextStyle(fontSize: 10)),
         const SizedBox(width: 4),
         _buildLegendCell(colorScheme.surfaceContainerHighest),
-        _buildLegendCell(habitColor.withOpacity(0.3)),
-        _buildLegendCell(habitColor.withOpacity(0.5)),
-        _buildLegendCell(habitColor.withOpacity(0.75)),
+        _buildLegendCell(habitColor.withValues(alpha: 0.3)),
+        _buildLegendCell(habitColor.withValues(alpha: 0.5)),
+        _buildLegendCell(habitColor.withValues(alpha: 0.75)),
         _buildLegendCell(habitColor),
         const SizedBox(width: 4),
         const Text('More', style: TextStyle(fontSize: 10)),
