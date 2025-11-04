@@ -5,7 +5,7 @@ import '../../../../core/constants/app_constants.dart';
 import '../../../../domain/entities/habit_entity.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/habit_item.dart';
-import '../../habit_detail_page.dart';
+import '../../habit_detail/habit_detail_page.dart';
 import '../habits_view_model.dart';
 
 /// 습관 리스트 콘텐츠
