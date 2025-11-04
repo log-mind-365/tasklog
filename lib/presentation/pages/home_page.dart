@@ -8,7 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../widgets/ad_banner_widget.dart';
 import '../widgets/app_drawer.dart';
 import 'habits/habits_page.dart';
-import 'settings_page.dart';
+import 'settings/settings_page.dart';
 import 'todos/todos_page.dart';
 
 class HomePage extends StatefulWidget {

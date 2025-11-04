@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../../l10n/app_localizations.dart';
-import '../pages/settings_page.dart';
+import '../pages/settings/settings_page.dart';
 import '../providers/settings_provider.dart';
 
 /// 앱 우측 드로어

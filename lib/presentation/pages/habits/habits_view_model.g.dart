@@ -6,7 +6,7 @@ part of 'habits_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$habitsViewModelHash() => r'253c559d89b52ec4c65091e5be54dd93da6b525d';
+String _$habitsViewModelHash() => r'0f4462b831444fd815c14805190b77d42dc31deb';
 
 /// Habits ViewModel
 ///

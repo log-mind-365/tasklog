@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/habit_providers.dart';
-import '../habit_form_page.dart';
+import '../habit_form/habit_form_page.dart';
 import 'habit_detail_view_model.dart';
 import 'widgets/habit_header_content.dart';
 import 'widgets/heatmap_content.dart';
