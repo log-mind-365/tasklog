@@ -5,13 +5,14 @@ import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/habit_providers.dart';
-import '../widgets/app_drawer.dart';
 import '../widgets/habit_item.dart';
 import 'habit_detail_page.dart';
 import 'habit_form_page.dart';
 
 class HabitsPage extends ConsumerWidget {
-  const HabitsPage({super.key});
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+
+  const HabitsPage({super.key, this.scaffoldKey});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +29,6 @@ class HabitsPage extends ConsumerWidget {
       ),
       child: Scaffold(
         backgroundColor: theme.colorScheme.surface,
-        endDrawer: const AppDrawer(),
         body: SafeArea(
         child: Column(
           children: [
@@ -65,16 +65,14 @@ class HabitsPage extends ConsumerWidget {
                     ),
                   ),
                   // Menu Button
-                  Builder(
-                    builder: (context) => IconButton(
-                      icon: Icon(
-                        Icons.menu,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      onPressed: () {
-                        Scaffold.of(context).openEndDrawer();
-                      },
+                  IconButton(
+                    icon: Icon(
+                      Icons.menu,
+                      color: theme.colorScheme.onSurface,
                     ),
+                    onPressed: () {
+                      scaffoldKey?.currentState?.openEndDrawer();
+                    },
                   ),
                 ],
               ),

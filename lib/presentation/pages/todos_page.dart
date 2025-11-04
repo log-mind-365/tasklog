@@ -4,14 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_constants.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/todo_providers.dart';
-import '../widgets/app_drawer.dart';
 import '../widgets/todo_item.dart';
 import 'todo_form_page.dart';
 
 enum TodoFilter { all, incomplete, completed }
 
 class TodosPage extends ConsumerStatefulWidget {
-  const TodosPage({super.key});
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+
+  const TodosPage({super.key, this.scaffoldKey});
 
   @override
   ConsumerState<TodosPage> createState() => _TodosPageState();
@@ -70,7 +71,6 @@ class _TodosPageState extends ConsumerState<TodosPage> {
       ),
       child: Scaffold(
         backgroundColor: theme.colorScheme.surface,
-        endDrawer: const AppDrawer(),
         body: SafeArea(
         child: Column(
           children: [
@@ -158,16 +158,14 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                       ),
                       const SizedBox(width: AppConstants.spacingMedium),
                       // Menu Button
-                      Builder(
-                        builder: (context) => IconButton(
-                          icon: Icon(
-                            Icons.menu,
-                            color: theme.colorScheme.onSurface,
-                          ),
-                          onPressed: () {
-                            Scaffold.of(context).openEndDrawer();
-                          },
+                      IconButton(
+                        icon: Icon(
+                          Icons.menu,
+                          color: theme.colorScheme.onSurface,
                         ),
+                        onPressed: () {
+                          widget.scaffoldKey?.currentState?.openEndDrawer();
+                        },
                       ),
                     ],
                   ),
