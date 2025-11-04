@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../domain/entities/folder_entity.dart';
 import '../todos_view_model.dart';
-import '../../folder_management_page.dart';
+import '../../folder_management/folder_management_page.dart';
 import 'filter_bottom_sheet.dart';
 
 /// 폴더 네비게이션 콘텐츠
