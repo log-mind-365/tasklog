@@ -35,13 +35,12 @@ class HabitsPage extends ConsumerWidget {
             children: [
               // Custom AppBar
               Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppConstants.spacingXXLarge,
-                  AppConstants.spacingXXLarge,
-                  AppConstants.spacingXXLarge,
-                  AppConstants.spacingLarge,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppConstants.spacingLarge,
+                  vertical: AppConstants.spacingMedium,
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Column(
@@ -70,7 +69,7 @@ class HabitsPage extends ConsumerWidget {
                     // Menu Button
                     IconButton(
                       icon: Icon(
-                        Icons.menu,
+                        Icons.more_vert,
                         color: theme.colorScheme.onSurface,
                       ),
                       onPressed: () {

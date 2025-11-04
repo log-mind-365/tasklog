@@ -62,31 +62,47 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                 children: [
                   // App Header (Title + Message)
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      AppConstants.spacingXXLarge,
-                      AppConstants.spacingXXLarge,
-                      AppConstants.spacingXXLarge,
-                      AppConstants.spacingLarge,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppConstants.spacingLarge,
+                      vertical: AppConstants.spacingMedium,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          l10n.appTitle,
-                          style: theme.textTheme.headlineMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: -0.5,
-                            color: theme.colorScheme.onSurface,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.appTitle,
+                                style: theme.textTheme.headlineMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: -0.5,
+                                  color: theme.colorScheme.onSurface,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: AppConstants.spacingXSmall,
+                              ),
+                              Text(
+                                l10n.todayCheerMessage,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onSurface.withValues(
+                                    alpha: AppConstants.alphaVeryStrong,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: AppConstants.spacingXSmall),
-                        Text(
-                          l10n.todayCheerMessage,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(
-                              alpha: AppConstants.alphaVeryStrong,
-                            ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.more_vert,
+                            color: theme.colorScheme.onSurface,
                           ),
+                          onPressed: () {
+                            widget.scaffoldKey?.currentState?.openEndDrawer();
+                          },
                         ),
                       ],
                     ),
@@ -491,13 +507,8 @@ class _TodoListPageState extends ConsumerState<_TodoListPage> {
                     ),
                   ),
                   const SizedBox(width: AppConstants.spacingMedium),
+
                   // Menu Button
-                  IconButton(
-                    icon: Icon(Icons.menu, color: theme.colorScheme.onSurface),
-                    onPressed: () {
-                      widget.scaffoldKey?.currentState?.openEndDrawer();
-                    },
-                  ),
                 ],
               ),
             ],
