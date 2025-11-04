@@ -12,19 +12,17 @@ class MainFlutterWindow: NSWindow {
 
     super.awakeFromNib()
 
-    // Set window size constraints (mobile-like dimensions)
-    let windowWidth: CGFloat = 400
-    let windowHeight: CGFloat = 900
+    // Set window size constraints (desktop dimensions)
+    let minWidth: CGFloat = 900
+    let minHeight: CGFloat = 600
+    let initialWidth: CGFloat = 1200
+    let initialHeight: CGFloat = 800
 
-    // Set minimum and maximum size to lock the window size
-    self.minSize = NSSize(width: windowWidth, height: windowHeight)
-    self.maxSize = NSSize(width: windowWidth, height: windowHeight)
+    // Set minimum size only (allow resizing)
+    self.minSize = NSSize(width: minWidth, height: minHeight)
 
     // Set initial window size and center it
-    self.setContentSize(NSSize(width: windowWidth, height: windowHeight))
+    self.setContentSize(NSSize(width: initialWidth, height: initialHeight))
     self.center()
-
-    // Optional: Make window non-resizable
-    self.styleMask.remove(.resizable)
   }
 }
