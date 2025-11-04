@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_constants.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:tasklog/domain/entities/habit_entity.dart';
 import 'package:tasklog/presentation/providers/habit_providers.dart';
 
@@ -70,32 +71,41 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final isEditing = widget.habit != null;
 
     return Scaffold(
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
-        title: Text(isEditing ? 'Edit Habit' : 'New Habit'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          isEditing ? l10n.editHabit : l10n.newHabit,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.all(AppConstants.spacingXLarge),
+          padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
           children: [
-            _buildSectionLabel('Basic Information'),
+            _buildSectionLabel(l10n.basicInformation),
             const SizedBox(height: AppConstants.spacingLarge),
-            _buildNameField(theme),
-            const SizedBox(height: AppConstants.spacingXLarge),
-            _buildDescriptionField(theme),
-            const SizedBox(height: AppConstants.spacingXLarge),
-            _buildGoalField(theme),
-            const SizedBox(height: AppConstants.spacingHuge),
-            _buildSectionLabel('Appearance'),
-            const SizedBox(height: AppConstants.spacingLarge),
-            _buildIconSelector(),
+            _buildNameField(theme, l10n),
             const SizedBox(height: AppConstants.spacingXXLarge),
-            _buildColorSelector(),
+            _buildGoalField(theme, l10n),
+            const SizedBox(height: AppConstants.spacingXXLarge),
+            _buildSectionLabel(l10n.appearance),
+            const SizedBox(height: AppConstants.spacingLarge),
+            _buildIconSelector(l10n),
+            const SizedBox(height: AppConstants.spacingXXLarge),
+            _buildColorSelector(l10n),
             const SizedBox(height: AppConstants.spacingHuge),
-            SafeArea(child: _buildSaveButton(context, isEditing)),
+            _buildSaveButton(context, isEditing, l10n),
           ],
         ),
       ),
@@ -114,90 +124,111 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
     );
   }
 
-  Widget _buildNameField(ThemeData theme) {
-    return TextFormField(
-      controller: _nameController,
-      decoration: InputDecoration(
-        labelText: 'Habit Name',
-        hintText: 'e.g., Drink Water',
-        prefixIcon: const Icon(Icons.label),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        ),
-        filled: true,
-      ),
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return 'Please enter a habit name';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _buildDescriptionField(ThemeData theme) {
-    return TextFormField(
-      controller: _descriptionController,
-      decoration: InputDecoration(
-        labelText: 'Description (optional)',
-        hintText: 'Add more details...',
-        prefixIcon: const Icon(Icons.description),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        ),
-        filled: true,
-      ),
-      maxLines: 3,
-    );
-  }
-
-  Widget _buildGoalField(ThemeData theme) {
-    return TextFormField(
-      controller: _goalController,
-      decoration: InputDecoration(
-        labelText: 'Daily Goal',
-        hintText: 'How many times per day?',
-        prefixIcon: const Icon(Icons.flag),
-        suffixText: 'times/day',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        ),
-        filled: true,
-      ),
-      keyboardType: TextInputType.number,
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return 'Please enter a goal';
-        }
-        final goal = int.tryParse(value);
-        if (goal == null || goal < 1) {
-          return 'Goal must be at least 1';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _buildIconSelector() {
+  Widget _buildNameField(ThemeData theme, AppLocalizations l10n) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Select Icon',
-          style: TextStyle(
-            fontSize: AppConstants.fontSizeMedium,
+          l10n.habitName,
+          style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
           ),
         ),
-        const SizedBox(height: AppConstants.spacingLarge),
+        const SizedBox(height: AppConstants.spacingMedium),
+        TextFormField(
+          controller: _nameController,
+          decoration: InputDecoration(
+            hintText: l10n.habitName,
+            filled: true,
+            fillColor: theme.colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.spacingXXLarge,
+              vertical: AppConstants.spacingXLarge,
+            ),
+          ),
+          style: const TextStyle(fontSize: AppConstants.fontSizeMedium),
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return l10n.pleaseEnterHabitName;
+            }
+            return null;
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildGoalField(ThemeData theme, AppLocalizations l10n) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.dailyGoal,
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+          ),
+        ),
+        const SizedBox(height: AppConstants.spacingMedium),
+        TextFormField(
+          controller: _goalController,
+          decoration: InputDecoration(
+            hintText: l10n.dailyGoal,
+            filled: true,
+            fillColor: theme.colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.spacingXXLarge,
+              vertical: AppConstants.spacingXLarge,
+            ),
+          ),
+          style: const TextStyle(fontSize: AppConstants.fontSizeMedium),
+          keyboardType: TextInputType.number,
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return l10n.pleaseEnterGoal;
+            }
+            final goal = int.tryParse(value);
+            if (goal == null || goal < 1) {
+              return l10n.goalMustBeAtLeast1;
+            }
+            return null;
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildIconSelector(AppLocalizations l10n) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.selectIcon,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+          ),
+        ),
+        const SizedBox(height: AppConstants.spacingMedium),
         Container(
+          width: double.infinity,
           padding: const EdgeInsets.all(AppConstants.spacingXLarge),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+            color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
+            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
           ),
           child: Wrap(
+            spacing: AppConstants.spacingSmall,
+            runSpacing: AppConstants.spacingSmall,
             children: _availableIcons.map((icon) {
               final isSelected = icon == _selectedIcon;
               return InkWell(
@@ -233,24 +264,24 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
     );
   }
 
-  Widget _buildColorSelector() {
+  Widget _buildColorSelector(AppLocalizations l10n) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Select Color',
-          style: TextStyle(
-            fontSize: AppConstants.fontSizeMedium,
+          l10n.selectColor,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
           ),
         ),
-        const SizedBox(height: AppConstants.spacingLarge),
+        const SizedBox(height: AppConstants.spacingMedium),
         Container(
+          width: double.infinity,
           padding: const EdgeInsets.all(AppConstants.spacingXLarge),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+            color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
+            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
           ),
           child: Wrap(
             spacing: AppConstants.spacingSmall,
@@ -289,23 +320,55 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
     );
   }
 
-  Widget _buildSaveButton(BuildContext context, bool isEditing) {
-    return FilledButton(
-      onPressed: () => _saveHabit(context, isEditing),
-      style: FilledButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: AppConstants.spacingXLarge),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+  Widget _buildSaveButton(BuildContext context, bool isEditing, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    return Container(
+      height: AppConstants.spacingGiant,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+        gradient: LinearGradient(
+          colors: [
+            theme.colorScheme.primary,
+            theme.colorScheme.secondary,
+          ],
         ),
+        boxShadow: [
+          BoxShadow(
+            color: theme.colorScheme.primary.withValues(alpha: AppConstants.alphaStrong),
+            blurRadius: AppConstants.spacingLarge,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      child: Text(
-        isEditing ? 'Update Habit' : 'Create Habit',
-        style: const TextStyle(fontSize: AppConstants.fontSizeMedium, fontWeight: FontWeight.bold),
+      child: ElevatedButton(
+        onPressed: () => _saveHabit(context, isEditing, l10n),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.check_circle_outline, color: Colors.white),
+            const SizedBox(width: AppConstants.spacingMedium),
+            Text(
+              isEditing ? l10n.updateHabit : l10n.createHabit,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: AppConstants.fontSizeMedium,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Future<void> _saveHabit(BuildContext context, bool isEditing) async {
+  Future<void> _saveHabit(BuildContext context, bool isEditing, AppLocalizations l10n) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -328,9 +391,22 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         await useCase(updatedHabit);
 
         if (context.mounted) {
+          final l10n = AppLocalizations.of(context)!;
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Habit updated')),
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.check_circle, color: Colors.white),
+                  const SizedBox(width: AppConstants.spacingMedium),
+                  Text(l10n.habitUpdated),
+                ],
+              ),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+              ),
+            ),
           );
         }
       } else {
@@ -348,9 +424,22 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         await useCase(newHabit);
 
         if (context.mounted) {
+          final l10n = AppLocalizations.of(context)!;
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Habit created')),
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.check_circle, color: Colors.white),
+                  const SizedBox(width: AppConstants.spacingMedium),
+                  Text(l10n.habitCreated),
+                ],
+              ),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+              ),
+            ),
           );
         }
       }
@@ -358,10 +447,21 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
       print('Error creating/updating habit: $e');
       print('Stack trace: $stackTrace');
       if (context.mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error: $e'),
-            backgroundColor: Theme.of(context).colorScheme.error,
+            content: Row(
+              children: [
+                const Icon(Icons.error, color: Colors.white),
+                const SizedBox(width: AppConstants.spacingMedium),
+                Expanded(child: Text(l10n.errorMessage(e.toString()))),
+              ],
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+            ),
           ),
         );
       }
