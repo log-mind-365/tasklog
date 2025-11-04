@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart' as flutter;
+import 'package:flutter/scheduler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,6 +53,43 @@ enum ThemeModeEnum {
   light,
   dark,
   system,
+}
+
+/// 시스템 Brightness Provider
+/// 시스템 테마 변경을 감지하여 앱을 리빌드합니다
+@riverpod
+class SystemBrightness extends _$SystemBrightness {
+  StreamController<flutter.Brightness>? _controller;
+
+  @override
+  flutter.Brightness build() {
+    // 초기 brightness 가져오기
+    final brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+
+    // Dispose 시 리소스 정리
+    ref.onDispose(() {
+      _controller?.close();
+    });
+
+    // PlatformDispatcher의 brightness 변경 리스너 등록
+    _listenToBrightnessChanges();
+
+    return brightness;
+  }
+
+  void _listenToBrightnessChanges() {
+    _controller = StreamController<flutter.Brightness>.broadcast();
+
+    // PlatformDispatcher의 onPlatformBrightnessChanged 콜백 등록
+    SchedulerBinding.instance.platformDispatcher.onPlatformBrightnessChanged =
+        () {
+      final newBrightness =
+          SchedulerBinding.instance.platformDispatcher.platformBrightness;
+      state = newBrightness;
+      _controller?.add(newBrightness);
+    };
+  }
 }
 
 /// 로케일 설정 Provider

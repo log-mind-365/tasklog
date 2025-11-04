@@ -7,45 +7,53 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 import 'presentation/pages/home_page.dart';
-import 'presentation/providers/settings_provider.dart';
+import 'presentation/providers/settings_provider.dart'
+    show
+        ThemeModeEnum,
+        appLocaleProvider,
+        systemBrightnessProvider,
+        themeModeSettingProvider;
 
 class TaskLogApp extends ConsumerWidget {
   const TaskLogApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(themeModeSettingProvider);
+    final themeModeEnum = ref.watch(themeModeSettingProvider);
+    final systemBrightness = ref.watch(systemBrightnessProvider);
     final locale = ref.watch(appLocaleProvider);
-    final themeMode = ref.read(themeModeSettingProvider.notifier).toFlutterThemeMode();
 
-    // macOS에서는 Cupertino 스타일 사용
-    if (Platform.isMacOS) {
+    final themeMode = switch (themeModeEnum) {
+      ThemeModeEnum.light => ThemeMode.light,
+      ThemeModeEnum.dark => ThemeMode.dark,
+      ThemeModeEnum.system => ThemeMode.system,
+    };
+
+    if (Platform.isMacOS || Platform.isIOS) {
+      // themeMode가 system일 때는 실제 시스템 brightness를 사용
+      final isDark = themeMode == ThemeMode.system
+          ? systemBrightness == Brightness.dark
+          : themeMode == ThemeMode.dark;
+
       return CupertinoApp(
         onGenerateTitle: (context) => 'TaskLog',
-        theme: _buildCupertinoTheme(themeMode == ThemeMode.dark),
-
-        // Localization
+        theme: _buildCupertinoTheme(isDark),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: locale,
-
         home: const HomePage(),
         debugShowCheckedModeBanner: false,
       );
     }
 
-    // 다른 플랫폼에서는 Material Design 사용
     return MaterialApp(
       onGenerateTitle: (context) => 'TaskLog',
       theme: AppTheme.buildLightTheme(),
       darkTheme: AppTheme.buildDarkTheme(),
       themeMode: themeMode,
-
-      // Localization
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,
-
       home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );

@@ -24,6 +24,25 @@ final themeModeSettingProvider =
     );
 
 typedef _$ThemeModeSetting = AutoDisposeNotifier<ThemeModeEnum>;
+String _$systemBrightnessHash() => r'90917e6e4c2b970d8cbff87a6ab501118542ff13';
+
+/// 시스템 Brightness Provider
+/// 시스템 테마 변경을 감지하여 앱을 리빌드합니다
+///
+/// Copied from [SystemBrightness].
+@ProviderFor(SystemBrightness)
+final systemBrightnessProvider =
+    AutoDisposeNotifierProvider<SystemBrightness, flutter.Brightness>.internal(
+      SystemBrightness.new,
+      name: r'systemBrightnessProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$systemBrightnessHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$SystemBrightness = AutoDisposeNotifier<flutter.Brightness>;
 String _$appLocaleHash() => r'768cb1a3d5aa68b53f05d5021090252991deb146';
 
 /// 로케일 설정 Provider
