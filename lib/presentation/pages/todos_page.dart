@@ -165,51 +165,45 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                   ),
                   const SizedBox(height: AppConstants.spacingXLarge),
                   // Search Bar
-                  Container(
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withValues(alpha: AppConstants.alphaStrong),
-                      borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-                      border: Border.all(
-                        color: theme.colorScheme.outline.withValues(alpha: AppConstants.alphaLight),
+                  TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: l10n.searchTodos,
+                      filled: true,
+                      fillColor: theme.colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+                        borderSide: BorderSide.none,
                       ),
-                    ),
-                    child: TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: l10n.searchTodos,
-                        hintStyle: TextStyle(
-                          color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
-                        ),
-                        suffixIcon: _searchQuery.isNotEmpty
-                            ? IconButton(
-                                icon: Icon(
-                                  Icons.clear,
-                                  color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
-                                ),
-                                onPressed: () {
-                                  _searchController.clear();
-                                  setState(() {
-                                    _searchQuery = '';
-                                  });
-                                },
-                              )
-                            : null,
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: AppConstants.spacingXLarge,
-                          vertical: AppConstants.spacingMedium,
-                        ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: AppConstants.spacingXXLarge,
+                        vertical: AppConstants.spacingXLarge,
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          _searchQuery = value.toLowerCase();
-                        });
-                      },
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
+                      ),
+                      suffixIcon: _searchQuery.isNotEmpty
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.clear,
+                                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
+                              ),
+                              onPressed: () {
+                                _searchController.clear();
+                                setState(() {
+                                  _searchQuery = '';
+                                });
+                              },
+                            )
+                          : null,
                     ),
+                    style: const TextStyle(fontSize: AppConstants.fontSizeMedium),
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value.toLowerCase();
+                      });
+                    },
                   ),
                 ],
               ),
