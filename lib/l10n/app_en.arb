@@ -1,0 +1,193 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "TaskLog",
+
+  "navTodos": "Todos",
+
+  "navHabits": "Habits",
+
+  "habitsPageTitle": "Habits",
+
+  "noHabitsYet": "No habits yet",
+
+  "newHabit": "New Habit",
+
+  "editHabit": "Edit Habit",
+
+  "habitName": "Habit Name",
+
+  "dailyGoal": "Daily Goal",
+
+  "selectIcon": "Select Icon",
+
+  "selectColor": "Select Color",
+
+  "createHabit": "Create Habit",
+
+  "updateHabit": "Update Habit",
+
+  "deleteHabit": "Delete Habit",
+
+  "deleteHabitConfirm": "Are you sure you want to delete \"{habitName}\"?",
+
+  "cancel": "Cancel",
+
+  "delete": "Delete",
+
+  "habitCreated": "Habit created",
+
+  "habitUpdated": "Habit updated",
+
+  "basicInformation": "Basic Information",
+
+  "appearance": "Appearance",
+
+  "pleaseEnterHabitName": "Please enter a habit name",
+
+  "pleaseEnterGoal": "Please enter a goal",
+
+  "goalMustBeAtLeast1": "Goal must be at least 1",
+
+  "statistics": "Statistics",
+
+  "completionRate": "Completion Rate",
+
+  "totalCount": "Total Count",
+
+  "currentStreak": "Current Streak",
+
+  "longestStreak": "Longest Streak",
+
+  "activityHeatmap": "Activity Heatmap",
+
+  "newTodo": "New Todo",
+
+  "editTodo": "Edit Todo",
+
+  "title": "Title",
+
+  "enterTodoTitle": "Enter todo title",
+
+  "pleaseEnterTitle": "Please enter a title",
+
+  "description": "Description",
+
+  "priority": "Priority",
+
+  "dueDate": "Due Date",
+
+  "selectDueDate": "Select due date",
+
+  "category": "Category",
+
+  "noCategory": "No Category",
+
+  "cannotLoadCategories": "Cannot load categories",
+
+  "addTodo": "Add Todo",
+
+  "saveChanges": "Save Changes",
+
+  "todoAdded": "Todo added",
+
+  "todoUpdated": "Todo updated",
+
+  "filterAll": "All",
+
+  "filterActive": "Active",
+
+  "filterCompleted": "Completed",
+
+  "noSearchResults": "No search results",
+
+  "noTodos": "No todos",
+
+  "tryDifferentKeyword": "Try a different keyword",
+
+  "settings": "Settings",
+
+  "information": "Information",
+
+  "help": "Help",
+
+  "languageSettings": "Language Settings",
+
+  "theme": "Theme",
+
+  "version": "Version",
+
+  "license": "License",
+
+  "viewOpenSourceLicenses": "View open source licenses",
+
+  "ok": "OK",
+
+  "appDescription": "A simple app to manage todos and habits",
+
+  "copyright": "© 2025 TaskLog",
+
+  "selectLanguage": "Select Language",
+
+  "selectTheme": "Select Theme",
+
+  "systemSettings": "System Settings",
+
+  "korean": "한국어",
+
+  "english": "English",
+
+  "japanese": "日本語",
+
+  "light": "Light",
+
+  "dark": "Dark",
+
+  "language": "Language",
+
+  "helpTodoManagement": "Todo Management",
+
+  "helpTodoManagementContent": "• Add Todo: Tap + button to add a new todo\n• Complete Todo: Tap checkbox to mark as complete\n• Filter Todos: Use the filter button to select All/Active/Completed\n• Search: You can search todos in the search bar",
+
+  "helpHabitTracking": "Habit Tracking",
+
+  "helpHabitTrackingContent": "• Add Habit: Tap + button to create a new habit\n• Daily Goal: You can set a daily goal for each habit\n• Record: Use +/- buttons to record habit completion\n• Statistics: Tap on a habit to view detailed statistics",
+
+  "helpSettings": "Settings",
+
+  "helpSettingsContent": "• Theme: You can choose Light/Dark/System theme\n• Language: Supports Korean/English/Japanese",
+
+  "todayCheerMessage": "Let's do this! 💪",
+
+  "searchTodos": "Search todos...",
+
+  "addNewTodo": "Add your first todo ✨",
+
+  "errorOccurred": "An error occurred",
+
+  "errorMessage": "Error: {error}",
+
+  "selectFilter": "Select Filter",
+
+  "descriptionHint": "Enter details (optional)",
+
+  "dueDateFormat": "{month}/{day}/{year}",
+
+  "tapToCreateFirstHabit": "Tap + to create your first habit",
+
+  "days": "days",
+
+  "todoDeletedMessage": "{title} deleted",
+
+  "priorityLow": "Low",
+
+  "priorityMedium": "Medium",
+
+  "priorityHigh": "High",
+
+  "habitDeletedMessage": "{name} deleted",
+
+  "dailyGoalWithCount": "Daily Goal: {count}",
+
+  "daysCount": "{count} days"
+}

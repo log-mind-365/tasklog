@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_constants.dart';
 import '../../domain/entities/todo_entity.dart';
 import '../../domain/entities/priority.dart';
+import '../../l10n/app_localizations.dart';
 import '../providers/providers.dart';
 import '../providers/category_providers.dart';
+import '../extensions/priority_extension.dart';
 
 class TodoFormPage extends ConsumerStatefulWidget {
   final TodoEntity? todo;
@@ -64,6 +66,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
         await updateUseCase(todo);
       }
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -71,7 +74,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               children: [
                 const Icon(Icons.check_circle, color: Colors.white),
                 const SizedBox(width: AppConstants.spacingMedium),
-                Text(widget.todo == null ? '할일이 추가되었습니다' : '할일이 수정되었습니다'),
+                Text(widget.todo == null ? l10n.todoAdded : l10n.todoUpdated),
               ],
             ),
             behavior: SnackBarBehavior.floating,
@@ -85,13 +88,14 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
       print('Error saving todo: $e');
       print('Stack trace: $stackTrace');
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
               children: [
                 const Icon(Icons.error, color: Colors.white),
                 const SizedBox(width: AppConstants.spacingMedium),
-                Expanded(child: Text('오류 발생: $e')),
+                Expanded(child: Text(l10n.errorMessage(e.toString()))),
               ],
             ),
             backgroundColor: Colors.red,
@@ -135,6 +139,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final categoriesAsyncValue = ref.watch(categoriesStreamProvider);
 
     return Scaffold(
@@ -147,7 +152,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          widget.todo == null ? '새 할일' : '할일 수정',
+          widget.todo == null ? l10n.newTodo : l10n.editTodo,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -158,7 +163,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
           children: [
             // Title Field
             Text(
-              '제목',
+              l10n.title,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
@@ -168,7 +173,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
             TextFormField(
               controller: _titleController,
               decoration: InputDecoration(
-                hintText: '할일 제목을 입력하세요',
+                hintText: l10n.enterTodoTitle,
                 filled: true,
                 fillColor: theme.colorScheme.surfaceVariant.withValues(alpha: AppConstants.alphaStrong),
                 border: OutlineInputBorder(
@@ -183,7 +188,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               style: const TextStyle(fontSize: AppConstants.fontSizeMedium),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return '제목을 입력하세요';
+                  return l10n.pleaseEnterTitle;
                 }
                 return null;
               },
@@ -192,7 +197,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
 
             // Description Field
             Text(
-              '설명',
+              l10n.description,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
@@ -202,7 +207,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
             TextFormField(
               controller: _descriptionController,
               decoration: InputDecoration(
-                hintText: '상세 내용을 입력하세요 (선택)',
+                hintText: l10n.descriptionHint,
                 filled: true,
                 fillColor: theme.colorScheme.surfaceVariant.withValues(alpha: AppConstants.alphaStrong),
                 border: OutlineInputBorder(
@@ -221,7 +226,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
 
             // Priority Selector
             Text(
-              '우선순위',
+              l10n.priority,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
@@ -279,7 +284,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                               ),
                               const SizedBox(height: AppConstants.spacingXSmall),
                               Text(
-                                priority.displayName,
+                                priority.getLocalizedName(context),
                                 style: TextStyle(
                                   fontSize: AppConstants.fontSizeSmall,
                                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
@@ -299,7 +304,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
 
             // Due Date
             Text(
-              '마감일',
+              l10n.dueDate,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
@@ -339,8 +344,12 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                       Expanded(
                         child: Text(
                           _dueDate == null
-                              ? '마감일을 선택하세요'
-                              : '${_dueDate!.year}년 ${_dueDate!.month}월 ${_dueDate!.day}일',
+                              ? l10n.selectDueDate
+                              : l10n.dueDateFormat(
+                                  _dueDate!.year,
+                                  _dueDate!.month,
+                                  _dueDate!.day,
+                                ),
                           style: TextStyle(
                             fontSize: AppConstants.fontSizeMedium,
                             fontWeight: _dueDate != null ? FontWeight.w600 : FontWeight.normal,
@@ -367,7 +376,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
 
             // Category
             Text(
-              '카테고리',
+              l10n.category,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
@@ -393,9 +402,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                       color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
                     ),
                     items: [
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: null,
-                        child: Text('카테고리 없음'),
+                        child: Text(l10n.noCategory),
                       ),
                       ...categories.map((category) {
                         return DropdownMenuItem(
@@ -438,7 +447,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                   borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
                 ),
                 child: Text(
-                  '카테고리를 불러올 수 없습니다',
+                  l10n.cannotLoadCategories,
                   style: TextStyle(color: theme.colorScheme.onErrorContainer),
                 ),
               ),
@@ -479,7 +488,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                     const Icon(Icons.check_circle_outline, color: Colors.white),
                     const SizedBox(width: AppConstants.spacingMedium),
                     Text(
-                      widget.todo == null ? '할일 추가' : '변경사항 저장',
+                      widget.todo == null ? l10n.addTodo : l10n.saveChanges,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: AppConstants.fontSizeMedium,

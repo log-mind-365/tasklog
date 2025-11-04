@@ -1,0 +1,520 @@
+{
+  "@@locale": "ko",
+
+  "appTitle": "TaskLog",
+  "@appTitle": {
+    "description": "애플리케이션 제목"
+  },
+
+  "navTodos": "할일",
+  "@navTodos": {
+    "description": "할일 탭 레이블"
+  },
+
+  "navHabits": "습관",
+  "@navHabits": {
+    "description": "습관 탭 레이블"
+  },
+
+  "habitsPageTitle": "습관",
+  "@habitsPageTitle": {
+    "description": "습관 페이지 제목"
+  },
+
+  "noHabitsYet": "아직 습관이 없습니다",
+  "@noHabitsYet": {
+    "description": "습관이 없을 때 표시되는 메시지"
+  },
+
+  "newHabit": "새 습관",
+  "@newHabit": {
+    "description": "새 습관 추가 버튼"
+  },
+
+  "editHabit": "습관 수정",
+  "@editHabit": {
+    "description": "습관 수정 페이지 제목"
+  },
+
+  "habitName": "습관 이름",
+  "@habitName": {
+    "description": "습관 이름 입력 필드"
+  },
+
+  "dailyGoal": "일일 목표",
+  "@dailyGoal": {
+    "description": "일일 목표 입력 필드"
+  },
+
+  "selectIcon": "아이콘 선택",
+  "@selectIcon": {
+    "description": "아이콘 선택 섹션"
+  },
+
+  "selectColor": "색상 선택",
+  "@selectColor": {
+    "description": "색상 선택 섹션"
+  },
+
+  "createHabit": "습관 생성",
+  "@createHabit": {
+    "description": "습관 생성 버튼"
+  },
+
+  "updateHabit": "습관 수정",
+  "@updateHabit": {
+    "description": "습관 수정 버튼"
+  },
+
+  "deleteHabit": "습관 삭제",
+  "@deleteHabit": {
+    "description": "습관 삭제 다이얼로그 제목"
+  },
+
+  "deleteHabitConfirm": "\"{habitName}\"을(를) 삭제하시겠습니까?",
+  "@deleteHabitConfirm": {
+    "description": "습관 삭제 확인 메시지",
+    "placeholders": {
+      "habitName": {
+        "type": "String",
+        "example": "물 마시기"
+      }
+    }
+  },
+
+  "cancel": "취소",
+  "@cancel": {
+    "description": "취소 버튼"
+  },
+
+  "delete": "삭제",
+  "@delete": {
+    "description": "삭제 버튼"
+  },
+
+  "habitCreated": "습관이 생성되었습니다",
+  "@habitCreated": {
+    "description": "습관 생성 성공 메시지"
+  },
+
+  "habitUpdated": "습관이 수정되었습니다",
+  "@habitUpdated": {
+    "description": "습관 수정 성공 메시지"
+  },
+
+  "basicInformation": "기본 정보",
+  "@basicInformation": {
+    "description": "기본 정보 섹션"
+  },
+
+  "appearance": "외형",
+  "@appearance": {
+    "description": "외형 섹션"
+  },
+
+  "pleaseEnterHabitName": "습관 이름을 입력하세요",
+  "@pleaseEnterHabitName": {
+    "description": "습관 이름 유효성 검사 오류"
+  },
+
+  "pleaseEnterGoal": "목표를 입력하세요",
+  "@pleaseEnterGoal": {
+    "description": "목표 유효성 검사 오류"
+  },
+
+  "goalMustBeAtLeast1": "목표는 최소 1 이상이어야 합니다",
+  "@goalMustBeAtLeast1": {
+    "description": "목표 최소값 유효성 검사 오류"
+  },
+
+  "statistics": "통계",
+  "@statistics": {
+    "description": "통계 섹션"
+  },
+
+  "completionRate": "완료율",
+  "@completionRate": {
+    "description": "완료율 레이블"
+  },
+
+  "totalCount": "전체 횟수",
+  "@totalCount": {
+    "description": "전체 횟수 레이블"
+  },
+
+  "currentStreak": "현재 연속 기록",
+  "@currentStreak": {
+    "description": "현재 연속 기록 레이블"
+  },
+
+  "longestStreak": "최장 연속 기록",
+  "@longestStreak": {
+    "description": "최장 연속 기록 레이블"
+  },
+
+  "activityHeatmap": "활동 히트맵",
+  "@activityHeatmap": {
+    "description": "활동 히트맵 섹션"
+  },
+
+  "newTodo": "새 할일",
+  "@newTodo": {
+    "description": "새 할일 추가 페이지 제목"
+  },
+
+  "editTodo": "할일 수정",
+  "@editTodo": {
+    "description": "할일 수정 페이지 제목"
+  },
+
+  "title": "제목",
+  "@title": {
+    "description": "제목 입력 필드"
+  },
+
+  "enterTodoTitle": "할일 제목을 입력하세요",
+  "@enterTodoTitle": {
+    "description": "할일 제목 입력 힌트"
+  },
+
+  "pleaseEnterTitle": "제목을 입력하세요",
+  "@pleaseEnterTitle": {
+    "description": "제목 유효성 검사 오류"
+  },
+
+  "description": "설명",
+  "@description": {
+    "description": "설명 입력 필드"
+  },
+
+  "priority": "우선순위",
+  "@priority": {
+    "description": "우선순위 입력 필드"
+  },
+
+  "dueDate": "마감일",
+  "@dueDate": {
+    "description": "마감일 입력 필드"
+  },
+
+  "selectDueDate": "마감일을 선택하세요",
+  "@selectDueDate": {
+    "description": "마감일 선택 힌트"
+  },
+
+  "category": "카테고리",
+  "@category": {
+    "description": "카테고리 입력 필드"
+  },
+
+  "noCategory": "카테고리 없음",
+  "@noCategory": {
+    "description": "카테고리 없음 옵션"
+  },
+
+  "cannotLoadCategories": "카테고리를 불러올 수 없습니다",
+  "@cannotLoadCategories": {
+    "description": "카테고리 로드 실패 메시지"
+  },
+
+  "addTodo": "할일 추가",
+  "@addTodo": {
+    "description": "할일 추가 버튼"
+  },
+
+  "saveChanges": "변경사항 저장",
+  "@saveChanges": {
+    "description": "변경사항 저장 버튼"
+  },
+
+  "todoAdded": "할일이 추가되었습니다",
+  "@todoAdded": {
+    "description": "할일 추가 성공 메시지"
+  },
+
+  "todoUpdated": "할일이 수정되었습니다",
+  "@todoUpdated": {
+    "description": "할일 수정 성공 메시지"
+  },
+
+  "filterAll": "전체",
+  "@filterAll": {
+    "description": "전체 필터"
+  },
+
+  "filterActive": "미완료",
+  "@filterActive": {
+    "description": "미완료 필터"
+  },
+
+  "filterCompleted": "완료",
+  "@filterCompleted": {
+    "description": "완료 필터"
+  },
+
+  "noSearchResults": "검색 결과가 없습니다",
+  "@noSearchResults": {
+    "description": "검색 결과 없음 메시지"
+  },
+
+  "noTodos": "할일이 없습니다",
+  "@noTodos": {
+    "description": "할일 없음 메시지"
+  },
+
+  "tryDifferentKeyword": "다른 키워드로 검색해보세요",
+  "@tryDifferentKeyword": {
+    "description": "검색 결과 없음 힌트"
+  },
+
+  "settings": "설정",
+  "@settings": {
+    "description": "설정 메뉴"
+  },
+
+  "information": "정보",
+  "@information": {
+    "description": "정보 메뉴"
+  },
+
+  "help": "도움말",
+  "@help": {
+    "description": "도움말 메뉴"
+  },
+
+  "languageSettings": "언어 설정",
+  "@languageSettings": {
+    "description": "언어 설정 메뉴"
+  },
+
+  "theme": "테마",
+  "@theme": {
+    "description": "테마 메뉴"
+  },
+
+  "version": "버전",
+  "@version": {
+    "description": "버전 레이블"
+  },
+
+  "license": "라이선스",
+  "@license": {
+    "description": "라이선스 레이블"
+  },
+
+  "viewOpenSourceLicenses": "오픈소스 라이선스 보기",
+  "@viewOpenSourceLicenses": {
+    "description": "오픈소스 라이선스 보기"
+  },
+
+  "ok": "확인",
+  "@ok": {
+    "description": "확인 버튼"
+  },
+
+  "appDescription": "할일과 습관을 관리하는 간편한 앱",
+  "@appDescription": {
+    "description": "앱 설명"
+  },
+
+  "copyright": "© 2025 TaskLog",
+  "@copyright": {
+    "description": "저작권 정보"
+  },
+
+  "selectLanguage": "언어 선택",
+  "@selectLanguage": {
+    "description": "언어 선택 다이얼로그 제목"
+  },
+
+  "selectTheme": "테마 선택",
+  "@selectTheme": {
+    "description": "테마 선택 다이얼로그 제목"
+  },
+
+  "systemSettings": "시스템 설정",
+  "@systemSettings": {
+    "description": "시스템 설정 옵션"
+  },
+
+  "korean": "한국어",
+  "@korean": {
+    "description": "한국어"
+  },
+
+  "english": "English",
+  "@english": {
+    "description": "영어"
+  },
+
+  "japanese": "日本語",
+  "@japanese": {
+    "description": "일본어"
+  },
+
+  "light": "라이트",
+  "@light": {
+    "description": "라이트 테마"
+  },
+
+  "dark": "다크",
+  "@dark": {
+    "description": "다크 테마"
+  },
+
+  "language": "언어",
+  "@language": {
+    "description": "언어 레이블"
+  },
+
+  "helpTodoManagement": "할일 관리",
+  "@helpTodoManagement": {
+    "description": "도움말 - 할일 관리 제목"
+  },
+
+  "helpTodoManagementContent": "• 할일 추가: + 버튼을 눌러 새로운 할일을 추가하세요\n• 할일 완료: 체크박스를 눌러 완료 처리하세요\n• 할일 필터: 상단 필터 버튼으로 전체/미완료/완료를 선택하세요\n• 검색: 검색창에서 할일을 검색할 수 있습니다",
+  "@helpTodoManagementContent": {
+    "description": "도움말 - 할일 관리 내용"
+  },
+
+  "helpHabitTracking": "습관 추적",
+  "@helpHabitTracking": {
+    "description": "도움말 - 습관 추적 제목"
+  },
+
+  "helpHabitTrackingContent": "• 습관 추가: + 버튼을 눌러 새로운 습관을 만드세요\n• 일일 목표: 각 습관의 일일 목표를 설정할 수 있습니다\n• 기록: +/- 버튼으로 습관 실행을 기록하세요\n• 통계: 습관을 터치하면 상세 통계를 볼 수 있습니다",
+  "@helpHabitTrackingContent": {
+    "description": "도움말 - 습관 추적 내용"
+  },
+
+  "helpSettings": "설정",
+  "@helpSettings": {
+    "description": "도움말 - 설정 제목"
+  },
+
+  "helpSettingsContent": "• 테마: 라이트/다크/시스템 테마를 선택할 수 있습니다\n• 언어: 한국어/영어/일본어를 지원합니다",
+  "@helpSettingsContent": {
+    "description": "도움말 - 설정 내용"
+  },
+
+  "todayCheerMessage": "오늘도 화이팅! 💪",
+  "@todayCheerMessage": {
+    "description": "할일 페이지 응원 메시지"
+  },
+
+  "searchTodos": "할일 검색...",
+  "@searchTodos": {
+    "description": "할일 검색 힌트"
+  },
+
+  "addNewTodo": "새로운 할일을 추가해보세요 ✨",
+  "@addNewTodo": {
+    "description": "할일이 없을 때 안내 메시지"
+  },
+
+  "errorOccurred": "오류가 발생했습니다",
+  "@errorOccurred": {
+    "description": "오류 발생 메시지"
+  },
+
+  "errorMessage": "오류 발생: {error}",
+  "@errorMessage": {
+    "description": "오류 메시지",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "selectFilter": "필터 선택",
+  "@selectFilter": {
+    "description": "필터 선택 바텀시트 제목"
+  },
+
+  "descriptionHint": "상세 내용을 입력하세요 (선택)",
+  "@descriptionHint": {
+    "description": "설명 입력 힌트"
+  },
+
+  "dueDateFormat": "{year}년 {month}월 {day}일",
+  "@dueDateFormat": {
+    "description": "마감일 형식",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+
+  "tapToCreateFirstHabit": "Tap + to create your first habit",
+  "@tapToCreateFirstHabit": {
+    "description": "첫 습관 만들기 안내"
+  },
+
+  "days": "일",
+  "@days": {
+    "description": "일 단위"
+  },
+
+  "todoDeletedMessage": "{title} 삭제됨",
+  "@todoDeletedMessage": {
+    "description": "할일 삭제 완료 메시지",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+
+  "priorityLow": "낮음",
+  "@priorityLow": {
+    "description": "낮은 우선순위"
+  },
+
+  "priorityMedium": "보통",
+  "@priorityMedium": {
+    "description": "보통 우선순위"
+  },
+
+  "priorityHigh": "높음",
+  "@priorityHigh": {
+    "description": "높은 우선순위"
+  },
+
+  "habitDeletedMessage": "{name} 삭제됨",
+  "@habitDeletedMessage": {
+    "description": "습관 삭제 완료 메시지",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+
+  "dailyGoalWithCount": "일일 목표: {count}",
+  "@dailyGoalWithCount": {
+    "description": "일일 목표 표시",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "daysCount": "{count}일",
+  "@daysCount": {
+    "description": "일 수 표시",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

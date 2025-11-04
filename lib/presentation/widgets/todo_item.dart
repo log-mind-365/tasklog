@@ -5,7 +5,9 @@ import '../../core/constants/app_constants.dart';
 import '../../core/utils/date_formatter.dart';
 import '../../domain/entities/priority.dart';
 import '../../domain/entities/todo_entity.dart';
+import '../../l10n/app_localizations.dart';
 import '../providers/providers.dart';
+import '../extensions/priority_extension.dart';
 
 class TodoItem extends ConsumerWidget {
   final TodoEntity todo;
@@ -30,6 +32,7 @@ class TodoItem extends ConsumerWidget {
     final deleteUseCase = ref.read(deleteTodoUseCaseProvider);
     final priorityColor = _getPriorityColor();
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Dismissible(
       key: Key(todo.id.toString()),
@@ -44,14 +47,14 @@ class TodoItem extends ConsumerWidget {
         ),
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: AppConstants.spacingXXLarge),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.delete_outline, color: Colors.white, size: AppConstants.iconSizeLarge),
-            SizedBox(height: AppConstants.spacingXSmall),
+            const Icon(Icons.delete_outline, color: Colors.white, size: AppConstants.iconSizeLarge),
+            const SizedBox(height: AppConstants.spacingXSmall),
             Text(
-              '삭제',
-              style: TextStyle(
+              l10n.delete,
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
               ),
@@ -62,13 +65,14 @@ class TodoItem extends ConsumerWidget {
       onDismissed: (_) async {
         await deleteUseCase(todo.id);
         if (context.mounted) {
+          final l10n = AppLocalizations.of(context)!;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Row(
                 children: [
                   const Icon(Icons.check_circle, color: Colors.white),
                   const SizedBox(width: AppConstants.spacingMedium),
-                  Text('${todo.title} 삭제됨'),
+                  Text(l10n.todoDeletedMessage(todo.title)),
                 ],
               ),
               behavior: SnackBarBehavior.floating,
@@ -234,7 +238,7 @@ class _PriorityChip extends StatelessWidget {
           Icon(icon, size: AppConstants.iconSizeXSmall, color: color),
           const SizedBox(width: AppConstants.spacingXSmall),
           Text(
-            priority.displayName,
+            priority.getLocalizedName(context),
             style: TextStyle(
               fontSize: AppConstants.fontSizeSmall,
               fontWeight: FontWeight.w600,
