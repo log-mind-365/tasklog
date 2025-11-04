@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_constants.dart';
@@ -140,129 +143,230 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showHelpDialog(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(
-              Icons.help_outline,
-              color: theme.colorScheme.primary,
-              size: AppConstants.iconSizeLarge,
+    if (Platform.isMacOS) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text(l10n.help),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: AppConstants.spacingMedium),
+                _buildHelpSection(
+                  context,
+                  l10n.helpTodoManagement,
+                  l10n.helpTodoManagementContent,
+                ),
+                const SizedBox(height: AppConstants.spacingLarge),
+                _buildHelpSection(
+                  context,
+                  l10n.helpHabitTracking,
+                  l10n.helpHabitTrackingContent,
+                ),
+                const SizedBox(height: AppConstants.spacingLarge),
+                _buildHelpSection(
+                  context,
+                  l10n.helpSettings,
+                  l10n.helpSettingsContent,
+                ),
+              ],
             ),
-            const SizedBox(width: AppConstants.spacingMedium),
-            Text(l10n.help),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.ok),
+            ),
           ],
         ),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      );
+    } else {
+      final theme = Theme.of(context);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Row(
             children: [
-              _buildHelpSection(
-                context,
-                l10n.helpTodoManagement,
-                l10n.helpTodoManagementContent,
+              Icon(
+                Icons.help_outline,
+                color: theme.colorScheme.primary,
+                size: AppConstants.iconSizeLarge,
               ),
-              const SizedBox(height: AppConstants.spacingLarge),
-              _buildHelpSection(
-                context,
-                l10n.helpHabitTracking,
-                l10n.helpHabitTrackingContent,
-              ),
-              const SizedBox(height: AppConstants.spacingLarge),
-              _buildHelpSection(
-                context,
-                l10n.helpSettings,
-                l10n.helpSettingsContent,
-              ),
+              const SizedBox(width: AppConstants.spacingMedium),
+              Text(l10n.help),
             ],
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(l10n.ok),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHelpSection(
+                  context,
+                  l10n.helpTodoManagement,
+                  l10n.helpTodoManagementContent,
+                ),
+                const SizedBox(height: AppConstants.spacingLarge),
+                _buildHelpSection(
+                  context,
+                  l10n.helpHabitTracking,
+                  l10n.helpHabitTrackingContent,
+                ),
+                const SizedBox(height: AppConstants.spacingLarge),
+                _buildHelpSection(
+                  context,
+                  l10n.helpSettings,
+                  l10n.helpSettingsContent,
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
-    );
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.ok),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildHelpSection(BuildContext context, String title, String content) {
-    final theme = Theme.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: theme.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: theme.colorScheme.primary,
+    if (Platform.isMacOS) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: AppConstants.fontSizeMedium,
+            ),
           ),
-        ),
-        const SizedBox(height: AppConstants.spacingSmall),
-        Text(
-          content,
-          style: theme.textTheme.bodyMedium,
-        ),
-      ],
-    );
+          const SizedBox(height: AppConstants.spacingSmall),
+          Text(
+            content,
+            style: const TextStyle(
+              fontSize: AppConstants.fontSizeSmall,
+            ),
+          ),
+        ],
+      );
+    } else {
+      final theme = Theme.of(context);
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.primary,
+            ),
+          ),
+          const SizedBox(height: AppConstants.spacingSmall),
+          Text(
+            content,
+            style: theme.textTheme.bodyMedium,
+          ),
+        ],
+      );
+    }
   }
 
   void _showAboutDialog(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(
-              Icons.task_alt,
-              color: theme.colorScheme.primary,
-              size: AppConstants.iconSizeLarge,
-            ),
-            const SizedBox(width: AppConstants.spacingMedium),
-            Text(l10n.appTitle),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${l10n.version} 1.0.0',
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: AppConstants.spacingLarge),
-            Text(
-              l10n.appDescription,
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: AppConstants.spacingXXLarge),
-            Text(
-              l10n.copyright,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(
-                  alpha: AppConstants.alphaStrong,
+    if (Platform.isMacOS) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text(l10n.appTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: AppConstants.spacingMedium),
+              Text(
+                '${l10n.version} 1.0.0',
+                style: const TextStyle(fontSize: AppConstants.fontSizeSmall),
+              ),
+              const SizedBox(height: AppConstants.spacingLarge),
+              Text(
+                l10n.appDescription,
+                style: const TextStyle(fontSize: AppConstants.fontSizeSmall),
+              ),
+              const SizedBox(height: AppConstants.spacingXXLarge),
+              Text(
+                l10n.copyright,
+                style: TextStyle(
+                  fontSize: AppConstants.fontSizeXSmall,
+                  color: CupertinoColors.systemGrey,
                 ),
               ),
+            ],
+          ),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.ok),
             ),
           ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(l10n.ok),
+      );
+    } else {
+      final theme = Theme.of(context);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Row(
+            children: [
+              Icon(
+                Icons.task_alt,
+                color: theme.colorScheme.primary,
+                size: AppConstants.iconSizeLarge,
+              ),
+              const SizedBox(width: AppConstants.spacingMedium),
+              Text(l10n.appTitle),
+            ],
           ),
-        ],
-      ),
-    );
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${l10n.version} 1.0.0',
+                style: theme.textTheme.bodyMedium,
+              ),
+              const SizedBox(height: AppConstants.spacingLarge),
+              Text(
+                l10n.appDescription,
+                style: theme.textTheme.bodyMedium,
+              ),
+              const SizedBox(height: AppConstants.spacingXXLarge),
+              Text(
+                l10n.copyright,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurface.withValues(
+                    alpha: AppConstants.alphaStrong,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.ok),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
