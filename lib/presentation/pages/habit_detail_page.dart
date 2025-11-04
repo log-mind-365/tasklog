@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
+import '../../l10n/app_localizations.dart';
 import '../providers/habit_providers.dart';
 import '../widgets/habit_heatmap.dart';
 import 'habit_form_page.dart';
@@ -14,6 +15,7 @@ class HabitDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final habitColor = Color(habit.color);
+    final l10n = AppLocalizations.of(context)!;
 
     // Get logs for the last 12 weeks
     final today = DateTime.now();
@@ -37,22 +39,22 @@ class HabitDetailPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHabitHeader(context, habitColor),
+              _buildHabitHeader(context, habitColor, l10n),
               const Divider(height: AppConstants.dividerHeight),
-              _buildStatistics(context, ref, logs),
+              _buildStatistics(context, ref, logs, l10n),
               const Divider(height: AppConstants.dividerHeight),
-              _buildHeatmapSection(context, logs),
+              _buildHeatmapSection(context, logs, l10n),
               const SizedBox(height: AppConstants.spacingHuge),
             ],
           ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('Error: $error')),
+        error: (error, stack) => Center(child: Text(l10n.errorMessage(error.toString()))),
       ),
     );
   }
 
-  Widget _buildHabitHeader(BuildContext context, Color habitColor) {
+  Widget _buildHabitHeader(BuildContext context, Color habitColor, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Container(
@@ -117,7 +119,7 @@ class HabitDetailPage extends ConsumerWidget {
               borderRadius: BorderRadius.circular(AppConstants.radiusXXLarge),
             ),
             child: Text(
-              'Daily Goal: ${habit.goalCount}',
+              l10n.dailyGoalWithCount(habit.goalCount),
               style: theme.textTheme.titleMedium?.copyWith(
                 color: habitColor,
                 fontWeight: FontWeight.bold,
@@ -133,6 +135,7 @@ class HabitDetailPage extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     List<dynamic> logs,
+    AppLocalizations l10n,
   ) {
     final theme = Theme.of(context);
     final habitColor = Color(habit.color);
@@ -153,7 +156,7 @@ class HabitDetailPage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Statistics',
+            l10n.statistics,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -164,7 +167,7 @@ class HabitDetailPage extends ConsumerWidget {
               Expanded(
                 child: _buildStatCard(
                   context,
-                  'Completion Rate',
+                  l10n.completionRate,
                   '${completionRate.toStringAsFixed(1)}%',
                   Icons.pie_chart,
                   habitColor,
@@ -174,7 +177,7 @@ class HabitDetailPage extends ConsumerWidget {
               Expanded(
                 child: _buildStatCard(
                   context,
-                  'Total Count',
+                  l10n.totalCount,
                   totalCount.toString(),
                   Icons.numbers,
                   habitColor,
@@ -188,8 +191,8 @@ class HabitDetailPage extends ConsumerWidget {
               Expanded(
                 child: _buildStatCard(
                   context,
-                  'Current Streak',
-                  '$currentStreak days',
+                  l10n.currentStreak,
+                  l10n.daysCount(currentStreak),
                   Icons.local_fire_department,
                   habitColor,
                 ),
@@ -198,8 +201,8 @@ class HabitDetailPage extends ConsumerWidget {
               Expanded(
                 child: _buildStatCard(
                   context,
-                  'Longest Streak',
-                  '$longestStreak days',
+                  l10n.longestStreak,
+                  l10n.daysCount(longestStreak),
                   Icons.military_tech,
                   habitColor,
                 ),
@@ -252,7 +255,7 @@ class HabitDetailPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeatmapSection(BuildContext context, List<dynamic> logs) {
+  Widget _buildHeatmapSection(BuildContext context, List<dynamic> logs, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Column(
@@ -261,7 +264,7 @@ class HabitDetailPage extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge),
           child: Text(
-            'Activity Heatmap',
+            l10n.activityHeatmap,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
