@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_constants.dart';
 import '../../l10n/app_localizations.dart';
@@ -60,10 +61,17 @@ class _TodosPageState extends ConsumerState<TodosPage> {
             ? ref.watch(completedTodosStreamProvider)
             : ref.watch(todosStreamProvider);
 
-    return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
-      endDrawer: const AppDrawer(),
-      body: SafeArea(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarBrightness: theme.brightness,
+        statusBarIconBrightness: theme.brightness == Brightness.light
+            ? Brightness.dark
+            : Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: theme.colorScheme.surface,
+        endDrawer: const AppDrawer(),
+        body: SafeArea(
         child: Column(
           children: [
             // Custom AppBar
@@ -350,6 +358,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
           ),
         ),
       ),
+    ),
     );
   }
 }

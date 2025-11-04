@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../constants/app_constants.dart';
 
@@ -54,6 +55,12 @@ class AppTheme {
           fontWeight: FontWeight.bold,
         ),
         iconTheme: IconThemeData(color: colorScheme.onSurface),
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarBrightness: colorScheme.brightness,
+          statusBarIconBrightness: colorScheme.brightness == Brightness.light
+              ? Brightness.dark
+              : Brightness.light,
+        ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         elevation: AppConstants.elevationMedium,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
@@ -18,10 +19,17 @@ class HabitsPage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final habitsAsync = ref.watch(habitsProvider);
 
-    return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
-      endDrawer: const AppDrawer(),
-      body: SafeArea(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarBrightness: theme.brightness,
+        statusBarIconBrightness: theme.brightness == Brightness.light
+            ? Brightness.dark
+            : Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: theme.colorScheme.surface,
+        endDrawer: const AppDrawer(),
+        body: SafeArea(
         child: Column(
           children: [
             // Custom AppBar
@@ -105,6 +113,7 @@ class HabitsPage extends ConsumerWidget {
         ),
       ),
       floatingActionButton: _buildFAB(context, l10n, theme),
+    ),
     );
   }
 
