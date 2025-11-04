@@ -10,3 +10,6 @@ Stream<List<FolderEntity>> foldersStream(Ref ref) {
   final useCase = ref.watch(getFoldersUseCaseProvider);
   return useCase.watch();
 }
+
+/// 현재 선택된 폴더 페이지 인덱스
+final selectedFolderPageIndexProvider = StateProvider<int>((ref) => 0);

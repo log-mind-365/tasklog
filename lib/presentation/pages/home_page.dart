@@ -7,9 +7,9 @@ import '../../core/constants/app_constants.dart';
 import '../../l10n/app_localizations.dart';
 import '../widgets/ad_banner_widget.dart';
 import '../widgets/app_drawer.dart';
-import 'habits_page.dart';
+import 'habits/habits_page.dart';
 import 'settings_page.dart';
-import 'todos_page.dart';
+import 'todos/todos_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
