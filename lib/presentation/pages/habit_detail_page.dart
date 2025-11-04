@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_log_entity.dart';
@@ -32,7 +33,9 @@ class HabitDetailPage extends ConsumerWidget {
         // Get logs for the last 12 weeks
         final now = DateTime.now();
         final today = DateTime(now.year, now.month, now.day);
-        final startDate = today.subtract(const Duration(days: AppConstants.defaultHistoryDays));
+        final startDate = today.subtract(
+          const Duration(days: AppConstants.defaultHistoryDays),
+        );
         final logsAsync = ref.watch(
           habitLogsByDateRangeProvider(habit.id, startDate, today),
         );
@@ -62,7 +65,8 @@ class HabitDetailPage extends ConsumerWidget {
               ),
             ),
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stack) => Center(child: Text(l10n.errorMessage(error.toString()))),
+            error: (error, stack) =>
+                Center(child: Text(l10n.errorMessage(error.toString()))),
           ),
         );
       },
@@ -77,7 +81,12 @@ class HabitDetailPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildHabitHeader(BuildContext context, HabitEntity habit, Color habitColor, AppLocalizations l10n) {
+  Widget _buildHabitHeader(
+    BuildContext context,
+    HabitEntity habit,
+    Color habitColor,
+    AppLocalizations l10n,
+  ) {
     final theme = Theme.of(context);
 
     return Container(
@@ -126,7 +135,9 @@ class HabitDetailPage extends ConsumerWidget {
             Text(
               habit.description,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+                color: theme.colorScheme.onSurface.withValues(
+                  alpha: AppConstants.alphaIntense,
+                ),
               ),
               textAlign: TextAlign.center,
             ),
@@ -166,16 +177,25 @@ class HabitDetailPage extends ConsumerWidget {
 
     // Calculate statistics
     final totalDays = logs.length;
-    final completedDays = logs.where((log) => log.completedCount >= habit.goalCount).length;
-    final totalCount = logs.fold<int>(0, (sum, log) => sum + log.completedCount);
-    final completionRate = totalDays > 0 ? (completedDays / totalDays * 100) : 0.0;
+    final completedDays = logs
+        .where((log) => log.completedCount >= habit.goalCount)
+        .length;
+    final totalCount = logs.fold<int>(
+      0,
+      (sum, log) => sum + log.completedCount,
+    );
+    final completionRate = totalDays > 0
+        ? (completedDays / totalDays * 100)
+        : 0.0;
 
     // Current streak
     final currentStreak = _calculateCurrentStreak(habit, logs);
     final longestStreak = _calculateLongestStreak(habit, logs);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppConstants.spacingLarge,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -279,14 +299,21 @@ class HabitDetailPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeatmapSection(BuildContext context, HabitEntity habit, List<HabitLogEntity> logs, AppLocalizations l10n) {
+  Widget _buildHeatmapSection(
+    BuildContext context,
+    HabitEntity habit,
+    List<HabitLogEntity> logs,
+    AppLocalizations l10n,
+  ) {
     final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppConstants.spacingLarge,
+          ),
           child: Text(
             l10n.activityHeatmap,
             style: theme.textTheme.titleLarge?.copyWith(
@@ -295,10 +322,7 @@ class HabitDetailPage extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: AppConstants.spacingSmall),
-        HabitHeatmap(
-          habit: habit,
-          logs: logs.cast(),
-        ),
+        HabitHeatmap(habit: habit, logs: logs.cast()),
       ],
     );
   }
@@ -346,7 +370,9 @@ class HabitDetailPage extends ConsumerWidget {
 
         if (lastDate == null || logDate.difference(lastDate).inDays == 1) {
           currentStreak++;
-          longestStreak = currentStreak > longestStreak ? currentStreak : longestStreak;
+          longestStreak = currentStreak > longestStreak
+              ? currentStreak
+              : longestStreak;
         } else if (logDate.difference(lastDate).inDays > 1) {
           currentStreak = 1;
         }
@@ -361,9 +387,7 @@ class HabitDetailPage extends ConsumerWidget {
   void _navigateToEdit(BuildContext context, HabitEntity habit) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => HabitFormPage(habit: habit),
-      ),
+      MaterialPageRoute(builder: (context) => HabitFormPage(habit: habit)),
     );
   }
 }
