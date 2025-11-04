@@ -171,7 +171,7 @@ final habitsProvider = AutoDisposeStreamProvider<List<HabitEntity>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef HabitsRef = AutoDisposeStreamProviderRef<List<HabitEntity>>;
-String _$habitLogsHash() => r'd4ffc9e401f66f805a92bc030436dc73861da9b6';
+String _$habitByIdHash() => r'73eab1fc538ca9acd80792147a02b8f41a49756a';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -193,6 +193,123 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [habitById].
+@ProviderFor(habitById)
+const habitByIdProvider = HabitByIdFamily();
+
+/// See also [habitById].
+class HabitByIdFamily extends Family<AsyncValue<HabitEntity?>> {
+  /// See also [habitById].
+  const HabitByIdFamily();
+
+  /// See also [habitById].
+  HabitByIdProvider call(int habitId) {
+    return HabitByIdProvider(habitId);
+  }
+
+  @override
+  HabitByIdProvider getProviderOverride(covariant HabitByIdProvider provider) {
+    return call(provider.habitId);
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'habitByIdProvider';
+}
+
+/// See also [habitById].
+class HabitByIdProvider extends AutoDisposeStreamProvider<HabitEntity?> {
+  /// See also [habitById].
+  HabitByIdProvider(int habitId)
+    : this._internal(
+        (ref) => habitById(ref as HabitByIdRef, habitId),
+        from: habitByIdProvider,
+        name: r'habitByIdProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$habitByIdHash,
+        dependencies: HabitByIdFamily._dependencies,
+        allTransitiveDependencies: HabitByIdFamily._allTransitiveDependencies,
+        habitId: habitId,
+      );
+
+  HabitByIdProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.habitId,
+  }) : super.internal();
+
+  final int habitId;
+
+  @override
+  Override overrideWith(
+    Stream<HabitEntity?> Function(HabitByIdRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: HabitByIdProvider._internal(
+        (ref) => create(ref as HabitByIdRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        habitId: habitId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<HabitEntity?> createElement() {
+    return _HabitByIdProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is HabitByIdProvider && other.habitId == habitId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, habitId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin HabitByIdRef on AutoDisposeStreamProviderRef<HabitEntity?> {
+  /// The parameter `habitId` of this provider.
+  int get habitId;
+}
+
+class _HabitByIdProviderElement
+    extends AutoDisposeStreamProviderElement<HabitEntity?>
+    with HabitByIdRef {
+  _HabitByIdProviderElement(super.provider);
+
+  @override
+  int get habitId => (origin as HabitByIdProvider).habitId;
+}
+
+String _$habitLogsHash() => r'd4ffc9e401f66f805a92bc030436dc73861da9b6';
 
 /// See also [habitLogs].
 @ProviderFor(habitLogs)

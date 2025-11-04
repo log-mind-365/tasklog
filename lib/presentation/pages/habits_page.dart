@@ -223,7 +223,7 @@ class HabitsPage extends ConsumerWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => HabitDetailPage(habit: habit),
+        builder: (context) => HabitDetailPage(habitId: habit.id),
       ),
     );
   }

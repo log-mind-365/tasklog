@@ -73,6 +73,18 @@ Stream<List<HabitEntity>> habits(Ref ref) {
 }
 
 @riverpod
+Stream<HabitEntity?> habitById(Ref ref, int habitId) {
+  final habitsStream = ref.watch(habitsProvider.stream);
+  return habitsStream.map((habits) {
+    try {
+      return habits.firstWhere((habit) => habit.id == habitId);
+    } catch (e) {
+      return null;
+    }
+  });
+}
+
+@riverpod
 Stream<List<HabitLogEntity>> habitLogs(Ref ref, int habitId) {
   final useCase = ref.watch(getHabitLogsUseCaseProvider);
   return useCase.watch(habitId);

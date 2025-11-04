@@ -9,54 +9,75 @@ import '../widgets/habit_heatmap.dart';
 import 'habit_form_page.dart';
 
 class HabitDetailPage extends ConsumerWidget {
-  final HabitEntity habit;
+  final int habitId;
 
-  const HabitDetailPage({super.key, required this.habit});
+  const HabitDetailPage({super.key, required this.habitId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final habitColor = Color(habit.color);
     final l10n = AppLocalizations.of(context)!;
+    final habitAsync = ref.watch(habitByIdProvider(habitId));
 
-    // Get logs for the last 12 weeks
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final startDate = today.subtract(const Duration(days: AppConstants.defaultHistoryDays));
-    final logsAsync = ref.watch(
-      habitLogsByDateRangeProvider(habit.id, startDate, today),
-    );
+    return habitAsync.when(
+      data: (habit) {
+        if (habit == null) {
+          return Scaffold(
+            appBar: AppBar(title: Text(l10n.errorOccurred)),
+            body: Center(child: Text(l10n.errorOccurred)),
+          );
+        }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(habit.name),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () => _navigateToEdit(context),
-          ),
-        ],
-      ),
-      body: logsAsync.when(
-        data: (logs) => SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHabitHeader(context, habitColor, l10n),
-              const Divider(height: AppConstants.dividerHeight),
-              _buildStatistics(context, ref, logs, l10n),
-              const Divider(height: AppConstants.dividerHeight),
-              _buildHeatmapSection(context, logs, l10n),
-              const SizedBox(height: AppConstants.spacingHuge),
+        final habitColor = Color(habit.color);
+
+        // Get logs for the last 12 weeks
+        final now = DateTime.now();
+        final today = DateTime(now.year, now.month, now.day);
+        final startDate = today.subtract(const Duration(days: AppConstants.defaultHistoryDays));
+        final logsAsync = ref.watch(
+          habitLogsByDateRangeProvider(habit.id, startDate, today),
+        );
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(habit.name),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () => _navigateToEdit(context, habit),
+              ),
             ],
           ),
-        ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text(l10n.errorMessage(error.toString()))),
+          body: logsAsync.when(
+            data: (logs) => SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHabitHeader(context, habit, habitColor, l10n),
+                  const Divider(height: AppConstants.dividerHeight),
+                  _buildStatistics(context, ref, habit, logs, l10n),
+                  const Divider(height: AppConstants.dividerHeight),
+                  _buildHeatmapSection(context, habit, logs, l10n),
+                  const SizedBox(height: AppConstants.spacingHuge),
+                ],
+              ),
+            ),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stack) => Center(child: Text(l10n.errorMessage(error.toString()))),
+          ),
+        );
+      },
+      loading: () => Scaffold(
+        appBar: AppBar(),
+        body: const Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, stack) => Scaffold(
+        appBar: AppBar(title: Text(l10n.errorOccurred)),
+        body: Center(child: Text(l10n.errorMessage(error.toString()))),
       ),
     );
   }
 
-  Widget _buildHabitHeader(BuildContext context, Color habitColor, AppLocalizations l10n) {
+  Widget _buildHabitHeader(BuildContext context, HabitEntity habit, Color habitColor, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Container(
@@ -136,6 +157,7 @@ class HabitDetailPage extends ConsumerWidget {
   Widget _buildStatistics(
     BuildContext context,
     WidgetRef ref,
+    HabitEntity habit,
     List<HabitLogEntity> logs,
     AppLocalizations l10n,
   ) {
@@ -149,8 +171,8 @@ class HabitDetailPage extends ConsumerWidget {
     final completionRate = totalDays > 0 ? (completedDays / totalDays * 100) : 0.0;
 
     // Current streak
-    final currentStreak = _calculateCurrentStreak(logs);
-    final longestStreak = _calculateLongestStreak(logs);
+    final currentStreak = _calculateCurrentStreak(habit, logs);
+    final longestStreak = _calculateLongestStreak(habit, logs);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge),
@@ -257,7 +279,7 @@ class HabitDetailPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeatmapSection(BuildContext context, List<HabitLogEntity> logs, AppLocalizations l10n) {
+  Widget _buildHeatmapSection(BuildContext context, HabitEntity habit, List<HabitLogEntity> logs, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Column(
@@ -281,7 +303,7 @@ class HabitDetailPage extends ConsumerWidget {
     );
   }
 
-  int _calculateCurrentStreak(List<HabitLogEntity> logs) {
+  int _calculateCurrentStreak(HabitEntity habit, List<HabitLogEntity> logs) {
     if (logs.isEmpty) return 0;
 
     final today = DateTime.now();
@@ -307,7 +329,7 @@ class HabitDetailPage extends ConsumerWidget {
     return streak;
   }
 
-  int _calculateLongestStreak(List<HabitLogEntity> logs) {
+  int _calculateLongestStreak(HabitEntity habit, List<HabitLogEntity> logs) {
     if (logs.isEmpty) return 0;
 
     // Sort logs by date
@@ -336,7 +358,7 @@ class HabitDetailPage extends ConsumerWidget {
     return longestStreak;
   }
 
-  void _navigateToEdit(BuildContext context) {
+  void _navigateToEdit(BuildContext context, HabitEntity habit) {
     Navigator.push(
       context,
       MaterialPageRoute(
