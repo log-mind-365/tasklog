@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/constants/app_constants.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/folder_providers.dart';
 import '../providers/todo_providers.dart';
 import '../widgets/todo_item.dart';
-import 'todo_form_page.dart';
 import 'folder_management_page.dart';
+import 'todo_form_page.dart';
 
 enum TodoFilter { all, incomplete, completed }
 
@@ -158,41 +159,22 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                 ? null
                 : folders[currentPageIndex - 1].id;
 
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-                color: theme.colorScheme.primary,
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.primary.withValues(
-                      alpha: AppConstants.alphaStrong,
-                    ),
-                    blurRadius: AppConstants.spacingLarge,
-                    offset: const Offset(0, 4),
+            return FloatingActionButton.extended(
+              heroTag: 'todos_fab',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        TodoFormPage(defaultFolderId: folderId),
                   ),
-                ],
-              ),
-              child: FloatingActionButton.extended(
-                heroTag: 'todos_fab',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          TodoFormPage(defaultFolderId: folderId),
-                    ),
-                  );
-                },
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                icon: const Icon(Icons.add, color: Colors.white),
-                label: Text(
-                  l10n.newTodo,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                );
+              },
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              icon: const Icon(Icons.add),
+              label: Text(
+                l10n.newTodo,
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             );
           },

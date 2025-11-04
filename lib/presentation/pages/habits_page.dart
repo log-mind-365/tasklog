@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../l10n/app_localizations.dart';
@@ -30,88 +31,92 @@ class HabitsPage extends ConsumerWidget {
       child: Scaffold(
         backgroundColor: theme.colorScheme.surface,
         body: SafeArea(
-        child: Column(
-          children: [
-            // Custom AppBar
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppConstants.spacingXXLarge,
-                AppConstants.spacingXXLarge,
-                AppConstants.spacingXXLarge,
-                AppConstants.spacingLarge,
+          child: Column(
+            children: [
+              // Custom AppBar
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppConstants.spacingXXLarge,
+                  AppConstants.spacingXXLarge,
+                  AppConstants.spacingXXLarge,
+                  AppConstants.spacingLarge,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.habitsPageTitle,
+                            style: theme.textTheme.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: -0.5,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          const SizedBox(height: AppConstants.spacingXSmall),
+                          Text(
+                            l10n.todayCheerMessage,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: AppConstants.alphaVeryStrong,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Menu Button
+                    IconButton(
+                      icon: Icon(
+                        Icons.menu,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                      onPressed: () {
+                        scaffoldKey?.currentState?.openEndDrawer();
+                      },
+                    ),
+                  ],
+                ),
               ),
-              child: Row(
-                children: [
-                  Expanded(
+              // Habit List
+              Expanded(
+                child: habitsAsync.when(
+                  data: (habits) =>
+                      _buildHabitList(context, ref, habits, l10n, theme),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, stack) => Center(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          l10n.habitsPageTitle,
-                          style: theme.textTheme.headlineMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: -0.5,
-                            color: theme.colorScheme.onSurface,
-                          ),
+                        Icon(
+                          Icons.error_outline,
+                          size: AppConstants.iconSizeXLarge,
+                          color: theme.colorScheme.error,
                         ),
-                        const SizedBox(height: AppConstants.spacingXSmall),
+                        const SizedBox(height: AppConstants.spacingXLarge),
                         Text(
-                          l10n.todayCheerMessage,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
-                          ),
+                          l10n.errorOccurred,
+                          style: theme.textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: AppConstants.spacingMedium),
+                        Text(
+                          error.toString(),
+                          style: theme.textTheme.bodySmall,
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),
                   ),
-                  // Menu Button
-                  IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      color: theme.colorScheme.onSurface,
-                    ),
-                    onPressed: () {
-                      scaffoldKey?.currentState?.openEndDrawer();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            // Habit List
-            Expanded(
-              child: habitsAsync.when(
-                data: (habits) => _buildHabitList(context, ref, habits, l10n, theme),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stack) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.error_outline,
-                        size: AppConstants.iconSizeXLarge,
-                        color: theme.colorScheme.error,
-                      ),
-                      const SizedBox(height: AppConstants.spacingXLarge),
-                      Text(
-                        l10n.errorOccurred,
-                        style: theme.textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: AppConstants.spacingMedium),
-                      Text(
-                        error.toString(),
-                        style: theme.textTheme.bodySmall,
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        floatingActionButton: _buildFAB(context, l10n, theme),
       ),
-      floatingActionButton: _buildFAB(context, l10n, theme),
-    ),
     );
   }
 
@@ -130,7 +135,9 @@ class HabitsPage extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
               decoration: BoxDecoration(
-                color: theme.colorScheme.primaryContainer.withValues(alpha: AppConstants.alphaHigh),
+                color: theme.colorScheme.primaryContainer.withValues(
+                  alpha: AppConstants.alphaHigh,
+                ),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -150,7 +157,9 @@ class HabitsPage extends ConsumerWidget {
             Text(
               l10n.tapToCreateFirstHabit,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
+                color: theme.colorScheme.onSurface.withValues(
+                  alpha: AppConstants.alphaVeryStrong,
+                ),
               ),
             ),
           ],
@@ -182,32 +191,19 @@ class HabitsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildFAB(BuildContext context, AppLocalizations l10n, ThemeData theme) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-        color: theme.colorScheme.primary,
-        boxShadow: [
-          BoxShadow(
-            color: theme.colorScheme.primary.withValues(alpha: AppConstants.alphaStrong),
-            blurRadius: AppConstants.spacingLarge,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: FloatingActionButton.extended(
-        heroTag: 'habits_fab',
-        onPressed: () => _navigateToForm(context),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: Text(
-          l10n.newHabit,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+  Widget _buildFAB(
+    BuildContext context,
+    AppLocalizations l10n,
+    ThemeData theme,
+  ) {
+    return FloatingActionButton.extended(
+      heroTag: 'habits_fab',
+      onPressed: () => _navigateToForm(context),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      icon: const Icon(Icons.add),
+      label: Text(
+        l10n.newHabit,
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -224,9 +220,7 @@ class HabitsPage extends ConsumerWidget {
   void _navigateToForm(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const HabitFormPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const HabitFormPage()),
     );
   }
 

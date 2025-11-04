@@ -3,19 +3,14 @@
 /// 테스트 ID는 Google에서 제공하는 테스트용 광고 ID입니다.
 /// 실제 배포 시에는 아래 ID를 실제 AdMob에서 발급받은 ID로 교체하세요.
 class AdMobConfig {
-  // TODO: 실제 AdMob 앱 ID로 교체하세요
+  // AdMob 앱 ID
   // Android: AndroidManifest.xml에도 추가 필요
   // iOS: Info.plist에도 추가 필요
-  static const String appId = 'YOUR_APP_ID_HERE';
+  static const String appId = 'ca-app-pub-3940256099942544~1458002511';
 
   // 배너 광고 ID
-  // TODO: 실제 배너 광고 단위 ID로 교체하세요
   static String get bannerAdUnitId {
-    // 테스트 ID (개발 중에는 이것을 사용)
-    return 'ca-app-pub-3940256099942544/6300978111'; // 테스트 배너 ID
-
-    // 실제 배포 시에는 아래 주석을 해제하고 실제 ID로 교체
-    // return 'YOUR_BANNER_AD_UNIT_ID_HERE';
+    return 'ca-app-pub-3940256099942544/2435281174';
   }
 
   // 전면 광고 ID (필요시 사용)
