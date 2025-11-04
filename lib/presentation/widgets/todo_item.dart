@@ -38,7 +38,10 @@ class TodoItem extends ConsumerWidget {
       key: Key(todo.id.toString()),
       direction: DismissDirection.endToStart,
       background: Container(
-        margin: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge, vertical: AppConstants.spacingSmall),
+        margin: const EdgeInsets.symmetric(
+          horizontal: AppConstants.spacingLarge,
+          vertical: AppConstants.spacingSmall,
+        ),
         decoration: BoxDecoration(
           color: Colors.red.shade600,
           borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
@@ -48,7 +51,11 @@ class TodoItem extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.delete_outline, color: Colors.white, size: AppConstants.iconSizeLarge),
+            const Icon(
+              Icons.delete_outline,
+              color: Colors.white,
+              size: AppConstants.iconSizeLarge,
+            ),
             const SizedBox(height: AppConstants.spacingXSmall),
             Text(
               l10n.delete,
@@ -82,13 +89,18 @@ class TodoItem extends ConsumerWidget {
         }
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge, vertical: AppConstants.spacingSmall),
+        margin: const EdgeInsets.symmetric(
+          horizontal: AppConstants.spacingLarge,
+          vertical: AppConstants.spacingSmall,
+        ),
         decoration: BoxDecoration(
           color: theme.cardColor,
           borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
           boxShadow: [
             BoxShadow(
-              color: theme.shadowColor.withValues(alpha: AppConstants.alphaVeryLight),
+              color: theme.shadowColor.withValues(
+                alpha: AppConstants.alphaVeryLight,
+              ),
               blurRadius: AppConstants.spacingMedium,
               offset: const Offset(0, 2),
             ),
@@ -164,7 +176,9 @@ class TodoItem extends ConsumerWidget {
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: todo.isDone
                                     ? theme.textTheme.bodySmall?.color
-                                          ?.withValues(alpha: AppConstants.alphaStrong)
+                                          ?.withValues(
+                                            alpha: AppConstants.alphaStrong,
+                                          )
                                     : theme.textTheme.bodySmall?.color,
                               ),
                             ),
@@ -219,11 +233,17 @@ class _PriorityChip extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingSmall, vertical: AppConstants.spacingXSmall),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppConstants.spacingSmall,
+        vertical: AppConstants.spacingXSmall,
+      ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: AppConstants.alphaMediumLight),
         borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        border: Border.all(color: color.withValues(alpha: AppConstants.alphaHigh), width: AppConstants.borderWidthThin),
+        border: Border.all(
+          color: color.withValues(alpha: AppConstants.alphaHigh),
+          width: AppConstants.borderWidthThin,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -264,16 +284,26 @@ class _DueDateChip extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingSmall, vertical: AppConstants.spacingXSmall),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppConstants.spacingSmall,
+        vertical: AppConstants.spacingXSmall,
+      ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: AppConstants.alphaMediumLight),
         borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        border: Border.all(color: color.withValues(alpha: AppConstants.alphaHigh), width: AppConstants.borderWidthThin),
+        border: Border.all(
+          color: color.withValues(alpha: AppConstants.alphaHigh),
+          width: AppConstants.borderWidthThin,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.calendar_today_outlined, size: AppConstants.fontSizeSmall, color: color),
+          Icon(
+            Icons.calendar_today_outlined,
+            size: AppConstants.fontSizeSmall,
+            color: color,
+          ),
           const SizedBox(width: AppConstants.spacingXSmall),
           Text(
             DateFormatter.formatDisplayDate(dueDate),

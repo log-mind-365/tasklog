@@ -16,8 +16,8 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<List<TodoEntity>> getTodosByCategory(int categoryId) async {
-    final todos = await database.getTodosByCategory(categoryId);
+  Future<List<TodoEntity>> getTodosByFolder(int folderId) async {
+    final todos = await database.getTodosByFolder(folderId);
     return todos.map((todo) => todo.toEntity()).toList();
   }
 

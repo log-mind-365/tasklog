@@ -12,7 +12,7 @@ class TodoEntity with _$TodoEntity {
     required bool isDone,
     required Priority priority,
     DateTime? dueDate,
-    int? categoryId,
+    int? folderId,
     required DateTime createdAt,
   }) = _TodoEntity;
 }

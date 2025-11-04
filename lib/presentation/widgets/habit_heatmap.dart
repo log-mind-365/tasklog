@@ -19,11 +19,17 @@ class HabitHeatmap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final today = DateTime.now();
-    final startDate = today.subtract(Duration(days: weeksToShow * AppConstants.daysPerWeek - 1));
+    final startDate = today.subtract(
+      Duration(days: weeksToShow * AppConstants.daysPerWeek - 1),
+    );
 
     // Normalize to start of day
     final normalizedToday = DateTime(today.year, today.month, today.day);
-    final normalizedStart = DateTime(startDate.year, startDate.month, startDate.day);
+    final normalizedStart = DateTime(
+      startDate.year,
+      startDate.month,
+      startDate.day,
+    );
 
     // Find the Monday before or on start date
     final startMonday = normalizedStart.subtract(
@@ -44,7 +50,12 @@ class HabitHeatmap extends StatelessWidget {
               children: [
                 _buildDayLabels(),
                 const SizedBox(width: AppConstants.spacingSmall),
-                _buildHeatmapGrid(context, startMonday, normalizedToday, weeksToShow),
+                _buildHeatmapGrid(
+                  context,
+                  startMonday,
+                  normalizedToday,
+                  weeksToShow,
+                ),
               ],
             ),
             const SizedBox(height: AppConstants.spacingLarge),
@@ -60,8 +71,10 @@ class HabitHeatmap extends StatelessWidget {
     DateTime currentDate = startDate;
 
     for (int week = 0; week < weeks; week++) {
-      final isFirstWeekOfMonth = week == 0 ||
-          currentDate.month != currentDate.subtract(const Duration(days: 7)).month;
+      final isFirstWeekOfMonth =
+          week == 0 ||
+          currentDate.month !=
+              currentDate.subtract(const Duration(days: 7)).month;
 
       monthLabels.add(
         SizedBox(
@@ -75,11 +88,15 @@ class HabitHeatmap extends StatelessWidget {
         ),
       );
 
-      currentDate = currentDate.add(const Duration(days: AppConstants.daysPerWeek));
+      currentDate = currentDate.add(
+        const Duration(days: AppConstants.daysPerWeek),
+      );
     }
 
     return Padding(
-      padding: const EdgeInsets.only(left: AppConstants.spacingXLarge + AppConstants.spacingSmall),
+      padding: const EdgeInsets.only(
+        left: AppConstants.spacingXLarge + AppConstants.spacingSmall,
+      ),
       child: Row(children: monthLabels),
     );
   }
@@ -116,14 +133,20 @@ class HabitHeatmap extends StatelessWidget {
     // Create a map for quick lookup
     final logMap = <String, HabitLogEntity>{};
     for (final log in logs) {
-      final normalizedDate = DateTime(log.date.year, log.date.month, log.date.day);
+      final normalizedDate = DateTime(
+        log.date.year,
+        log.date.month,
+        log.date.day,
+      );
       final key = DateFormat('yyyy-MM-dd').format(normalizedDate);
       logMap[key] = log;
     }
 
     return Row(
       children: List.generate(weeks, (weekIndex) {
-        final weekStartDate = startDate.add(Duration(days: weekIndex * AppConstants.daysPerWeek));
+        final weekStartDate = startDate.add(
+          Duration(days: weekIndex * AppConstants.daysPerWeek),
+        );
 
         return Column(
           children: List.generate(AppConstants.daysPerWeek, (dayIndex) {
@@ -132,12 +155,7 @@ class HabitHeatmap extends StatelessWidget {
             final dateKey = DateFormat('yyyy-MM-dd').format(currentDate);
             final log = logMap[dateKey];
 
-            return _buildDayCell(
-              context,
-              currentDate,
-              log,
-              isInFuture,
-            );
+            return _buildDayCell(context, currentDate, log, isInFuture);
           }),
         );
       }),
@@ -155,7 +173,9 @@ class HabitHeatmap extends StatelessWidget {
 
     Color cellColor;
     if (isInFuture) {
-      cellColor = colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaHigh);
+      cellColor = colorScheme.surfaceContainerHighest.withValues(
+        alpha: AppConstants.alphaHigh,
+      );
     } else if (log == null || log.completedCount == 0) {
       cellColor = colorScheme.surfaceContainerHighest;
     } else {
@@ -185,7 +205,9 @@ class HabitHeatmap extends StatelessWidget {
           color: cellColor,
           borderRadius: BorderRadius.circular(AppConstants.radiusXSmall),
           border: Border.all(
-            color: colorScheme.outline.withValues(alpha: AppConstants.alphaMedium),
+            color: colorScheme.outline.withValues(
+              alpha: AppConstants.alphaMedium,
+            ),
             width: AppConstants.borderWidthThin,
           ),
         ),
@@ -193,7 +215,11 @@ class HabitHeatmap extends StatelessWidget {
     );
   }
 
-  String _buildTooltipMessage(DateTime date, HabitLogEntity? log, bool isInFuture) {
+  String _buildTooltipMessage(
+    DateTime date,
+    HabitLogEntity? log,
+    bool isInFuture,
+  ) {
     final dateStr = DateFormat('yyyy-MM-dd (E)').format(date);
 
     if (isInFuture) {
@@ -213,15 +239,25 @@ class HabitHeatmap extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text('Less', style: TextStyle(fontSize: AppConstants.fontSizeXSmall)),
+        const Text(
+          'Less',
+          style: TextStyle(fontSize: AppConstants.fontSizeXSmall),
+        ),
         const SizedBox(width: AppConstants.spacingXSmall),
         _buildLegendCell(colorScheme.surfaceContainerHighest),
         _buildLegendCell(habitColor.withValues(alpha: AppConstants.alphaHigh)),
-        _buildLegendCell(habitColor.withValues(alpha: AppConstants.alphaStrong)),
-        _buildLegendCell(habitColor.withValues(alpha: AppConstants.alphaVeryIntense)),
+        _buildLegendCell(
+          habitColor.withValues(alpha: AppConstants.alphaStrong),
+        ),
+        _buildLegendCell(
+          habitColor.withValues(alpha: AppConstants.alphaVeryIntense),
+        ),
         _buildLegendCell(habitColor),
         const SizedBox(width: AppConstants.spacingXSmall),
-        const Text('More', style: TextStyle(fontSize: AppConstants.fontSizeXSmall)),
+        const Text(
+          'More',
+          style: TextStyle(fontSize: AppConstants.fontSizeXSmall),
+        ),
       ],
     );
   }

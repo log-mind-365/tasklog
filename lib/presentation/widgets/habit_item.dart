@@ -29,71 +29,133 @@ class HabitItem extends ConsumerWidget {
     final today = DateTime.now();
     final normalizedToday = DateTime(today.year, today.month, today.day);
 
-    return Card(
-      elevation: AppConstants.elevationSmall,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-        side: BorderSide(
-          color: habitColor.withValues(alpha: AppConstants.alphaHigh),
-          width: AppConstants.borderWidthThick,
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppConstants.radiusXXLarge),
+        boxShadow: [
+          BoxShadow(
+            color: theme.colorScheme.shadow.withValues(
+              alpha: AppConstants.alphaLight,
+            ),
+            blurRadius: AppConstants.spacingXLarge,
+            offset: const Offset(0, AppConstants.spacingXSmall),
+          ),
+        ],
       ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-        child: Padding(
-          padding: const EdgeInsets.all(AppConstants.spacingLarge),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(AppConstants.spacingSmall),
-                    decoration: BoxDecoration(
-                      color: habitColor.withValues(alpha: AppConstants.alphaMedium),
-                      borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
+      child: Material(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppConstants.radiusXXLarge),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppConstants.radiusXXLarge),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppConstants.radiusXXLarge),
+              border: Border.all(
+                color: habitColor.withValues(
+                  alpha: AppConstants.alphaMediumLight,
+                ),
+                width: AppConstants.borderWidthThick,
+              ),
+            ),
+            child: Column(
+              children: [
+                // Header Section
+                Container(
+                  padding: const EdgeInsets.all(AppConstants.spacingXLarge),
+                  decoration: BoxDecoration(
+                    color: habitColor.withValues(
+                      alpha: AppConstants.alphaVeryLight,
                     ),
-                    child: Text(
-                      habit.icon,
-                      style: const TextStyle(fontSize: AppConstants.iconSizeLarge),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(
+                        AppConstants.radiusXXLarge -
+                            AppConstants.borderWidthThick,
+                      ),
+                      topRight: Radius.circular(
+                        AppConstants.radiusXXLarge -
+                            AppConstants.borderWidthThick,
+                      ),
                     ),
                   ),
-                  const SizedBox(width: AppConstants.spacingMedium),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          habit.name,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
+                  child: Row(
+                    children: [
+                      // Icon Container
+                      Container(
+                        width: AppConstants.spacingGiant,
+                        height: AppConstants.spacingGiant,
+                        decoration: BoxDecoration(
+                          color: habitColor.withValues(
+                            alpha: AppConstants.alphaMedium,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.radiusLarge,
                           ),
                         ),
-                        if (habit.description.isNotEmpty) ...[
-                          const SizedBox(height: AppConstants.spacingXSmall),
-                          Text(
-                            habit.description,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
+                        child: Center(
+                          child: Text(
+                            habit.icon,
+                            style: const TextStyle(
+                              fontSize: AppConstants.iconSizeXLarge,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      ],
-                    ),
+                        ),
+                      ),
+                      const SizedBox(width: AppConstants.spacingLarge),
+                      // Habit Info
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              habit.name,
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: -0.5,
+                              ),
+                            ),
+                            if (habit.description.isNotEmpty) ...[
+                              const SizedBox(
+                                height: AppConstants.spacingXSmall,
+                              ),
+                              Text(
+                                habit.description,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onSurface.withValues(
+                                    alpha: AppConstants.alphaVeryStrong,
+                                  ),
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      // Delete Button
+                      IconButton(
+                        icon: const Icon(Icons.more_vert),
+                        onPressed: onDelete,
+                        color: theme.colorScheme.onSurface.withValues(
+                          alpha: AppConstants.alphaStrong,
+                        ),
+                        tooltip: 'Delete habit',
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.delete_outline),
-                    onPressed: onDelete,
-                    color: theme.colorScheme.error,
+                ),
+                // Progress Section
+                Padding(
+                  padding: const EdgeInsets.all(AppConstants.spacingXLarge),
+                  child: _buildTodayProgress(
+                    context,
+                    ref,
+                    normalizedToday,
+                    habitColor,
                   ),
-                ],
-              ),
-              const SizedBox(height: AppConstants.spacingLarge),
-              _buildTodayProgress(context, ref, normalizedToday, habitColor),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -119,10 +181,11 @@ class HabitItem extends ConsumerWidget {
         final completedCount = todayLog?.completedCount ?? 0;
         final progress = completedCount / habit.goalCount;
         final clampedProgress = progress.clamp(0.0, 1.0);
+        final isCompleted = completedCount >= habit.goalCount;
 
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Progress Bar
             Row(
               children: [
                 Expanded(
@@ -131,66 +194,187 @@ class HabitItem extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            'Today',
-                            style: theme.textTheme.labelMedium?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppConstants.spacingMedium,
+                              vertical: AppConstants.spacingXSmall,
+                            ),
+                            decoration: BoxDecoration(
+                              color: habitColor.withValues(
+                                alpha: AppConstants.alphaMediumLight,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.radiusLarge,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  isCompleted
+                                      ? Icons.check_circle
+                                      : Icons.radio_button_unchecked,
+                                  size: AppConstants.iconSizeSmall,
+                                  color: habitColor,
+                                ),
+                                const SizedBox(
+                                  width: AppConstants.spacingXSmall,
+                                ),
+                                Text(
+                                  'Today',
+                                  style: theme.textTheme.labelMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: habitColor,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(width: AppConstants.spacingSmall),
+                          const SizedBox(width: AppConstants.spacingMedium),
                           Text(
                             '$completedCount / ${habit.goalCount}',
-                            style: theme.textTheme.titleMedium?.copyWith(
+                            style: theme.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: habitColor,
                             ),
                           ),
+                          if (isCompleted) ...[
+                            const SizedBox(width: AppConstants.spacingSmall),
+                            Icon(
+                              Icons.celebration,
+                              size: AppConstants.iconSizeMedium,
+                              color: habitColor,
+                            ),
+                          ],
                         ],
                       ),
-                      const SizedBox(height: AppConstants.spacingSmall),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(AppConstants.radiusSmall),
-                        child: LinearProgressIndicator(
-                          value: clampedProgress,
-                          backgroundColor: habitColor.withValues(alpha: AppConstants.alphaMedium),
-                          valueColor: AlwaysStoppedAnimation(habitColor),
-                          minHeight: AppConstants.spacingSmall,
+                      const SizedBox(height: AppConstants.spacingMedium),
+                      // Modern Progress Bar
+                      Container(
+                        height: AppConstants.spacingMedium,
+                        decoration: BoxDecoration(
+                          color: habitColor.withValues(
+                            alpha: AppConstants.alphaMediumLight,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.radiusLarge,
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.radiusLarge,
+                          ),
+                          child: Stack(
+                            children: [
+                              LinearProgressIndicator(
+                                value: clampedProgress,
+                                backgroundColor: Colors.transparent,
+                                valueColor: AlwaysStoppedAnimation(habitColor),
+                                minHeight: AppConstants.spacingMedium,
+                              ),
+                              if (isCompleted)
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          habitColor,
+                                          habitColor.withValues(alpha: 0.8),
+                                        ],
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(width: AppConstants.spacingLarge),
-                Row(
-                  children: [
-                    IconButton.filled(
-                      onPressed: completedCount > 0 ? onDecrement : null,
-                      icon: const Icon(Icons.remove, size: AppConstants.iconSizeMedium),
-                      style: IconButton.styleFrom(
-                        backgroundColor: habitColor.withValues(alpha: AppConstants.alphaMedium),
-                        foregroundColor: habitColor,
-                        disabledBackgroundColor: theme.colorScheme.surfaceContainerHighest,
-                        disabledForegroundColor: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaHigh),
-                      ),
+              ],
+            ),
+            const SizedBox(height: AppConstants.spacingLarge),
+            // Action Buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                // Decrement Button
+                Container(
+                  decoration: BoxDecoration(
+                    color: completedCount > 0
+                        ? habitColor.withValues(
+                            alpha: AppConstants.alphaMediumLight,
+                          )
+                        : theme.colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusLarge,
                     ),
-                    const SizedBox(width: AppConstants.spacingSmall),
-                    IconButton.filled(
-                      onPressed: onIncrement,
-                      icon: const Icon(Icons.add, size: AppConstants.iconSizeMedium),
-                      style: IconButton.styleFrom(
-                        backgroundColor: habitColor,
-                        foregroundColor: Colors.white,
-                      ),
+                  ),
+                  child: IconButton(
+                    onPressed: completedCount > 0 ? onDecrement : null,
+                    icon: const Icon(
+                      Icons.remove,
+                      size: AppConstants.iconSizeMedium,
                     ),
-                  ],
+                    color: completedCount > 0
+                        ? habitColor
+                        : theme.colorScheme.onSurface.withValues(
+                            alpha: AppConstants.alphaHigh,
+                          ),
+                    tooltip: 'Decrease count',
+                  ),
+                ),
+                const SizedBox(width: AppConstants.spacingMedium),
+                // Increment Button
+                Container(
+                  decoration: BoxDecoration(
+                    color: habitColor,
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusLarge,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: habitColor.withValues(
+                          alpha: AppConstants.alphaHigh,
+                        ),
+                        blurRadius: AppConstants.spacingMedium,
+                        offset: const Offset(0, AppConstants.spacingXSmall),
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    onPressed: onIncrement,
+                    icon: const Icon(
+                      Icons.add,
+                      size: AppConstants.iconSizeMedium,
+                    ),
+                    color: Colors.white,
+                    tooltip: 'Increase count',
+                  ),
                 ),
               ],
             ),
           ],
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Text('Error: $error'),
+      loading: () => const Center(
+        child: Padding(
+          padding: EdgeInsets.all(AppConstants.spacingXLarge),
+          child: CircularProgressIndicator(),
+        ),
+      ),
+      error: (error, stack) => Padding(
+        padding: const EdgeInsets.all(AppConstants.spacingMedium),
+        child: Text(
+          'Error loading progress',
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Theme.of(context).colorScheme.error,
+          ),
+        ),
+      ),
     );
   }
 }

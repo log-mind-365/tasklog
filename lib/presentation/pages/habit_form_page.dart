@@ -4,6 +4,8 @@ import '../../core/constants/app_constants.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:tasklog/domain/entities/habit_entity.dart';
 import 'package:tasklog/presentation/providers/habit_providers.dart';
+import '../widgets/color_picker_widget.dart';
+import '../widgets/icon_picker_widget.dart';
 
 class HabitFormPage extends ConsumerStatefulWidget {
   final HabitEntity? habit;
@@ -22,42 +24,20 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
   late String _selectedIcon;
   late Color _selectedColor;
 
-  final List<String> _availableIcons = [
-    '💧', '🏃', '📚', '🧘', '🎯', '✍️', '🎨', '🎵',
-    '💪', '🍎', '😴', '🧠', '📝', '🌱', '☕', '🚶',
-  ];
-
-  final List<Color> _availableColors = [
-    Colors.red,
-    Colors.pink,
-    Colors.purple,
-    Colors.deepPurple,
-    Colors.indigo,
-    Colors.blue,
-    Colors.lightBlue,
-    Colors.cyan,
-    Colors.teal,
-    Colors.green,
-    Colors.lightGreen,
-    Colors.lime,
-    Colors.amber,
-    Colors.orange,
-    Colors.deepOrange,
-    Colors.brown,
-  ];
-
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.habit?.name ?? '');
-    _descriptionController = TextEditingController(text: widget.habit?.description ?? '');
+    _descriptionController = TextEditingController(
+      text: widget.habit?.description ?? '',
+    );
     _goalController = TextEditingController(
       text: widget.habit?.goalCount.toString() ?? '1',
     );
-    _selectedIcon = widget.habit?.icon ?? '💧';
+    _selectedIcon = widget.habit?.icon ?? AppPalette.habitIcons[0];
     _selectedColor = widget.habit != null
         ? Color(widget.habit!.color)
-        : Colors.blue;
+        : Color(AppPalette.colorValues[0]);
   }
 
   @override
@@ -101,9 +81,19 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
             const SizedBox(height: AppConstants.spacingXXLarge),
             _buildSectionLabel(l10n.appearance),
             const SizedBox(height: AppConstants.spacingLarge),
-            _buildIconSelector(l10n),
+            IconPickerWidget(
+              selectedIcon: _selectedIcon,
+              onIconSelected: (icon) => setState(() => _selectedIcon = icon),
+              highlightColor: _selectedColor,
+              label: l10n.selectIcon,
+            ),
             const SizedBox(height: AppConstants.spacingXXLarge),
-            _buildColorSelector(l10n),
+            ColorPickerWidget(
+              selectedColor: _selectedColor,
+              onColorSelected: (color) =>
+                  setState(() => _selectedColor = color),
+              label: l10n.selectColor,
+            ),
             const SizedBox(height: AppConstants.spacingHuge),
             _buildSaveButton(context, isEditing, l10n),
           ],
@@ -132,7 +122,9 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
           l10n.habitName,
           style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
-            color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+            color: theme.colorScheme.onSurface.withValues(
+              alpha: AppConstants.alphaIntense,
+            ),
           ),
         ),
         const SizedBox(height: AppConstants.spacingMedium),
@@ -141,7 +133,9 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
           decoration: InputDecoration(
             hintText: l10n.habitName,
             filled: true,
-            fillColor: theme.colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
+            fillColor: theme.colorScheme.surfaceContainerHighest.withValues(
+              alpha: AppConstants.alphaStrong,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
               borderSide: BorderSide.none,
@@ -171,7 +165,9 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
           l10n.dailyGoal,
           style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
-            color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+            color: theme.colorScheme.onSurface.withValues(
+              alpha: AppConstants.alphaIntense,
+            ),
           ),
         ),
         const SizedBox(height: AppConstants.spacingMedium),
@@ -180,7 +176,9 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
           decoration: InputDecoration(
             hintText: l10n.dailyGoal,
             filled: true,
-            fillColor: theme.colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
+            fillColor: theme.colorScheme.surfaceContainerHighest.withValues(
+              alpha: AppConstants.alphaStrong,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
               borderSide: BorderSide.none,
@@ -207,120 +205,11 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
     );
   }
 
-  Widget _buildIconSelector(AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.selectIcon,
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
-          ),
-        ),
-        const SizedBox(height: AppConstants.spacingMedium),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(AppConstants.spacingXLarge),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
-            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-          ),
-          child: Wrap(
-            spacing: AppConstants.spacingSmall,
-            runSpacing: AppConstants.spacingSmall,
-            children: _availableIcons.map((icon) {
-              final isSelected = icon == _selectedIcon;
-              return InkWell(
-                onTap: () => setState(() => _selectedIcon = icon),
-                borderRadius: BorderRadius.circular(AppConstants.spacingMedium),
-                child: Container(
-                  width: AppConstants.iconSizeXXLarge,
-                  height: AppConstants.iconSizeXXLarge,
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? _selectedColor.withValues(alpha: AppConstants.alphaMedium)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(AppConstants.spacingMedium),
-                    border: Border.all(
-                      color: isSelected
-                          ? _selectedColor
-                          : Colors.transparent,
-                      width: AppConstants.borderWidthMedium,
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      icon,
-                      style: const TextStyle(fontSize: AppConstants.fontSizeXXLarge),
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildColorSelector(AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.selectColor,
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
-          ),
-        ),
-        const SizedBox(height: AppConstants.spacingMedium),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(AppConstants.spacingXLarge),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: AppConstants.alphaStrong),
-            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-          ),
-          child: Wrap(
-            spacing: AppConstants.spacingSmall,
-            runSpacing: AppConstants.spacingMedium,
-            children: _availableColors.map((color) {
-              final isSelected = color == _selectedColor;
-              return InkWell(
-                onTap: () => setState(() => _selectedColor = color),
-                borderRadius: BorderRadius.circular(AppConstants.spacingXXLarge),
-                child: Container(
-                  width: AppConstants.iconSizeXXLarge,
-                  height: AppConstants.iconSizeXXLarge,
-                  decoration: BoxDecoration(
-                    color: color,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: isSelected
-                          ? Theme.of(context).colorScheme.onSurface
-                          : Colors.transparent,
-                      width: AppConstants.borderWidthThick,
-                    ),
-                  ),
-                  child: isSelected
-                      ? const Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: AppConstants.iconSizeXSmall,
-                        )
-                      : null,
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSaveButton(BuildContext context, bool isEditing, AppLocalizations l10n) {
+  Widget _buildSaveButton(
+    BuildContext context,
+    bool isEditing,
+    AppLocalizations l10n,
+  ) {
     final theme = Theme.of(context);
     return Container(
       height: AppConstants.spacingGiant,
@@ -329,7 +218,9 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         color: theme.colorScheme.primary,
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.primary.withValues(alpha: AppConstants.alphaStrong),
+            color: theme.colorScheme.primary.withValues(
+              alpha: AppConstants.alphaStrong,
+            ),
             blurRadius: AppConstants.spacingLarge,
             offset: const Offset(0, 4),
           ),
@@ -363,7 +254,11 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
     );
   }
 
-  Future<void> _saveHabit(BuildContext context, bool isEditing, AppLocalizations l10n) async {
+  Future<void> _saveHabit(
+    BuildContext context,
+    bool isEditing,
+    AppLocalizations l10n,
+  ) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }

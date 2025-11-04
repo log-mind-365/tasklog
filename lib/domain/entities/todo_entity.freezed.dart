@@ -23,7 +23,7 @@ mixin _$TodoEntity {
   bool get isDone => throw _privateConstructorUsedError;
   Priority get priority => throw _privateConstructorUsedError;
   DateTime? get dueDate => throw _privateConstructorUsedError;
-  int? get categoryId => throw _privateConstructorUsedError;
+  int? get folderId => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Create a copy of TodoEntity
@@ -47,7 +47,7 @@ abstract class $TodoEntityCopyWith<$Res> {
     bool isDone,
     Priority priority,
     DateTime? dueDate,
-    int? categoryId,
+    int? folderId,
     DateTime createdAt,
   });
 }
@@ -73,7 +73,7 @@ class _$TodoEntityCopyWithImpl<$Res, $Val extends TodoEntity>
     Object? isDone = null,
     Object? priority = null,
     Object? dueDate = freezed,
-    Object? categoryId = freezed,
+    Object? folderId = freezed,
     Object? createdAt = null,
   }) {
     return _then(
@@ -102,9 +102,9 @@ class _$TodoEntityCopyWithImpl<$Res, $Val extends TodoEntity>
                 ? _value.dueDate
                 : dueDate // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
-            categoryId: freezed == categoryId
-                ? _value.categoryId
-                : categoryId // ignore: cast_nullable_to_non_nullable
+            folderId: freezed == folderId
+                ? _value.folderId
+                : folderId // ignore: cast_nullable_to_non_nullable
                       as int?,
             createdAt: null == createdAt
                 ? _value.createdAt
@@ -132,7 +132,7 @@ abstract class _$$TodoEntityImplCopyWith<$Res>
     bool isDone,
     Priority priority,
     DateTime? dueDate,
-    int? categoryId,
+    int? folderId,
     DateTime createdAt,
   });
 }
@@ -157,7 +157,7 @@ class __$$TodoEntityImplCopyWithImpl<$Res>
     Object? isDone = null,
     Object? priority = null,
     Object? dueDate = freezed,
-    Object? categoryId = freezed,
+    Object? folderId = freezed,
     Object? createdAt = null,
   }) {
     return _then(
@@ -186,9 +186,9 @@ class __$$TodoEntityImplCopyWithImpl<$Res>
             ? _value.dueDate
             : dueDate // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
-        categoryId: freezed == categoryId
-            ? _value.categoryId
-            : categoryId // ignore: cast_nullable_to_non_nullable
+        folderId: freezed == folderId
+            ? _value.folderId
+            : folderId // ignore: cast_nullable_to_non_nullable
                   as int?,
         createdAt: null == createdAt
             ? _value.createdAt
@@ -209,7 +209,7 @@ class _$TodoEntityImpl implements _TodoEntity {
     required this.isDone,
     required this.priority,
     this.dueDate,
-    this.categoryId,
+    this.folderId,
     required this.createdAt,
   });
 
@@ -226,13 +226,13 @@ class _$TodoEntityImpl implements _TodoEntity {
   @override
   final DateTime? dueDate;
   @override
-  final int? categoryId;
+  final int? folderId;
   @override
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'TodoEntity(id: $id, title: $title, description: $description, isDone: $isDone, priority: $priority, dueDate: $dueDate, categoryId: $categoryId, createdAt: $createdAt)';
+    return 'TodoEntity(id: $id, title: $title, description: $description, isDone: $isDone, priority: $priority, dueDate: $dueDate, folderId: $folderId, createdAt: $createdAt)';
   }
 
   @override
@@ -248,8 +248,8 @@ class _$TodoEntityImpl implements _TodoEntity {
             (identical(other.priority, priority) ||
                 other.priority == priority) &&
             (identical(other.dueDate, dueDate) || other.dueDate == dueDate) &&
-            (identical(other.categoryId, categoryId) ||
-                other.categoryId == categoryId) &&
+            (identical(other.folderId, folderId) ||
+                other.folderId == folderId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -263,7 +263,7 @@ class _$TodoEntityImpl implements _TodoEntity {
     isDone,
     priority,
     dueDate,
-    categoryId,
+    folderId,
     createdAt,
   );
 
@@ -284,7 +284,7 @@ abstract class _TodoEntity implements TodoEntity {
     required final bool isDone,
     required final Priority priority,
     final DateTime? dueDate,
-    final int? categoryId,
+    final int? folderId,
     required final DateTime createdAt,
   }) = _$TodoEntityImpl;
 
@@ -301,7 +301,7 @@ abstract class _TodoEntity implements TodoEntity {
   @override
   DateTime? get dueDate;
   @override
-  int? get categoryId;
+  int? get folderId;
   @override
   DateTime get createdAt;
 

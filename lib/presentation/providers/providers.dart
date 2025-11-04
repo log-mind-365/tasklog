@@ -2,17 +2,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../data/datasources/local/database.dart';
 import '../../data/repositories/todo_repository_impl.dart';
-import '../../data/repositories/category_repository_impl.dart';
+import '../../data/repositories/folder_repository_impl.dart';
 import '../../domain/repositories/todo_repository.dart';
-import '../../domain/repositories/category_repository.dart';
+import '../../domain/repositories/folder_repository.dart';
 import '../../domain/usecases/get_todos_usecase.dart';
 import '../../domain/usecases/add_todo_usecase.dart';
 import '../../domain/usecases/update_todo_usecase.dart';
 import '../../domain/usecases/delete_todo_usecase.dart';
 import '../../domain/usecases/toggle_todo_done_usecase.dart';
 import '../../domain/usecases/search_todos_usecase.dart';
-import '../../domain/usecases/get_categories_usecase.dart';
-import '../../domain/usecases/add_category_usecase.dart';
+import '../../domain/usecases/get_folders_usecase.dart';
+import '../../domain/usecases/add_folder_usecase.dart';
+import '../../domain/usecases/update_folder_usecase.dart';
+import '../../domain/usecases/delete_folder_usecase.dart';
 
 part 'providers.g.dart';
 
@@ -30,9 +32,9 @@ TodoRepository todoRepository(Ref ref) {
 }
 
 @riverpod
-CategoryRepository categoryRepository(Ref ref) {
+FolderRepository folderRepository(Ref ref) {
   final database = ref.watch(appDatabaseProvider);
-  return CategoryRepositoryImpl(database);
+  return FolderRepositoryImpl(database);
 }
 
 // UseCase providers
@@ -73,13 +75,25 @@ SearchTodosUseCase searchTodosUseCase(Ref ref) {
 }
 
 @riverpod
-GetCategoriesUseCase getCategoriesUseCase(Ref ref) {
-  final repository = ref.watch(categoryRepositoryProvider);
-  return GetCategoriesUseCase(repository);
+GetFoldersUseCase getFoldersUseCase(Ref ref) {
+  final repository = ref.watch(folderRepositoryProvider);
+  return GetFoldersUseCase(repository);
 }
 
 @riverpod
-AddCategoryUseCase addCategoryUseCase(Ref ref) {
-  final repository = ref.watch(categoryRepositoryProvider);
-  return AddCategoryUseCase(repository);
+AddFolderUseCase addFolderUseCase(Ref ref) {
+  final repository = ref.watch(folderRepositoryProvider);
+  return AddFolderUseCase(repository);
+}
+
+@riverpod
+UpdateFolderUseCase updateFolderUseCase(Ref ref) {
+  final repository = ref.watch(folderRepositoryProvider);
+  return UpdateFolderUseCase(repository);
+}
+
+@riverpod
+DeleteFolderUseCase deleteFolderUseCase(Ref ref) {
+  final repository = ref.watch(folderRepositoryProvider);
+  return DeleteFolderUseCase(repository);
 }

@@ -90,3 +90,49 @@ class AppConstants {
   static const int daysPerWeek = 7;
   static const int defaultHistoryDays = 84; // 12 weeks
 }
+
+/// UI 색상 팔레트 및 아이콘 상수
+class AppPalette {
+  AppPalette._();
+
+  /// 공통 색상 팔레트 (폴더, 습관 등에 사용)
+  static const List<int> colorValues = [
+    0xFFFF0000, // Colors.red
+    0xFFE91E63, // Colors.pink
+    0xFF9C27B0, // Colors.purple
+    0xFF673AB7, // Colors.deepPurple
+    0xFF3F51B5, // Colors.indigo
+    0xFF2196F3, // Colors.blue
+    0xFF03A9F4, // Colors.lightBlue
+    0xFF00BCD4, // Colors.cyan
+    0xFF009688, // Colors.teal
+    0xFF4CAF50, // Colors.green
+    0xFF8BC34A, // Colors.lightGreen
+    0xFFCDDC39, // Colors.lime
+    0xFFFFEB3B, // Colors.yellow
+    0xFFFFC107, // Colors.amber
+    0xFFFF9800, // Colors.orange
+    0xFFFF5722, // Colors.deepOrange
+    0xFF795548, // Colors.brown
+  ];
+
+  /// 습관 아이콘 팔레트
+  static const List<String> habitIcons = [
+    '💧',
+    '🏃',
+    '📚',
+    '🧘',
+    '🎯',
+    '✍️',
+    '🎨',
+    '🎵',
+    '💪',
+    '🍎',
+    '😴',
+    '🧠',
+    '📝',
+    '🌱',
+    '☕',
+    '🚶',
+  ];
+}

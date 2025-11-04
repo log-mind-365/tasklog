@@ -5,13 +5,14 @@ import '../../domain/entities/todo_entity.dart';
 import '../../domain/entities/priority.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/providers.dart';
-import '../providers/category_providers.dart';
+import '../providers/folder_providers.dart';
 import '../extensions/priority_extension.dart';
 
 class TodoFormPage extends ConsumerStatefulWidget {
   final TodoEntity? todo;
+  final int? defaultFolderId;
 
-  const TodoFormPage({super.key, this.todo});
+  const TodoFormPage({super.key, this.todo, this.defaultFolderId});
 
   @override
   ConsumerState<TodoFormPage> createState() => _TodoFormPageState();
@@ -23,16 +24,18 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
   late TextEditingController _descriptionController;
   late Priority _priority;
   DateTime? _dueDate;
-  int? _categoryId;
+  int? _folderId;
 
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.todo?.title ?? '');
-    _descriptionController = TextEditingController(text: widget.todo?.description ?? '');
+    _descriptionController = TextEditingController(
+      text: widget.todo?.description ?? '',
+    );
     _priority = widget.todo?.priority ?? Priority.medium;
     _dueDate = widget.todo?.dueDate;
-    _categoryId = widget.todo?.categoryId;
+    _folderId = widget.todo?.folderId ?? widget.defaultFolderId;
   }
 
   @override
@@ -55,7 +58,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
       isDone: widget.todo?.isDone ?? false,
       priority: _priority,
       dueDate: _dueDate,
-      categoryId: _categoryId,
+      folderId: _folderId,
       createdAt: widget.todo?.createdAt ?? DateTime.now(),
     );
 
@@ -140,7 +143,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    final categoriesAsyncValue = ref.watch(categoriesStreamProvider);
+    final foldersAsyncValue = ref.watch(foldersStreamProvider);
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -166,7 +169,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               l10n.title,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+                color: theme.colorScheme.onSurface.withValues(
+                  alpha: AppConstants.alphaIntense,
+                ),
               ),
             ),
             const SizedBox(height: AppConstants.spacingMedium),
@@ -175,9 +180,13 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               decoration: InputDecoration(
                 hintText: l10n.enterTodoTitle,
                 filled: true,
-                fillColor: theme.colorScheme.surfaceVariant.withValues(alpha: AppConstants.alphaStrong),
+                fillColor: theme.colorScheme.surfaceContainerHighest.withValues(
+                  alpha: AppConstants.alphaStrong,
+                ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.radiusXLarge,
+                  ),
                   borderSide: BorderSide.none,
                 ),
                 contentPadding: const EdgeInsets.symmetric(
@@ -200,7 +209,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               l10n.description,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+                color: theme.colorScheme.onSurface.withValues(
+                  alpha: AppConstants.alphaIntense,
+                ),
               ),
             ),
             const SizedBox(height: AppConstants.spacingMedium),
@@ -209,9 +220,13 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               decoration: InputDecoration(
                 hintText: l10n.descriptionHint,
                 filled: true,
-                fillColor: theme.colorScheme.surfaceVariant.withValues(alpha: AppConstants.alphaStrong),
+                fillColor: theme.colorScheme.surfaceContainerHighest.withValues(
+                  alpha: AppConstants.alphaStrong,
+                ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.radiusXLarge,
+                  ),
                   borderSide: BorderSide.none,
                 ),
                 contentPadding: const EdgeInsets.symmetric(
@@ -229,7 +244,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               l10n.priority,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+                color: theme.colorScheme.onSurface.withValues(
+                  alpha: AppConstants.alphaIntense,
+                ),
               ),
             ),
             const SizedBox(height: AppConstants.spacingMedium),
@@ -255,40 +272,69 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
 
                 return Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: AppConstants.spacingMedium),
+                    padding: const EdgeInsets.only(
+                      right: AppConstants.spacingMedium,
+                    ),
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () => setState(() => _priority = priority),
-                        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+                        borderRadius: BorderRadius.circular(
+                          AppConstants.radiusLarge,
+                        ),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: AppConstants.spacingLarge),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: AppConstants.spacingLarge,
+                          ),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? color.withValues(alpha: AppConstants.alphaMedium)
-                                : theme.colorScheme.surfaceVariant.withValues(alpha: AppConstants.alphaStrong),
-                            borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+                                ? color.withValues(
+                                    alpha: AppConstants.alphaMedium,
+                                  )
+                                : theme.colorScheme.surfaceContainerHighest
+                                      .withValues(
+                                        alpha: AppConstants.alphaStrong,
+                                      ),
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.radiusLarge,
+                            ),
                             border: Border.all(
                               color: isSelected
                                   ? color
-                                  : theme.colorScheme.outline.withValues(alpha: AppConstants.alphaMedium),
-                              width: isSelected ? AppConstants.borderWidthMedium : AppConstants.borderWidthThin,
+                                  : theme.colorScheme.outline.withValues(
+                                      alpha: AppConstants.alphaMedium,
+                                    ),
+                              width: isSelected
+                                  ? AppConstants.borderWidthMedium
+                                  : AppConstants.borderWidthThin,
                             ),
                           ),
                           child: Column(
                             children: [
                               Icon(
                                 icon,
-                                color: isSelected ? color : theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
+                                color: isSelected
+                                    ? color
+                                    : theme.colorScheme.onSurface.withValues(
+                                        alpha: AppConstants.alphaStrong,
+                                      ),
                                 size: AppConstants.iconSizeXSmall,
                               ),
-                              const SizedBox(height: AppConstants.spacingXSmall),
+                              const SizedBox(
+                                height: AppConstants.spacingXSmall,
+                              ),
                               Text(
                                 priority.getLocalizedName(context),
                                 style: TextStyle(
                                   fontSize: AppConstants.fontSizeSmall,
-                                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                                  color: isSelected ? color : theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+                                  fontWeight: isSelected
+                                      ? FontWeight.w600
+                                      : FontWeight.normal,
+                                  color: isSelected
+                                      ? color
+                                      : theme.colorScheme.onSurface.withValues(
+                                          alpha: AppConstants.alphaIntense,
+                                        ),
                                 ),
                               ),
                             ],
@@ -307,7 +353,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               l10n.dueDate,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+                color: theme.colorScheme.onSurface.withValues(
+                  alpha: AppConstants.alphaIntense,
+                ),
               ),
             ),
             const SizedBox(height: AppConstants.spacingMedium),
@@ -319,24 +367,36 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                 child: Container(
                   padding: const EdgeInsets.all(AppConstants.spacingXLarge),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceVariant.withValues(alpha: AppConstants.alphaStrong),
-                    borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+                    color: theme.colorScheme.surfaceContainerHighest.withValues(
+                      alpha: AppConstants.alphaStrong,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusXLarge,
+                    ),
                   ),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(AppConstants.spacingSmall),
+                        padding: const EdgeInsets.all(
+                          AppConstants.spacingSmall,
+                        ),
                         decoration: BoxDecoration(
                           color: _dueDate != null
-                              ? theme.colorScheme.primary.withValues(alpha: AppConstants.alphaLight)
-                              : theme.colorScheme.surfaceVariant,
-                          borderRadius: BorderRadius.circular(AppConstants.spacingSmall),
+                              ? theme.colorScheme.primary.withValues(
+                                  alpha: AppConstants.alphaLight,
+                                )
+                              : theme.colorScheme.surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.spacingSmall,
+                          ),
                         ),
                         child: Icon(
                           Icons.calendar_today_outlined,
                           color: _dueDate != null
                               ? theme.colorScheme.primary
-                              : theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
+                              : theme.colorScheme.onSurface.withValues(
+                                  alpha: AppConstants.alphaStrong,
+                                ),
                           size: AppConstants.iconSizeXSmall,
                         ),
                       ),
@@ -352,10 +412,14 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                                 ),
                           style: TextStyle(
                             fontSize: AppConstants.fontSizeMedium,
-                            fontWeight: _dueDate != null ? FontWeight.w600 : FontWeight.normal,
+                            fontWeight: _dueDate != null
+                                ? FontWeight.w600
+                                : FontWeight.normal,
                             color: _dueDate != null
                                 ? theme.colorScheme.onSurface
-                                : theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
+                                : theme.colorScheme.onSurface.withValues(
+                                    alpha: AppConstants.alphaStrong,
+                                  ),
                           ),
                         ),
                       ),
@@ -363,7 +427,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                         IconButton(
                           icon: Icon(
                             Icons.clear,
-                            color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: AppConstants.alphaStrong,
+                            ),
                           ),
                           onPressed: () => setState(() => _dueDate = null),
                         ),
@@ -379,48 +445,60 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
               l10n.category,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaIntense),
+                color: theme.colorScheme.onSurface.withValues(
+                  alpha: AppConstants.alphaIntense,
+                ),
               ),
             ),
             const SizedBox(height: AppConstants.spacingMedium),
-            categoriesAsyncValue.when(
-              data: (categories) {
+            foldersAsyncValue.when(
+              data: (folders) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingXLarge),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.spacingXLarge,
+                  ),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceVariant.withValues(alpha: AppConstants.alphaStrong),
-                    borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+                    color: theme.colorScheme.surfaceContainerHighest.withValues(
+                      alpha: AppConstants.alphaStrong,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusXLarge,
+                    ),
                   ),
                   child: DropdownButtonFormField<int?>(
-                    value: _categoryId,
+                    value: _folderId,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: AppConstants.spacingMedium),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: AppConstants.spacingMedium,
+                      ),
                     ),
                     icon: Icon(
                       Icons.keyboard_arrow_down,
-                      color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
+                      color: theme.colorScheme.onSurface.withValues(
+                        alpha: AppConstants.alphaStrong,
+                      ),
                     ),
                     items: [
                       DropdownMenuItem(
                         value: null,
                         child: Text(l10n.noCategory),
                       ),
-                      ...categories.map((category) {
+                      ...folders.map((folder) {
                         return DropdownMenuItem(
-                          value: category.id,
+                          value: folder.id,
                           child: Row(
                             children: [
                               Container(
                                 width: AppConstants.spacingLarge,
                                 height: AppConstants.spacingLarge,
                                 decoration: BoxDecoration(
-                                  color: Color(category.color),
+                                  color: Color(folder.color),
                                   shape: BoxShape.circle,
                                 ),
                               ),
                               const SizedBox(width: AppConstants.spacingLarge),
-                              Text(category.name),
+                              Text(folder.name),
                             ],
                           ),
                         );
@@ -428,7 +506,7 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                     ],
                     onChanged: (value) {
                       setState(() {
-                        _categoryId = value;
+                        _folderId = value;
                       });
                     },
                   ),
@@ -444,7 +522,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                 padding: const EdgeInsets.all(AppConstants.spacingXLarge),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.errorContainer,
-                  borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.radiusXLarge,
+                  ),
                 ),
                 child: Text(
                   l10n.cannotLoadCategories,
@@ -462,7 +542,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                 color: theme.colorScheme.primary,
                 boxShadow: [
                   BoxShadow(
-                    color: theme.colorScheme.primary.withValues(alpha: AppConstants.alphaStrong),
+                    color: theme.colorScheme.primary.withValues(
+                      alpha: AppConstants.alphaStrong,
+                    ),
                     blurRadius: AppConstants.spacingLarge,
                     offset: const Offset(0, 4),
                   ),
@@ -474,7 +556,9 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusXLarge,
+                    ),
                   ),
                 ),
                 child: Row(

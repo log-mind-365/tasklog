@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../../l10n/app_localizations.dart';
+import '../widgets/ad_banner_widget.dart';
 import '../widgets/app_drawer.dart';
 import 'habits_page.dart';
 import 'settings_page.dart';
@@ -116,23 +117,31 @@ class _HomePageState extends State<HomePage> {
                 HabitsPage(scaffoldKey: _scaffoldKey),
               ],
             ),
-            bottomNavigationBar: NavigationBar(
-              selectedIndex: _selectedIndex,
-              onDestinationSelected: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-              destinations: [
-                NavigationDestination(
-                  icon: const Icon(Icons.check_circle_outline),
-                  selectedIcon: const Icon(Icons.check_circle),
-                  label: l10n.navTodos,
-                ),
-                NavigationDestination(
-                  icon: const Icon(Icons.track_changes_outlined),
-                  selectedIcon: const Icon(Icons.track_changes),
-                  label: l10n.navHabits,
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // AdMob 배너
+                const AdBannerWidget(),
+                // 네비게이션 바
+                NavigationBar(
+                  selectedIndex: _selectedIndex,
+                  onDestinationSelected: (index) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  },
+                  destinations: [
+                    NavigationDestination(
+                      icon: const Icon(Icons.check_circle_outline),
+                      selectedIcon: const Icon(Icons.check_circle),
+                      label: l10n.navTodos,
+                    ),
+                    NavigationDestination(
+                      icon: const Icon(Icons.track_changes_outlined),
+                      selectedIcon: const Icon(Icons.track_changes),
+                      label: l10n.navHabits,
+                    ),
+                  ],
                 ),
               ],
             ),

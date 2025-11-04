@@ -3,7 +3,7 @@ import '../entities/priority.dart';
 
 abstract class TodoRepository {
   Future<List<TodoEntity>> getTodos();
-  Future<List<TodoEntity>> getTodosByCategory(int categoryId);
+  Future<List<TodoEntity>> getTodosByFolder(int folderId);
   Future<List<TodoEntity>> searchTodos(String query);
   Future<TodoEntity> getTodoById(int id);
   Future<int> addTodo(TodoEntity todo);

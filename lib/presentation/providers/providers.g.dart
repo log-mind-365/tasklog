@@ -40,25 +40,23 @@ final todoRepositoryProvider = AutoDisposeProvider<TodoRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TodoRepositoryRef = AutoDisposeProviderRef<TodoRepository>;
-String _$categoryRepositoryHash() =>
-    r'2ddce4e391cf7ea34379d2d8a8c2c4bc08d12700';
+String _$folderRepositoryHash() => r'47a2ba128c66f8e6fc522ffa5f28ccda8e36a0e1';
 
-/// See also [categoryRepository].
-@ProviderFor(categoryRepository)
-final categoryRepositoryProvider =
-    AutoDisposeProvider<CategoryRepository>.internal(
-      categoryRepository,
-      name: r'categoryRepositoryProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$categoryRepositoryHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+/// See also [folderRepository].
+@ProviderFor(folderRepository)
+final folderRepositoryProvider = AutoDisposeProvider<FolderRepository>.internal(
+  folderRepository,
+  name: r'folderRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$folderRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef CategoryRepositoryRef = AutoDisposeProviderRef<CategoryRepository>;
+typedef FolderRepositoryRef = AutoDisposeProviderRef<FolderRepository>;
 String _$getTodosUseCaseHash() => r'3750b0600f0b1a0a8625f69d4aabeca764eecd53';
 
 /// See also [getTodosUseCase].
@@ -168,43 +166,78 @@ final searchTodosUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SearchTodosUseCaseRef = AutoDisposeProviderRef<SearchTodosUseCase>;
-String _$getCategoriesUseCaseHash() =>
-    r'5c6407af06a2068abfac9b2f90a61b5f2f63906f';
+String _$getFoldersUseCaseHash() => r'0e61ce9fbf64dfc6fd87ba3c6693d8d8d22f85ea';
 
-/// See also [getCategoriesUseCase].
-@ProviderFor(getCategoriesUseCase)
-final getCategoriesUseCaseProvider =
-    AutoDisposeProvider<GetCategoriesUseCase>.internal(
-      getCategoriesUseCase,
-      name: r'getCategoriesUseCaseProvider',
+/// See also [getFoldersUseCase].
+@ProviderFor(getFoldersUseCase)
+final getFoldersUseCaseProvider =
+    AutoDisposeProvider<GetFoldersUseCase>.internal(
+      getFoldersUseCase,
+      name: r'getFoldersUseCaseProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$getCategoriesUseCaseHash,
+          : _$getFoldersUseCaseHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef GetCategoriesUseCaseRef = AutoDisposeProviderRef<GetCategoriesUseCase>;
-String _$addCategoryUseCaseHash() =>
-    r'ecf33deafbf3a507bbfe708d3cd557908d080366';
+typedef GetFoldersUseCaseRef = AutoDisposeProviderRef<GetFoldersUseCase>;
+String _$addFolderUseCaseHash() => r'fdb82ceb0614c286023788c13e277e9c458e6361';
 
-/// See also [addCategoryUseCase].
-@ProviderFor(addCategoryUseCase)
-final addCategoryUseCaseProvider =
-    AutoDisposeProvider<AddCategoryUseCase>.internal(
-      addCategoryUseCase,
-      name: r'addCategoryUseCaseProvider',
+/// See also [addFolderUseCase].
+@ProviderFor(addFolderUseCase)
+final addFolderUseCaseProvider = AutoDisposeProvider<AddFolderUseCase>.internal(
+  addFolderUseCase,
+  name: r'addFolderUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$addFolderUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AddFolderUseCaseRef = AutoDisposeProviderRef<AddFolderUseCase>;
+String _$updateFolderUseCaseHash() =>
+    r'87e5fe15ccb04c117cfeee3589c8e02d3453d0da';
+
+/// See also [updateFolderUseCase].
+@ProviderFor(updateFolderUseCase)
+final updateFolderUseCaseProvider =
+    AutoDisposeProvider<UpdateFolderUseCase>.internal(
+      updateFolderUseCase,
+      name: r'updateFolderUseCaseProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$addCategoryUseCaseHash,
+          : _$updateFolderUseCaseHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AddCategoryUseCaseRef = AutoDisposeProviderRef<AddCategoryUseCase>;
+typedef UpdateFolderUseCaseRef = AutoDisposeProviderRef<UpdateFolderUseCase>;
+String _$deleteFolderUseCaseHash() =>
+    r'd99cc932f2c205db54ace2344ded8918deaa8f23';
+
+/// See also [deleteFolderUseCase].
+@ProviderFor(deleteFolderUseCase)
+final deleteFolderUseCaseProvider =
+    AutoDisposeProvider<DeleteFolderUseCase>.internal(
+      deleteFolderUseCase,
+      name: r'deleteFolderUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$deleteFolderUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef DeleteFolderUseCaseRef = AutoDisposeProviderRef<DeleteFolderUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

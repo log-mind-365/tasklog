@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'category_entity.dart';
+part of 'folder_entity.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -16,43 +16,49 @@ final _privateConstructorUsedError = UnsupportedError(
 );
 
 /// @nodoc
-mixin _$CategoryEntity {
+mixin _$FolderEntity {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get color => throw _privateConstructorUsedError;
+  int get order => throw _privateConstructorUsedError;
 
-  /// Create a copy of CategoryEntity
+  /// Create a copy of FolderEntity
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CategoryEntityCopyWith<CategoryEntity> get copyWith =>
+  $FolderEntityCopyWith<FolderEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CategoryEntityCopyWith<$Res> {
-  factory $CategoryEntityCopyWith(
-    CategoryEntity value,
-    $Res Function(CategoryEntity) then,
-  ) = _$CategoryEntityCopyWithImpl<$Res, CategoryEntity>;
+abstract class $FolderEntityCopyWith<$Res> {
+  factory $FolderEntityCopyWith(
+    FolderEntity value,
+    $Res Function(FolderEntity) then,
+  ) = _$FolderEntityCopyWithImpl<$Res, FolderEntity>;
   @useResult
-  $Res call({int id, String name, int color});
+  $Res call({int id, String name, int color, int order});
 }
 
 /// @nodoc
-class _$CategoryEntityCopyWithImpl<$Res, $Val extends CategoryEntity>
-    implements $CategoryEntityCopyWith<$Res> {
-  _$CategoryEntityCopyWithImpl(this._value, this._then);
+class _$FolderEntityCopyWithImpl<$Res, $Val extends FolderEntity>
+    implements $FolderEntityCopyWith<$Res> {
+  _$FolderEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CategoryEntity
+  /// Create a copy of FolderEntity
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? id = null, Object? name = null, Object? color = null}) {
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? color = null,
+    Object? order = null,
+  }) {
     return _then(
       _value.copyWith(
             id: null == id
@@ -67,6 +73,10 @@ class _$CategoryEntityCopyWithImpl<$Res, $Val extends CategoryEntity>
                 ? _value.color
                 : color // ignore: cast_nullable_to_non_nullable
                       as int,
+            order: null == order
+                ? _value.order
+                : order // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -74,33 +84,38 @@ class _$CategoryEntityCopyWithImpl<$Res, $Val extends CategoryEntity>
 }
 
 /// @nodoc
-abstract class _$$CategoryEntityImplCopyWith<$Res>
-    implements $CategoryEntityCopyWith<$Res> {
-  factory _$$CategoryEntityImplCopyWith(
-    _$CategoryEntityImpl value,
-    $Res Function(_$CategoryEntityImpl) then,
-  ) = __$$CategoryEntityImplCopyWithImpl<$Res>;
+abstract class _$$FolderEntityImplCopyWith<$Res>
+    implements $FolderEntityCopyWith<$Res> {
+  factory _$$FolderEntityImplCopyWith(
+    _$FolderEntityImpl value,
+    $Res Function(_$FolderEntityImpl) then,
+  ) = __$$FolderEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, int color});
+  $Res call({int id, String name, int color, int order});
 }
 
 /// @nodoc
-class __$$CategoryEntityImplCopyWithImpl<$Res>
-    extends _$CategoryEntityCopyWithImpl<$Res, _$CategoryEntityImpl>
-    implements _$$CategoryEntityImplCopyWith<$Res> {
-  __$$CategoryEntityImplCopyWithImpl(
-    _$CategoryEntityImpl _value,
-    $Res Function(_$CategoryEntityImpl) _then,
+class __$$FolderEntityImplCopyWithImpl<$Res>
+    extends _$FolderEntityCopyWithImpl<$Res, _$FolderEntityImpl>
+    implements _$$FolderEntityImplCopyWith<$Res> {
+  __$$FolderEntityImplCopyWithImpl(
+    _$FolderEntityImpl _value,
+    $Res Function(_$FolderEntityImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of CategoryEntity
+  /// Create a copy of FolderEntity
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? id = null, Object? name = null, Object? color = null}) {
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? color = null,
+    Object? order = null,
+  }) {
     return _then(
-      _$CategoryEntityImpl(
+      _$FolderEntityImpl(
         id: null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
@@ -113,6 +128,10 @@ class __$$CategoryEntityImplCopyWithImpl<$Res>
             ? _value.color
             : color // ignore: cast_nullable_to_non_nullable
                   as int,
+        order: null == order
+            ? _value.order
+            : order // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -120,11 +139,12 @@ class __$$CategoryEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CategoryEntityImpl implements _CategoryEntity {
-  const _$CategoryEntityImpl({
+class _$FolderEntityImpl implements _FolderEntity {
+  const _$FolderEntityImpl({
     required this.id,
     required this.name,
     required this.color,
+    required this.order,
   });
 
   @override
@@ -133,43 +153,44 @@ class _$CategoryEntityImpl implements _CategoryEntity {
   final String name;
   @override
   final int color;
+  @override
+  final int order;
 
   @override
   String toString() {
-    return 'CategoryEntity(id: $id, name: $name, color: $color)';
+    return 'FolderEntity(id: $id, name: $name, color: $color, order: $order)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CategoryEntityImpl &&
+            other is _$FolderEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.color, color) || other.color == color));
+            (identical(other.color, color) || other.color == color) &&
+            (identical(other.order, order) || other.order == order));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, color);
+  int get hashCode => Object.hash(runtimeType, id, name, color, order);
 
-  /// Create a copy of CategoryEntity
+  /// Create a copy of FolderEntity
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CategoryEntityImplCopyWith<_$CategoryEntityImpl> get copyWith =>
-      __$$CategoryEntityImplCopyWithImpl<_$CategoryEntityImpl>(
-        this,
-        _$identity,
-      );
+  _$$FolderEntityImplCopyWith<_$FolderEntityImpl> get copyWith =>
+      __$$FolderEntityImplCopyWithImpl<_$FolderEntityImpl>(this, _$identity);
 }
 
-abstract class _CategoryEntity implements CategoryEntity {
-  const factory _CategoryEntity({
+abstract class _FolderEntity implements FolderEntity {
+  const factory _FolderEntity({
     required final int id,
     required final String name,
     required final int color,
-  }) = _$CategoryEntityImpl;
+    required final int order,
+  }) = _$FolderEntityImpl;
 
   @override
   int get id;
@@ -177,11 +198,13 @@ abstract class _CategoryEntity implements CategoryEntity {
   String get name;
   @override
   int get color;
+  @override
+  int get order;
 
-  /// Create a copy of CategoryEntity
+  /// Create a copy of FolderEntity
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CategoryEntityImplCopyWith<_$CategoryEntityImpl> get copyWith =>
+  _$$FolderEntityImplCopyWith<_$FolderEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

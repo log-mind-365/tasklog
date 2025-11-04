@@ -23,9 +23,7 @@ class AppDrawer extends ConsumerWidget {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary,
-              ),
+              decoration: BoxDecoration(color: theme.colorScheme.primary),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -150,10 +148,7 @@ class AppDrawer extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return ListTile(
-      leading: Icon(
-        icon,
-        color: theme.colorScheme.onSurface,
-      ),
+      leading: Icon(icon, color: theme.colorScheme.onSurface),
       title: Text(
         title,
         style: theme.textTheme.bodyLarge?.copyWith(
@@ -238,10 +233,7 @@ class AppDrawer extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: AppConstants.spacingSmall),
-        Text(
-          content,
-          style: theme.textTheme.bodyMedium,
-        ),
+        Text(content, style: theme.textTheme.bodyMedium),
       ],
     );
   }
@@ -297,7 +289,9 @@ class AppDrawer extends ConsumerWidget {
                 children: [
                   Text(
                     getLanguageFlag(locale),
-                    style: const TextStyle(fontSize: AppConstants.fontSizeLarge),
+                    style: const TextStyle(
+                      fontSize: AppConstants.fontSizeLarge,
+                    ),
                   ),
                   const SizedBox(width: AppConstants.spacingMedium),
                   Text(getLanguageLabel(locale)),
@@ -403,15 +397,9 @@ class AppDrawer extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '${l10n.version} 1.0.0',
-              style: theme.textTheme.bodyMedium,
-            ),
+            Text('${l10n.version} 1.0.0', style: theme.textTheme.bodyMedium),
             const SizedBox(height: AppConstants.spacingLarge),
-            Text(
-              l10n.appDescription,
-              style: theme.textTheme.bodyMedium,
-            ),
+            Text(l10n.appDescription, style: theme.textTheme.bodyMedium),
             const SizedBox(height: AppConstants.spacingXLarge),
             Text(
               l10n.copyright,

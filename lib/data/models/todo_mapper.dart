@@ -12,7 +12,7 @@ extension TodoMapper on Todo {
       isDone: isDone,
       priority: Priority.fromValue(priority),
       dueDate: dueDate,
-      categoryId: categoryId,
+      folderId: folderId,
       createdAt: createdAt,
     );
   }
@@ -27,7 +27,7 @@ extension TodoEntityMapper on TodoEntity {
       isDone: Value(isDone),
       priority: Value(priority.value),
       dueDate: Value(dueDate),
-      categoryId: Value(categoryId),
+      folderId: Value(folderId),
       createdAt: Value(createdAt),
     );
   }
@@ -39,7 +39,7 @@ extension TodoEntityMapper on TodoEntity {
       isDone: Value(isDone),
       priority: Value(priority.value),
       dueDate: Value(dueDate),
-      categoryId: Value(categoryId),
+      folderId: Value(folderId),
     );
   }
 
@@ -51,7 +51,7 @@ extension TodoEntityMapper on TodoEntity {
       isDone: isDone,
       priority: priority.value,
       dueDate: dueDate,
-      categoryId: categoryId,
+      folderId: folderId,
       createdAt: createdAt,
     );
   }

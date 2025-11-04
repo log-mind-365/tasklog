@@ -22,3 +22,22 @@ Stream<List<TodoEntity>> completedTodosStream(Ref ref) {
   final useCase = ref.watch(getTodosUseCaseProvider);
   return useCase.watchByStatus(true);
 }
+
+// 폴더별 Todo 스트림 (null은 폴더가 없는 Todo)
+@riverpod
+Stream<List<TodoEntity>> todosByFolder(Ref ref, int? folderId) {
+  final todos = ref.watch(todosStreamProvider);
+  return todos.when(
+    data: (list) {
+      if (folderId == null) {
+        return Stream.value(list.where((todo) => todo.folderId == null).toList());
+      }
+      return Stream.value(list.where((todo) => todo.folderId == folderId).toList());
+    },
+    loading: () => const Stream.empty(),
+    error: (_, __) => const Stream.empty(),
+  );
+}
+
+// 현재 선택된 폴더 페이지 인덱스
+final selectedFolderPageIndexProvider = StateProvider<int>((ref) => 0);
