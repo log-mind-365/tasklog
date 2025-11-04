@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tasklog/presentation/providers/providers.dart';
+
 import '../../data/repositories/habit_repository_impl.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_log_entity.dart';
@@ -74,8 +75,8 @@ Stream<List<HabitEntity>> habits(Ref ref) {
 
 @riverpod
 Stream<HabitEntity?> habitById(Ref ref, int habitId) {
-  final habitsStream = ref.watch(habitsProvider.stream);
-  return habitsStream.map((habits) {
+  final repository = ref.watch(habitRepositoryProvider);
+  return repository.watchHabits().map((habits) {
     try {
       return habits.firstWhere((habit) => habit.id == habitId);
     } catch (e) {
