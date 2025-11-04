@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_constants.dart';
+import '../../l10n/app_localizations.dart';
 import '../providers/todo_providers.dart';
+import '../widgets/app_drawer.dart';
 import '../widgets/todo_item.dart';
 import 'todo_form_page.dart';
 
@@ -25,14 +27,15 @@ class _TodosPageState extends ConsumerState<TodosPage> {
     super.dispose();
   }
 
-  String _getFilterLabel() {
+  String _getFilterLabel(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (_filter) {
       case TodoFilter.all:
-        return '전체';
+        return l10n.filterAll;
       case TodoFilter.incomplete:
-        return '미완료';
+        return l10n.filterActive;
       case TodoFilter.completed:
-        return '완료';
+        return l10n.filterCompleted;
     }
   }
 
@@ -50,6 +53,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final todosAsyncValue = _filter == TodoFilter.incomplete
         ? ref.watch(incompleteTodosStreamProvider)
         : _filter == TodoFilter.completed
@@ -58,6 +62,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
+      endDrawer: const AppDrawer(),
       body: SafeArea(
         child: Column(
           children: [
@@ -74,7 +79,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'TaskLog',
+                              l10n.appTitle,
                               style: theme.textTheme.headlineMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: -0.5,
@@ -83,7 +88,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                             ),
                             const SizedBox(height: AppConstants.spacingXSmall),
                             Text(
-                              '오늘도 화이팅! 💪',
+                              l10n.todayCheerMessage,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
                               ),
@@ -131,7 +136,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                                   ),
                                   const SizedBox(width: AppConstants.spacingMedium),
                                   Text(
-                                    _getFilterLabel(),
+                                    _getFilterLabel(context),
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: theme.colorScheme.onPrimaryContainer,
@@ -141,6 +146,19 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                               ),
                             ),
                           ),
+                        ),
+                      ),
+                      const SizedBox(width: AppConstants.spacingMedium),
+                      // Menu Button
+                      Builder(
+                        builder: (context) => IconButton(
+                          icon: Icon(
+                            Icons.menu,
+                            color: theme.colorScheme.onSurface,
+                          ),
+                          onPressed: () {
+                            Scaffold.of(context).openEndDrawer();
+                          },
                         ),
                       ),
                     ],
@@ -158,7 +176,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                     child: TextField(
                       controller: _searchController,
                       decoration: InputDecoration(
-                        hintText: '할일 검색...',
+                        hintText: l10n.searchTodos,
                         hintStyle: TextStyle(
                           color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaStrong),
                         ),
@@ -229,8 +247,8 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                           const SizedBox(height: AppConstants.spacingXXLarge),
                           Text(
                             _searchQuery.isNotEmpty
-                                ? '검색 결과가 없습니다'
-                                : '할일이 없습니다',
+                                ? l10n.noSearchResults
+                                : l10n.noTodos,
                             style: theme.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
@@ -238,8 +256,8 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                           const SizedBox(height: AppConstants.spacingMedium),
                           Text(
                             _searchQuery.isNotEmpty
-                                ? '다른 키워드로 검색해보세요'
-                                : '새로운 할일을 추가해보세요 ✨',
+                                ? l10n.tryDifferentKeyword
+                                : l10n.addNewTodo,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.onSurface.withValues(alpha: AppConstants.alphaVeryStrong),
                             ),
@@ -280,7 +298,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                       ),
                       const SizedBox(height: AppConstants.spacingXLarge),
                       Text(
-                        '오류가 발생했습니다',
+                        l10n.errorOccurred,
                         style: theme.textTheme.titleLarge,
                       ),
                       const SizedBox(height: AppConstants.spacingMedium),
@@ -329,9 +347,9 @@ class _TodosPageState extends ConsumerState<TodosPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           icon: const Icon(Icons.add, color: Colors.white),
-          label: const Text(
-            '새 할일',
-            style: TextStyle(
+          label: Text(
+            l10n.newTodo,
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
             ),
@@ -355,6 +373,7 @@ class _FilterBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: const EdgeInsets.all(AppConstants.spacingLarge),
@@ -383,7 +402,7 @@ class _FilterBottomSheet extends StatelessWidget {
                   Icon(Icons.filter_list, color: theme.colorScheme.primary),
                   const SizedBox(width: AppConstants.spacingLarge),
                   Text(
-                    '필터 선택',
+                    l10n.selectFilter,
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -394,19 +413,19 @@ class _FilterBottomSheet extends StatelessWidget {
             const SizedBox(height: AppConstants.spacingXLarge),
             _FilterOption(
               icon: Icons.all_inclusive,
-              label: '전체',
+              label: l10n.filterAll,
               isSelected: currentFilter == TodoFilter.all,
               onTap: () => onFilterSelected(TodoFilter.all),
             ),
             _FilterOption(
               icon: Icons.radio_button_unchecked,
-              label: '미완료',
+              label: l10n.filterActive,
               isSelected: currentFilter == TodoFilter.incomplete,
               onTap: () => onFilterSelected(TodoFilter.incomplete),
             ),
             _FilterOption(
               icon: Icons.check_circle_outline,
-              label: '완료',
+              label: l10n.filterCompleted,
               isSelected: currentFilter == TodoFilter.completed,
               onTap: () => onFilterSelected(TodoFilter.completed),
             ),
