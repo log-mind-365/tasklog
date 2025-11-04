@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_constants.dart';
 import '../../domain/entities/habit_entity.dart';
+import '../../domain/entities/habit_log_entity.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/habit_providers.dart';
 import '../widgets/habit_heatmap.dart';
@@ -18,7 +19,8 @@ class HabitDetailPage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
 
     // Get logs for the last 12 weeks
-    final today = DateTime.now();
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
     final startDate = today.subtract(const Duration(days: AppConstants.defaultHistoryDays));
     final logsAsync = ref.watch(
       habitLogsByDateRangeProvider(habit.id, startDate, today),
@@ -134,7 +136,7 @@ class HabitDetailPage extends ConsumerWidget {
   Widget _buildStatistics(
     BuildContext context,
     WidgetRef ref,
-    List<dynamic> logs,
+    List<HabitLogEntity> logs,
     AppLocalizations l10n,
   ) {
     final theme = Theme.of(context);
@@ -143,7 +145,7 @@ class HabitDetailPage extends ConsumerWidget {
     // Calculate statistics
     final totalDays = logs.length;
     final completedDays = logs.where((log) => log.completedCount >= habit.goalCount).length;
-    final totalCount = logs.fold<int>(0, (sum, log) => sum + (log.completedCount as int));
+    final totalCount = logs.fold<int>(0, (sum, log) => sum + log.completedCount);
     final completionRate = totalDays > 0 ? (completedDays / totalDays * 100) : 0.0;
 
     // Current streak
@@ -255,7 +257,7 @@ class HabitDetailPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeatmapSection(BuildContext context, List<dynamic> logs, AppLocalizations l10n) {
+  Widget _buildHeatmapSection(BuildContext context, List<HabitLogEntity> logs, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Column(
@@ -279,7 +281,7 @@ class HabitDetailPage extends ConsumerWidget {
     );
   }
 
-  int _calculateCurrentStreak(List<dynamic> logs) {
+  int _calculateCurrentStreak(List<HabitLogEntity> logs) {
     if (logs.isEmpty) return 0;
 
     final today = DateTime.now();
@@ -305,7 +307,7 @@ class HabitDetailPage extends ConsumerWidget {
     return streak;
   }
 
-  int _calculateLongestStreak(List<dynamic> logs) {
+  int _calculateLongestStreak(List<HabitLogEntity> logs) {
     if (logs.isEmpty) return 0;
 
     // Sort logs by date
