@@ -93,14 +93,7 @@ class HabitDetailPage extends ConsumerWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            habitColor.withValues(alpha: AppConstants.alphaMedium),
-            habitColor.withValues(alpha: AppConstants.alphaLight),
-          ],
-        ),
+        color: habitColor.withValues(alpha: AppConstants.alphaMediumLight),
       ),
       child: Column(
         children: [

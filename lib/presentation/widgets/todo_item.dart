@@ -40,9 +40,7 @@ class TodoItem extends ConsumerWidget {
       background: Container(
         margin: const EdgeInsets.symmetric(horizontal: AppConstants.spacingLarge, vertical: AppConstants.spacingSmall),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.red.shade400, Colors.red.shade700],
-          ),
+          color: Colors.red.shade600,
           borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
         ),
         alignment: Alignment.centerRight,
@@ -223,12 +221,7 @@ class _PriorityChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingSmall, vertical: AppConstants.spacingXSmall),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            color.withValues(alpha: AppConstants.alphaLight),
-            color.withValues(alpha: AppConstants.alphaMedium),
-          ],
-        ),
+        color: color.withValues(alpha: AppConstants.alphaMediumLight),
         borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         border: Border.all(color: color.withValues(alpha: AppConstants.alphaHigh), width: AppConstants.borderWidthThin),
       ),
@@ -273,12 +266,7 @@ class _DueDateChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingSmall, vertical: AppConstants.spacingXSmall),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            color.withValues(alpha: AppConstants.alphaLight),
-            color.withValues(alpha: AppConstants.alphaMedium),
-          ],
-        ),
+        color: color.withValues(alpha: AppConstants.alphaMediumLight),
         borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         border: Border.all(color: color.withValues(alpha: AppConstants.alphaHigh), width: AppConstants.borderWidthThin),
       ),

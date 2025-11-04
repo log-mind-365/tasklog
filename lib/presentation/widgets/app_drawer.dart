@@ -24,14 +24,7 @@ class AppDrawer extends ConsumerWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    theme.colorScheme.primary,
-                    theme.colorScheme.secondary,
-                  ],
-                ),
+                color: theme.colorScheme.primary,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

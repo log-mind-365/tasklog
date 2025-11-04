@@ -326,12 +326,7 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
       height: AppConstants.spacingGiant,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-        gradient: LinearGradient(
-          colors: [
-            theme.colorScheme.primary,
-            theme.colorScheme.secondary,
-          ],
-        ),
+        color: theme.colorScheme.primary,
         boxShadow: [
           BoxShadow(
             color: theme.colorScheme.primary.withValues(alpha: AppConstants.alphaStrong),

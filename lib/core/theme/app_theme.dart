@@ -2,32 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../constants/app_constants.dart';
+import 'colors.dart';
 
 /// 애플리케이션 테마 설정을 관리하는 클래스
 class AppTheme {
   AppTheme._(); // Private constructor to prevent instantiation
 
-  /// 시드 컬러 (Indigo)
-  static const Color seedColor = Color(0xFF6366F1);
-
   /// 라이트 테마 빌드
   static ThemeData buildLightTheme() {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: seedColor,
-      brightness: Brightness.light,
-    );
-
-    return _buildTheme(colorScheme);
+    return _buildTheme(AppColors.lightGrayColorScheme);
   }
 
   /// 다크 테마 빌드
   static ThemeData buildDarkTheme() {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: seedColor,
-      brightness: Brightness.dark,
-    );
-
-    return _buildTheme(colorScheme);
+    return _buildTheme(AppColors.darkGrayColorScheme);
   }
 
   /// 공통 테마 설정
