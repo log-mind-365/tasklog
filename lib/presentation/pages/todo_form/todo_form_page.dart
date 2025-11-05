@@ -1,121 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/constants/app_constants.dart';
 import '../../../domain/entities/todo_entity.dart';
-import '../../../domain/entities/priority.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../providers/providers.dart';
 import '../../providers/folder_providers.dart';
-import '../../extensions/priority_extension.dart';
+import 'todo_form_view_model.dart';
+import 'widgets/todo_form_category_dropdown.dart';
+import 'widgets/todo_form_description_field.dart';
+import 'widgets/todo_form_due_date_picker.dart';
+import 'widgets/todo_form_priority_selector.dart';
+import 'widgets/todo_form_save_button.dart';
+import 'widgets/todo_form_title_field.dart';
 
-class TodoFormPage extends ConsumerStatefulWidget {
+class TodoFormPage extends ConsumerWidget {
   final TodoEntity? todo;
   final int? defaultFolderId;
 
   const TodoFormPage({super.key, this.todo, this.defaultFolderId});
 
-  @override
-  ConsumerState<TodoFormPage> createState() => _TodoFormPageState();
-}
-
-class _TodoFormPageState extends ConsumerState<TodoFormPage> {
-  final _formKey = GlobalKey<FormState>();
-  late TextEditingController _titleController;
-  late TextEditingController _descriptionController;
-  late Priority _priority;
-  DateTime? _dueDate;
-  int? _folderId;
-
-  @override
-  void initState() {
-    super.initState();
-    _titleController = TextEditingController(text: widget.todo?.title ?? '');
-    _descriptionController = TextEditingController(
-      text: widget.todo?.description ?? '',
-    );
-    _priority = widget.todo?.priority ?? Priority.medium;
-    _dueDate = widget.todo?.dueDate;
-    _folderId = widget.todo?.folderId ?? widget.defaultFolderId;
-  }
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _saveTodo() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    final addUseCase = ref.read(addTodoUseCaseProvider);
-    final updateUseCase = ref.read(updateTodoUseCaseProvider);
-
-    final todo = TodoEntity(
-      id: widget.todo?.id ?? 0,
-      title: _titleController.text.trim(),
-      description: _descriptionController.text.trim(),
-      isDone: widget.todo?.isDone ?? false,
-      priority: _priority,
-      dueDate: _dueDate,
-      folderId: _folderId,
-      createdAt: widget.todo?.createdAt ?? DateTime.now(),
-    );
-
-    try {
-      if (widget.todo == null) {
-        await addUseCase(todo);
-      } else {
-        await updateUseCase(todo);
-      }
-      if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                const Icon(Icons.check_circle, color: Colors.white),
-                const SizedBox(width: AppConstants.spacingMedium),
-                Text(widget.todo == null ? l10n.todoAdded : l10n.todoUpdated),
-              ],
-            ),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-            ),
-          ),
-        );
-      }
-    } catch (e, stackTrace) {
-      print('Error saving todo: $e');
-      print('Stack trace: $stackTrace');
-      if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                const Icon(Icons.error, color: Colors.white),
-                const SizedBox(width: AppConstants.spacingMedium),
-                Expanded(child: Text(l10n.errorMessage(e.toString()))),
-              ],
-            ),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-            ),
-          ),
-        );
-      }
-    }
-  }
-
-  Future<void> _selectDueDate() async {
+  Future<void> _selectDueDate(
+    BuildContext context,
+    WidgetRef ref,
+    DateTime? currentDueDate,
+  ) async {
     final picked = await showDatePicker(
       context: context,
-      initialDate: _dueDate ?? DateTime.now(),
+      initialDate: currentDueDate ?? DateTime.now(),
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
       builder: (context, child) {
@@ -132,17 +43,71 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
       },
     );
 
-    if (picked != null) {
-      setState(() {
-        _dueDate = picked;
-      });
+    if (picked != null && context.mounted) {
+      ref
+          .read(todoFormViewModelProvider(todo, defaultFolderId).notifier)
+          .setDueDate(picked);
+    }
+  }
+
+  Future<void> _handleSave(BuildContext context, WidgetRef ref) async {
+    final viewModel =
+        ref.read(todoFormViewModelProvider(todo, defaultFolderId).notifier);
+    final success = await viewModel.saveTodo(todo);
+
+    if (context.mounted) {
+      final l10n = AppLocalizations.of(context)!;
+      if (success) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white),
+                const SizedBox(width: AppConstants.spacingMedium),
+                Text(todo == null ? l10n.todoAdded : l10n.todoUpdated),
+              ],
+            ),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+            ),
+          ),
+        );
+      } else {
+        final state =
+            ref.read(todoFormViewModelProvider(todo, defaultFolderId));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error, color: Colors.white),
+                const SizedBox(width: AppConstants.spacingMedium),
+                Expanded(
+                  child: Text(
+                    l10n.errorMessage(state.errorMessage ?? 'Unknown error'),
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+            ),
+          ),
+        );
+      }
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    final state = ref.watch(todoFormViewModelProvider(todo, defaultFolderId));
+    final viewModel =
+        ref.read(todoFormViewModelProvider(todo, defaultFolderId).notifier);
     final foldersAsyncValue = ref.watch(foldersStreamProvider);
 
     return Scaffold(
@@ -155,431 +120,66 @@ class _TodoFormPageState extends ConsumerState<TodoFormPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          widget.todo == null ? l10n.newTodo : l10n.editTodo,
+          todo == null ? l10n.newTodo : l10n.editTodo,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
-          children: [
-            // Title Field
-            Text(
-              l10n.title,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(
-                  alpha: AppConstants.alphaIntense,
-                ),
+      body: ListView(
+        padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
+        children: [
+          TodoFormTitleField(
+            controller: viewModel.titleController,
+            validator: viewModel.validateTitle,
+          ),
+          const SizedBox(height: AppConstants.spacingXXLarge),
+          TodoFormDescriptionField(
+            controller: viewModel.descriptionController,
+          ),
+          const SizedBox(height: AppConstants.spacingXXLarge),
+          TodoFormPrioritySelector(
+            selectedPriority: state.priority,
+            onPriorityChanged: viewModel.setPriority,
+          ),
+          const SizedBox(height: AppConstants.spacingXXLarge),
+          TodoFormDueDatePicker(
+            dueDate: state.dueDate,
+            onTap: () => _selectDueDate(context, ref, state.dueDate),
+            onClear: viewModel.clearDueDate,
+          ),
+          const SizedBox(height: AppConstants.spacingXXLarge),
+          foldersAsyncValue.when(
+            data: (folders) => TodoFormCategoryDropdown(
+              selectedFolderId: state.folderId,
+              folders: folders,
+              onChanged: viewModel.setFolderId,
+            ),
+            loading: () => const Center(
+              child: Padding(
+                padding: EdgeInsets.all(AppConstants.spacingXLarge),
+                child: CircularProgressIndicator(),
               ),
             ),
-            const SizedBox(height: AppConstants.spacingMedium),
-            TextFormField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                hintText: l10n.enterTodoTitle,
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest.withValues(
-                  alpha: AppConstants.alphaStrong,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(
-                    AppConstants.radiusXLarge,
-                  ),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: AppConstants.spacingXXLarge,
-                  vertical: AppConstants.spacingXLarge,
-                ),
-              ),
-              style: const TextStyle(fontSize: AppConstants.fontSizeMedium),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return l10n.pleaseEnterTitle;
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: AppConstants.spacingXXLarge),
-
-            // Description Field
-            Text(
-              l10n.description,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(
-                  alpha: AppConstants.alphaIntense,
-                ),
-              ),
-            ),
-            const SizedBox(height: AppConstants.spacingMedium),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(
-                hintText: l10n.descriptionHint,
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest.withValues(
-                  alpha: AppConstants.alphaStrong,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(
-                    AppConstants.radiusXLarge,
-                  ),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: AppConstants.spacingXXLarge,
-                  vertical: AppConstants.spacingXLarge,
-                ),
-              ),
-              maxLines: 4,
-              style: const TextStyle(fontSize: AppConstants.fontSizeMedium),
-            ),
-            const SizedBox(height: AppConstants.spacingXXLarge),
-
-            // Priority Selector
-            Text(
-              l10n.priority,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(
-                  alpha: AppConstants.alphaIntense,
-                ),
-              ),
-            ),
-            const SizedBox(height: AppConstants.spacingMedium),
-            Row(
-              children: Priority.values.map((priority) {
-                final isSelected = _priority == priority;
-                Color color;
-                IconData icon;
-                switch (priority) {
-                  case Priority.low:
-                    color = Colors.green;
-                    icon = Icons.arrow_downward;
-                    break;
-                  case Priority.medium:
-                    color = Colors.orange;
-                    icon = Icons.remove;
-                    break;
-                  case Priority.high:
-                    color = Colors.red;
-                    icon = Icons.arrow_upward;
-                    break;
-                }
-
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: AppConstants.spacingMedium,
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () => setState(() => _priority = priority),
-                        borderRadius: BorderRadius.circular(
-                          AppConstants.radiusLarge,
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: AppConstants.spacingLarge,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? color.withValues(
-                                    alpha: AppConstants.alphaMedium,
-                                  )
-                                : theme.colorScheme.surfaceContainerHighest
-                                      .withValues(
-                                        alpha: AppConstants.alphaStrong,
-                                      ),
-                            borderRadius: BorderRadius.circular(
-                              AppConstants.radiusLarge,
-                            ),
-                            border: Border.all(
-                              color: isSelected
-                                  ? color
-                                  : theme.colorScheme.outline.withValues(
-                                      alpha: AppConstants.alphaMedium,
-                                    ),
-                              width: isSelected
-                                  ? AppConstants.borderWidthMedium
-                                  : AppConstants.borderWidthThin,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Icon(
-                                icon,
-                                color: isSelected
-                                    ? color
-                                    : theme.colorScheme.onSurface.withValues(
-                                        alpha: AppConstants.alphaStrong,
-                                      ),
-                                size: AppConstants.iconSizeXSmall,
-                              ),
-                              const SizedBox(
-                                height: AppConstants.spacingXSmall,
-                              ),
-                              Text(
-                                priority.getLocalizedName(context),
-                                style: TextStyle(
-                                  fontSize: AppConstants.fontSizeSmall,
-                                  fontWeight: isSelected
-                                      ? FontWeight.w600
-                                      : FontWeight.normal,
-                                  color: isSelected
-                                      ? color
-                                      : theme.colorScheme.onSurface.withValues(
-                                          alpha: AppConstants.alphaIntense,
-                                        ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: AppConstants.spacingXXLarge),
-
-            // Due Date
-            Text(
-              l10n.dueDate,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(
-                  alpha: AppConstants.alphaIntense,
-                ),
-              ),
-            ),
-            const SizedBox(height: AppConstants.spacingMedium),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: _selectDueDate,
-                borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-                child: Container(
-                  padding: const EdgeInsets.all(AppConstants.spacingXLarge),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceContainerHighest.withValues(
-                      alpha: AppConstants.alphaStrong,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                      AppConstants.radiusXLarge,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(
-                          AppConstants.spacingSmall,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _dueDate != null
-                              ? theme.colorScheme.primary.withValues(
-                                  alpha: AppConstants.alphaLight,
-                                )
-                              : theme.colorScheme.surfaceContainerHighest,
-                          borderRadius: BorderRadius.circular(
-                            AppConstants.spacingSmall,
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.calendar_today_outlined,
-                          color: _dueDate != null
-                              ? theme.colorScheme.primary
-                              : theme.colorScheme.onSurface.withValues(
-                                  alpha: AppConstants.alphaStrong,
-                                ),
-                          size: AppConstants.iconSizeXSmall,
-                        ),
-                      ),
-                      const SizedBox(width: AppConstants.spacingXLarge),
-                      Expanded(
-                        child: Text(
-                          _dueDate == null
-                              ? l10n.selectDueDate
-                              : l10n.dueDateFormat(
-                                  _dueDate!.year,
-                                  _dueDate!.month,
-                                  _dueDate!.day,
-                                ),
-                          style: TextStyle(
-                            fontSize: AppConstants.fontSizeMedium,
-                            fontWeight: _dueDate != null
-                                ? FontWeight.w600
-                                : FontWeight.normal,
-                            color: _dueDate != null
-                                ? theme.colorScheme.onSurface
-                                : theme.colorScheme.onSurface.withValues(
-                                    alpha: AppConstants.alphaStrong,
-                                  ),
-                          ),
-                        ),
-                      ),
-                      if (_dueDate != null)
-                        IconButton(
-                          icon: Icon(
-                            Icons.clear,
-                            color: theme.colorScheme.onSurface.withValues(
-                              alpha: AppConstants.alphaStrong,
-                            ),
-                          ),
-                          onPressed: () => setState(() => _dueDate = null),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: AppConstants.spacingXXLarge),
-
-            // Category
-            Text(
-              l10n.category,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(
-                  alpha: AppConstants.alphaIntense,
-                ),
-              ),
-            ),
-            const SizedBox(height: AppConstants.spacingMedium),
-            foldersAsyncValue.when(
-              data: (folders) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppConstants.spacingXLarge,
-                  ),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceContainerHighest.withValues(
-                      alpha: AppConstants.alphaStrong,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                      AppConstants.radiusXLarge,
-                    ),
-                  ),
-                  child: DropdownButtonFormField<int?>(
-                    value: _folderId,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: AppConstants.spacingMedium,
-                      ),
-                    ),
-                    icon: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: theme.colorScheme.onSurface.withValues(
-                        alpha: AppConstants.alphaStrong,
-                      ),
-                    ),
-                    items: [
-                      DropdownMenuItem(
-                        value: null,
-                        child: Text(l10n.noCategory),
-                      ),
-                      ...folders.map((folder) {
-                        return DropdownMenuItem(
-                          value: folder.id,
-                          child: Row(
-                            children: [
-                              Container(
-                                width: AppConstants.spacingLarge,
-                                height: AppConstants.spacingLarge,
-                                decoration: BoxDecoration(
-                                  color: Color(folder.color),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              const SizedBox(width: AppConstants.spacingLarge),
-                              Text(folder.name),
-                            ],
-                          ),
-                        );
-                      }),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        _folderId = value;
-                      });
-                    },
-                  ),
-                );
-              },
-              loading: () => const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(AppConstants.spacingXLarge),
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-              error: (_, __) => Container(
-                padding: const EdgeInsets.all(AppConstants.spacingXLarge),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.errorContainer,
-                  borderRadius: BorderRadius.circular(
-                    AppConstants.radiusXLarge,
-                  ),
-                ),
-                child: Text(
-                  l10n.cannotLoadCategories,
-                  style: TextStyle(color: theme.colorScheme.onErrorContainer),
-                ),
-              ),
-            ),
-            const SizedBox(height: AppConstants.spacingHuge),
-
-            // Save Button
-            Container(
-              height: AppConstants.spacingGiant,
+            error: (_, __) => Container(
+              padding: const EdgeInsets.all(AppConstants.spacingXLarge),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-                color: theme.colorScheme.primary,
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.primary.withValues(
-                      alpha: AppConstants.alphaStrong,
-                    ),
-                    blurRadius: AppConstants.spacingLarge,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+                color: theme.colorScheme.errorContainer,
+                borderRadius: BorderRadius.circular(
+                  AppConstants.radiusXLarge,
+                ),
               ),
-              child: ElevatedButton(
-                onPressed: _saveTodo,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      AppConstants.radiusXLarge,
-                    ),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.check_circle_outline, color: Colors.white),
-                    const SizedBox(width: AppConstants.spacingMedium),
-                    Text(
-                      widget.todo == null ? l10n.addTodo : l10n.saveChanges,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: AppConstants.fontSizeMedium,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
+              child: Text(
+                l10n.cannotLoadCategories,
+                style: TextStyle(color: theme.colorScheme.onErrorContainer),
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: AppConstants.spacingHuge),
+          TodoFormSaveButton(
+            onPressed: () => _handleSave(context, ref),
+            label: todo == null ? l10n.addTodo : l10n.saveChanges,
+            isLoading: state.isSaving,
+          ),
+        ],
       ),
     );
   }
