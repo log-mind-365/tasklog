@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../domain/entities/folder_entity.dart';
-import '../todos_view_model.dart';
 import '../../folder_management/folder_management_page.dart';
+import '../todos_view_model.dart';
 import 'filter_bottom_sheet.dart';
 
 /// 폴더 네비게이션 콘텐츠
@@ -93,7 +93,7 @@ class FolderNavigationContent extends ConsumerWidget {
                               alpha: AppConstants.alphaMedium,
                             )
                           : theme.colorScheme.surfaceContainerHighest
-                              .withValues(alpha: AppConstants.alphaStrong),
+                                .withValues(alpha: AppConstants.alphaStrong),
                       labelStyle: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: isSelected
                             ? FontWeight.bold
@@ -101,8 +101,8 @@ class FolderNavigationContent extends ConsumerWidget {
                         color: folderColor != null
                             ? Colors.white
                             : (isSelected
-                                ? theme.colorScheme.onPrimaryContainer
-                                : theme.colorScheme.onSurface),
+                                  ? theme.colorScheme.onPrimaryContainer
+                                  : theme.colorScheme.onSurface),
                       ),
                       labelPadding: const EdgeInsets.symmetric(
                         horizontal: AppConstants.spacingSmall,
@@ -126,9 +126,7 @@ class FolderNavigationContent extends ConsumerWidget {
           ),
           // 필터 & 폴더 관리 버튼
           Padding(
-            padding: const EdgeInsets.only(
-              right: AppConstants.spacingMedium,
-            ),
+            padding: const EdgeInsets.only(right: AppConstants.spacingMedium),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
