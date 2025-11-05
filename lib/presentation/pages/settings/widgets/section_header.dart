@@ -12,9 +12,9 @@ class SectionHeader extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
+        AppConstants.spacingLarge,
         AppConstants.spacingXLarge,
-        AppConstants.spacingXLarge,
-        AppConstants.spacingXLarge,
+        AppConstants.spacingLarge,
         AppConstants.spacingMedium,
       ),
       child: Text(

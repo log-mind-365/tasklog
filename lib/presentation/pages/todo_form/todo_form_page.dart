@@ -125,7 +125,10 @@ class TodoFormPage extends ConsumerWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppConstants.spacingLarge,
+          vertical: AppConstants.spacingXXLarge,
+        ),
         children: [
           TodoFormTitleField(
             controller: viewModel.titleController,

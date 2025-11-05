@@ -72,7 +72,10 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppConstants.spacingLarge,
+            vertical: AppConstants.spacingXXLarge,
+          ),
           children: [
             _buildSectionLabel(l10n.basicInformation),
             const SizedBox(height: AppConstants.spacingLarge),
@@ -211,46 +214,12 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
     bool isEditing,
     AppLocalizations l10n,
   ) {
-    final theme = Theme.of(context);
-    return Container(
+    return SizedBox(
       height: AppConstants.spacingGiant,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-        color: theme.colorScheme.primary,
-        boxShadow: [
-          BoxShadow(
-            color: theme.colorScheme.primary.withValues(
-              alpha: AppConstants.alphaStrong,
-            ),
-            blurRadius: AppConstants.spacingLarge,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ElevatedButton(
+      width: double.infinity,
+      child: FilledButton(
         onPressed: () => _saveHabit(context, isEditing, l10n),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.check_circle_outline, color: Colors.white),
-            const SizedBox(width: AppConstants.spacingMedium),
-            Text(
-              isEditing ? l10n.updateHabit : l10n.createHabit,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: AppConstants.fontSizeMedium,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
+        child: Text(isEditing ? l10n.updateHabit : l10n.createHabit),
       ),
     );
   }
