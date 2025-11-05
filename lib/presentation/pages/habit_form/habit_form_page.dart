@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/constants/app_constants.dart';
+import '../../../domain/entities/habit_entity.dart';
 import '../../../l10n/app_localizations.dart';
-import 'package:tasklog/domain/entities/habit_entity.dart';
-import 'package:tasklog/presentation/providers/habit_providers.dart';
+import '../../providers/habit_providers.dart';
 import '../../widgets/color_picker_widget.dart';
 import '../../widgets/icon_picker_widget.dart';
 
@@ -301,7 +302,8 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         }
       } else {
         final newHabit = HabitEntity(
-          id: 0, // Will be auto-generated
+          id: 0,
+          // Will be auto-generated
           name: name,
           description: description,
           goalCount: goalCount,
@@ -334,8 +336,8 @@ class _HabitFormPageState extends ConsumerState<HabitFormPage> {
         }
       }
     } catch (e, stackTrace) {
-      print('Error creating/updating habit: $e');
-      print('Stack trace: $stackTrace');
+      debugPrint('Error creating/updating habit: $e');
+      debugPrint('Stack trace: $stackTrace');
       if (context.mounted) {
         final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(

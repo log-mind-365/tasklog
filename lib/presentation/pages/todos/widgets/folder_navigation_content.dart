@@ -67,37 +67,9 @@ class FolderNavigationContent extends ConsumerWidget {
                           : 0,
                     ),
                     child: ChoiceChip(
-                      label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: AppConstants.iconSizeSmall,
-                            height: AppConstants.iconSizeSmall,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color:
-                                  folderColor ??
-                                  (isSelected
-                                      ? theme.colorScheme.primary
-                                      : theme.colorScheme.onSurface.withValues(
-                                          alpha: AppConstants.alphaStrong,
-                                        )),
-                              borderRadius: BorderRadius.circular(
-                                AppConstants.radiusSmall,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.folder,
-                              size: AppConstants.iconSizeXSmall,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(width: AppConstants.spacingSmall),
-                          Text(folderName),
-                        ],
-                      ),
+                      label: Text(folderName),
                       selected: isSelected,
+                      showCheckmark: false,
                       onSelected: (selected) {
                         if (selected) {
                           pageController.animateToPage(
@@ -109,16 +81,26 @@ class FolderNavigationContent extends ConsumerWidget {
                           );
                         }
                       },
-                      selectedColor: theme.colorScheme.primaryContainer,
-                      backgroundColor: theme.colorScheme.surfaceContainerHighest
-                          .withValues(alpha: AppConstants.alphaStrong),
+                      selectedColor: folderColor != null
+                          ? folderColor.withValues(
+                              alpha: AppConstants.alphaVeryIntense,
+                            )
+                          : theme.colorScheme.primaryContainer,
+                      backgroundColor: folderColor != null
+                          ? folderColor.withValues(
+                              alpha: AppConstants.alphaMedium,
+                            )
+                          : theme.colorScheme.surfaceContainerHighest
+                              .withValues(alpha: AppConstants.alphaStrong),
                       labelStyle: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: isSelected
                             ? FontWeight.bold
                             : FontWeight.w500,
-                        color: isSelected
-                            ? theme.colorScheme.onPrimaryContainer
-                            : theme.colorScheme.onSurface,
+                        color: folderColor != null
+                            ? Colors.white
+                            : (isSelected
+                                ? theme.colorScheme.onPrimaryContainer
+                                : theme.colorScheme.onSurface),
                       ),
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppConstants.spacingMedium,

@@ -98,7 +98,7 @@ class _FolderFormDialogState extends ConsumerState<FolderFormDialog> {
       final updatedFolder = FolderEntity(
         id: widget.folder!.id,
         name: name,
-        color: _selectedColor.value,
+        color: _selectedColor.toARGB32(),
         order: widget.folder!.order,
       );
       await viewModel.updateFolder(context, updatedFolder);
