@@ -49,9 +49,11 @@ class FolderNavigationContent extends ConsumerWidget {
               height: AppConstants.spacingGiant,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppConstants.spacingLarge,
-                  vertical: AppConstants.spacingMedium,
+                padding: const EdgeInsets.fromLTRB(
+                  AppConstants.spacingLarge,
+                  AppConstants.spacingMedium,
+                  0,
+                  AppConstants.spacingMedium,
                 ),
                 itemCount: folderItems.length,
                 itemBuilder: (context, index) {
@@ -102,6 +104,10 @@ class FolderNavigationContent extends ConsumerWidget {
                                 ? theme.colorScheme.onPrimaryContainer
                                 : theme.colorScheme.onSurface),
                       ),
+                      labelPadding: const EdgeInsets.symmetric(
+                        horizontal: AppConstants.spacingSmall,
+                        vertical: 0,
+                      ),
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppConstants.spacingMedium,
                         vertical: AppConstants.spacingSmall,
@@ -118,34 +124,45 @@ class FolderNavigationContent extends ConsumerWidget {
               ),
             ),
           ),
-          // 필터 버튼
-          IconButton(
-            icon: Icon(_getFilterIcon(pageState.filter)),
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                backgroundColor: Colors.transparent,
-                builder: (context) => FilterBottomSheet(
-                  currentFilter: pageState.filter,
-                  onFilterSelected: (filter) {
-                    viewModel.updateFilter(folderId, filter);
-                    Navigator.pop(context);
+          // 필터 & 폴더 관리 버튼
+          Padding(
+            padding: const EdgeInsets.only(
+              right: AppConstants.spacingMedium,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // 필터 버튼
+                IconButton(
+                  icon: Icon(_getFilterIcon(pageState.filter)),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => FilterBottomSheet(
+                        currentFilter: pageState.filter,
+                        onFilterSelected: (filter) {
+                          viewModel.updateFilter(folderId, filter);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    );
                   },
                 ),
-              );
-            },
-          ),
-          // 폴더 관리 버튼
-          IconButton(
-            icon: const Icon(Icons.create_new_folder),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const FolderManagementPage(),
+                // 폴더 관리 버튼
+                IconButton(
+                  icon: const Icon(Icons.create_new_folder),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const FolderManagementPage(),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ],
+            ),
           ),
         ],
       ),

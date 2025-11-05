@@ -247,6 +247,7 @@ class _PriorityChip extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(icon, size: AppConstants.iconSizeXSmall, color: color),
           const SizedBox(width: AppConstants.spacingXSmall),
@@ -298,6 +299,7 @@ class _DueDateChip extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             Icons.calendar_today_outlined,
