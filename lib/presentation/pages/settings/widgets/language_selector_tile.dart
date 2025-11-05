@@ -73,32 +73,30 @@ class LanguageSelectorTile extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(l10n.selectLanguage),
-        content: RadioGroup(
-          groupValue: locale,
-          onChanged: (value) {
-            ref.read(appLocaleProvider.notifier).setLocale(value);
-            Navigator.pop(context);
-          },
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: locales.map((loc) {
-              return RadioListTile<Locale?>(
-                title: Row(
-                  children: [
-                    Text(
-                      _getLanguageFlag(loc),
-                      style: const TextStyle(
-                        fontSize: AppConstants.iconSizeMedium,
-                      ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: locales.map((loc) {
+            return RadioListTile<Locale?>(
+              title: Row(
+                children: [
+                  Text(
+                    _getLanguageFlag(loc),
+                    style: const TextStyle(
+                      fontSize: AppConstants.iconSizeMedium,
                     ),
-                    const SizedBox(width: AppConstants.spacingMedium),
-                    Text(_getLanguageLabel(l10n, loc)),
-                  ],
-                ),
-                value: loc,
-              );
-            }).toList(),
-          ),
+                  ),
+                  const SizedBox(width: AppConstants.spacingMedium),
+                  Text(_getLanguageLabel(l10n, loc)),
+                ],
+              ),
+              value: loc,
+              groupValue: locale,
+              onChanged: (value) {
+                ref.read(appLocaleProvider.notifier).setLocale(value);
+                Navigator.pop(context);
+              },
+            );
+          }).toList(),
         ),
       ),
     );
