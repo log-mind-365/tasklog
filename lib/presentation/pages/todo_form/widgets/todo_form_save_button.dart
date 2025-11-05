@@ -16,49 +16,20 @@ class TodoFormSaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Container(
+    return SizedBox(
       height: AppConstants.spacingGiant,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-        color: theme.colorScheme.primary,
-        boxShadow: [
-          BoxShadow(
-            color: theme.colorScheme.primary.withValues(
-              alpha: AppConstants.alphaStrong,
-            ),
-            blurRadius: AppConstants.spacingLarge,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ElevatedButton(
+      width: double.infinity,
+      child: FilledButton(
         onPressed: isLoading ? null : onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-          ),
-        ),
         child: isLoading
-            ? const CircularProgressIndicator(color: Colors.white)
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.check_circle_outline, color: Colors.white),
-                  const SizedBox(width: AppConstants.spacingMedium),
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: AppConstants.fontSizeMedium,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
+            ? const SizedBox(
+                height: AppConstants.iconSizeMedium,
+                width: AppConstants.iconSizeMedium,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(label),
       ),
     );
   }
