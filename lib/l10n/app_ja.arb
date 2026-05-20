@@ -3,63 +3,9 @@
 
   "appTitle": "TaskLog",
 
-  "navTodos": "タスク",
-
-  "navHabits": "習慣",
-
-  "habitsPageTitle": "習慣",
-
-  "noHabitsYet": "まだ習慣がありません",
-
-  "newHabit": "新しい習慣",
-
-  "editHabit": "習慣を編集",
-
-  "habitName": "習慣名",
-
-  "dailyGoal": "1日の目標",
-
-  "selectIcon": "アイコンを選択",
-
-  "selectColor": "色を選択",
-
-  "createHabit": "習慣を作成",
-
-  "updateHabit": "習慣を更新",
-
-  "deleteHabit": "習慣を削除",
-
-  "deleteHabitConfirm": "「{habitName}」を削除してもよろしいですか？",
-
   "cancel": "キャンセル",
 
   "delete": "削除",
-
-  "habitCreated": "習慣が作成されました",
-
-  "habitUpdated": "習慣が更新されました",
-
-  "basicInformation": "基本情報",
-
-  "appearance": "外観",
-
-  "pleaseEnterHabitName": "習慣名を入力してください",
-
-  "pleaseEnterGoal": "目標を入力してください",
-
-  "goalMustBeAtLeast1": "目標は1以上である必要があります",
-
-  "statistics": "統計",
-
-  "completionRate": "完了率",
-
-  "totalCount": "合計回数",
-
-  "currentStreak": "現在の連続記録",
-
-  "longestStreak": "最長連続記録",
-
-  "activityHeatmap": "アクティビティヒートマップ",
 
   "newTodo": "新しいタスク",
 
@@ -123,7 +69,7 @@
 
   "ok": "OK",
 
-  "appDescription": "タスクと習慣を管理するシンプルなアプリ",
+  "appDescription": "タスクを管理するシンプルなアプリ",
 
   "copyright": "© 2025 TaskLog",
 
@@ -149,19 +95,15 @@
 
   "helpTodoManagementContent": "• タスク追加: +ボタンをタップして新しいタスクを追加します\n• タスク完了: チェックボックスをタップして完了にします\n• タスクフィルター: フィルターボタンで全て/未完了/完了を選択します\n• 検索: 検索バーでタスクを検索できます",
 
-  "helpHabitTracking": "習慣追跡",
-
-  "helpHabitTrackingContent": "• 習慣追加: +ボタンをタップして新しい習慣を作成します\n• 1日の目標: 各習慣の1日の目標を設定できます\n• 記録: +/-ボタンで習慣の実行を記録します\n• 統計: 習慣をタップすると詳細な統計が表示されます",
-
   "helpSettings": "設定",
 
   "helpSettingsContent": "• テーマ: ライト/ダーク/システム設定のテーマを選択できます\n• 言語: 韓国語/英語/日本語をサポートしています",
 
-  "todayCheerMessage": "今日も頑張りましょう! 💪",
+  "todayCheerMessage": "今日も頑張りましょう",
 
   "searchTodos": "タスクを検索...",
 
-  "addNewTodo": "最初のタスクを追加してください ✨",
+  "addNewTodo": "タスクを追加してみましょう",
 
   "errorOccurred": "エラーが発生しました",
 
@@ -173,10 +115,6 @@
 
   "dueDateFormat": "{year}年{month}月{day}日",
 
-  "tapToCreateFirstHabit": "Tap + to create your first habit",
-
-  "days": "日",
-
   "todoDeletedMessage": "{title} 削除されました",
 
   "priorityLow": "低",
@@ -185,9 +123,57 @@
 
   "priorityHigh": "高",
 
-  "habitDeletedMessage": "{name} 削除されました",
+  "filterTodos": "タスクフィルター",
 
-  "dailyGoalWithCount": "1日の目標: {count}",
+  "allTodos": "全てのタスク",
 
-  "daysCount": "{count}日"
+  "incompleteTodos": "未完了のタスク",
+
+  "completedTodos": "完了したタスク",
+
+  "folder": "フォルダー",
+
+  "folderManagement": "フォルダー管理",
+
+  "noFolders": "フォルダーがありません",
+
+  "newFolder": "新しいフォルダー",
+
+  "editFolder": "フォルダーを編集",
+
+  "folderNameLabel": "フォルダー名",
+
+  "enterFolderName": "フォルダー名を入力してください",
+
+  "pleaseEnterFolderName": "フォルダー名を入力してください",
+
+  "selectColor": "色を選択",
+
+  "add": "追加",
+
+  "edit": "編集",
+
+  "folderAdded": "フォルダーが追加されました",
+
+  "folderUpdated": "フォルダーが更新されました",
+
+  "folderDeleted": "フォルダーが削除されました",
+
+  "deleteFolderTitle": "フォルダーを削除",
+
+  "deleteFolderConfirm": "「{folderName}」を削除しますか？\nこのフォルダーのタスクは「すべて」に移動されます。",
+
+  "todoComposerHint": "タスクを入力してください",
+
+  "dueToday": "今日",
+
+  "dueTomorrow": "明日",
+
+  "clearDueDate": "期限を削除",
+
+  "pickDueDate": "日付を選択",
+
+  "addDescription": "説明を入力してください",
+
+  "noFolder": "フォルダーなし"
 }

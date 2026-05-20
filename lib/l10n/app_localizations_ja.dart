@@ -12,93 +12,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get appTitle => 'TaskLog';
 
   @override
-  String get navTodos => 'タスク';
-
-  @override
-  String get navHabits => '習慣';
-
-  @override
-  String get habitsPageTitle => '習慣';
-
-  @override
-  String get noHabitsYet => 'まだ習慣がありません';
-
-  @override
-  String get newHabit => '新しい習慣';
-
-  @override
-  String get editHabit => '習慣を編集';
-
-  @override
-  String get habitName => '習慣名';
-
-  @override
-  String get dailyGoal => '1日の目標';
-
-  @override
-  String get selectIcon => 'アイコンを選択';
-
-  @override
-  String get selectColor => '色を選択';
-
-  @override
-  String get createHabit => '習慣を作成';
-
-  @override
-  String get updateHabit => '習慣を更新';
-
-  @override
-  String get deleteHabit => '習慣を削除';
-
-  @override
-  String deleteHabitConfirm(String habitName) {
-    return '「$habitName」を削除してもよろしいですか？';
-  }
-
-  @override
   String get cancel => 'キャンセル';
 
   @override
   String get delete => '削除';
-
-  @override
-  String get habitCreated => '習慣が作成されました';
-
-  @override
-  String get habitUpdated => '習慣が更新されました';
-
-  @override
-  String get basicInformation => '基本情報';
-
-  @override
-  String get appearance => '外観';
-
-  @override
-  String get pleaseEnterHabitName => '習慣名を入力してください';
-
-  @override
-  String get pleaseEnterGoal => '目標を入力してください';
-
-  @override
-  String get goalMustBeAtLeast1 => '目標は1以上である必要があります';
-
-  @override
-  String get statistics => '統計';
-
-  @override
-  String get completionRate => '完了率';
-
-  @override
-  String get totalCount => '合計回数';
-
-  @override
-  String get currentStreak => '現在の連続記録';
-
-  @override
-  String get longestStreak => '最長連続記録';
-
-  @override
-  String get activityHeatmap => 'アクティビティヒートマップ';
 
   @override
   String get newTodo => '新しいタスク';
@@ -194,7 +111,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get ok => 'OK';
 
   @override
-  String get appDescription => 'タスクと習慣を管理するシンプルなアプリ';
+  String get appDescription => 'タスクを管理するシンプルなアプリ';
 
   @override
   String get copyright => '© 2025 TaskLog';
@@ -234,13 +151,6 @@ class AppLocalizationsJa extends AppLocalizations {
       '• タスク追加: +ボタンをタップして新しいタスクを追加します\n• タスク完了: チェックボックスをタップして完了にします\n• タスクフィルター: フィルターボタンで全て/未完了/完了を選択します\n• 検索: 検索バーでタスクを検索できます';
 
   @override
-  String get helpHabitTracking => '習慣追跡';
-
-  @override
-  String get helpHabitTrackingContent =>
-      '• 習慣追加: +ボタンをタップして新しい習慣を作成します\n• 1日の目標: 各習慣の1日の目標を設定できます\n• 記録: +/-ボタンで習慣の実行を記録します\n• 統計: 習慣をタップすると詳細な統計が表示されます';
-
-  @override
   String get helpSettings => '設定';
 
   @override
@@ -248,13 +158,13 @@ class AppLocalizationsJa extends AppLocalizations {
       '• テーマ: ライト/ダーク/システム設定のテーマを選択できます\n• 言語: 韓国語/英語/日本語をサポートしています';
 
   @override
-  String get todayCheerMessage => '今日も頑張りましょう! 💪';
+  String get todayCheerMessage => '今日も頑張りましょう';
 
   @override
   String get searchTodos => 'タスクを検索...';
 
   @override
-  String get addNewTodo => '最初のタスクを追加してください ✨';
+  String get addNewTodo => 'タスクを追加してみましょう';
 
   @override
   String get errorOccurred => 'エラーが発生しました';
@@ -276,12 +186,6 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get tapToCreateFirstHabit => 'Tap + to create your first habit';
-
-  @override
-  String get days => '日';
-
-  @override
   String todoDeletedMessage(String title) {
     return '$title 削除されました';
   }
@@ -296,17 +200,85 @@ class AppLocalizationsJa extends AppLocalizations {
   String get priorityHigh => '高';
 
   @override
-  String habitDeletedMessage(String name) {
-    return '$name 削除されました';
+  String get filterTodos => 'タスクフィルター';
+
+  @override
+  String get allTodos => '全てのタスク';
+
+  @override
+  String get incompleteTodos => '未完了のタスク';
+
+  @override
+  String get completedTodos => '完了したタスク';
+
+  @override
+  String get folder => 'フォルダー';
+
+  @override
+  String get folderManagement => 'フォルダー管理';
+
+  @override
+  String get noFolders => 'フォルダーがありません';
+
+  @override
+  String get newFolder => '新しいフォルダー';
+
+  @override
+  String get editFolder => 'フォルダーを編集';
+
+  @override
+  String get folderNameLabel => 'フォルダー名';
+
+  @override
+  String get enterFolderName => 'フォルダー名を入力してください';
+
+  @override
+  String get pleaseEnterFolderName => 'フォルダー名を入力してください';
+
+  @override
+  String get selectColor => '色を選択';
+
+  @override
+  String get add => '追加';
+
+  @override
+  String get edit => '編集';
+
+  @override
+  String get folderAdded => 'フォルダーが追加されました';
+
+  @override
+  String get folderUpdated => 'フォルダーが更新されました';
+
+  @override
+  String get folderDeleted => 'フォルダーが削除されました';
+
+  @override
+  String get deleteFolderTitle => 'フォルダーを削除';
+
+  @override
+  String deleteFolderConfirm(String folderName) {
+    return '「$folderName」を削除しますか？\nこのフォルダーのタスクは「すべて」に移動されます。';
   }
 
   @override
-  String dailyGoalWithCount(int count) {
-    return '1日の目標: $count';
-  }
+  String get todoComposerHint => 'タスクを入力してください';
 
   @override
-  String daysCount(int count) {
-    return '$count日';
-  }
+  String get dueToday => '今日';
+
+  @override
+  String get dueTomorrow => '明日';
+
+  @override
+  String get clearDueDate => '期限を削除';
+
+  @override
+  String get pickDueDate => '日付を選択';
+
+  @override
+  String get addDescription => '説明を入力してください';
+
+  @override
+  String get noFolder => 'フォルダーなし';
 }

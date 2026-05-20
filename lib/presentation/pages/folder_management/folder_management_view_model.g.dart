@@ -7,7 +7,7 @@ part of 'folder_management_view_model.dart';
 // **************************************************************************
 
 String _$folderManagementViewModelHash() =>
-    r'2b18be142eb675e8cc675a50ec2c789757731baa';
+    r'8fa2819a9e694ac5c6d0929d9ac2ae77926d95c6';
 
 /// FolderManagement ViewModel
 ///

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../domain/entities/folder_entity.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// 폴더 리스트 아이템
 class FolderListItem extends StatelessWidget {
@@ -19,6 +20,7 @@ class FolderListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final folderColor = Color(folder.color);
 
     return Card(
@@ -48,12 +50,12 @@ class FolderListItem extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit_outlined),
               onPressed: onEdit,
-              tooltip: '편집',
+              tooltip: l10n.edit,
             ),
             IconButton(
               icon: const Icon(Icons.delete_outline),
               onPressed: onDelete,
-              tooltip: '삭제',
+              tooltip: l10n.delete,
             ),
           ],
         ),

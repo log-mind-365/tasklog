@@ -95,7 +95,7 @@ class AppConstants {
 class AppPalette {
   AppPalette._();
 
-  /// 공통 색상 팔레트 (폴더, 습관 등에 사용)
+  /// 공통 색상 팔레트 (폴더 등에 사용)
   static const List<int> colorValues = [
     0xFFFF0000, // Colors.red
     0xFFE91E63, // Colors.pink
@@ -114,25 +114,5 @@ class AppPalette {
     0xFFFF9800, // Colors.orange
     0xFFFF5722, // Colors.deepOrange
     0xFF795548, // Colors.brown
-  ];
-
-  /// 습관 아이콘 팔레트
-  static const List<String> habitIcons = [
-    '💧',
-    '🏃',
-    '📚',
-    '🧘',
-    '🎯',
-    '✍️',
-    '🎨',
-    '🎵',
-    '💪',
-    '🍎',
-    '😴',
-    '🧠',
-    '📝',
-    '🌱',
-    '☕',
-    '🚶',
   ];
 }

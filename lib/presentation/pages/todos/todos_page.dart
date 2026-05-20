@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/constants/app_constants.dart';
+import '../../../domain/entities/todo_entity.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/folder_providers.dart';
-import '../todo_form/todo_form_page.dart';
-import 'widgets/app_header_content.dart';
+import '../../providers/todo_composer_provider.dart';
+import '../todo_form/widgets/todo_composer_bar.dart';
 import 'widgets/folder_navigation_content.dart';
 import 'widgets/todo_list_content.dart';
 
@@ -41,6 +43,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
     final l10n = AppLocalizations.of(context)!;
     final foldersAsyncValue = ref.watch(foldersStreamProvider);
     final currentPageIndex = ref.watch(selectedFolderPageIndexProvider);
+    final editingTodo = ref.watch(editingTodoProvider);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -50,29 +53,24 @@ class _TodosPageState extends ConsumerState<TodosPage> {
             : Brightness.light,
       ),
       child: Scaffold(
-        backgroundColor: theme.colorScheme.surface,
+        backgroundColor: theme.colorScheme.surfaceContainerLow,
+        resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: foldersAsyncValue.when(
             data: (folders) {
-              final totalPages = folders.length + 1; // +1 for "전체" folder
-              final folderId = currentPageIndex == 0
-                  ? -1
+              final totalPages = folders.length + 1;
+              final defaultFolderId = currentPageIndex == 0
+                  ? null
                   : folders[currentPageIndex - 1].id;
 
               return Column(
                 children: [
-                  // App Header (Title + Message + Search)
-                  AppHeaderContent(
-                    folderId: folderId,
-                    scaffoldKey: widget.scaffoldKey,
-                  ),
-                  // Folder Navigation Header
                   FolderNavigationContent(
                     folders: folders,
                     currentIndex: currentPageIndex,
                     pageController: _pageController,
+                    scaffoldKey: widget.scaffoldKey,
                   ),
-                  // PageView
                   Expanded(
                     child: PageView.builder(
                       controller: _pageController,
@@ -84,9 +82,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                             index;
                       },
                       itemBuilder: (context, pageIndex) {
-                        // First page (index 0): "전체" folder (null folderId)
-                        // Other pages: specific folder
-                        final folderId = pageIndex == 0
+                        final pageFolderId = pageIndex == 0
                             ? null
                             : folders[pageIndex - 1].id;
                         final folderColor = pageIndex == 0
@@ -94,12 +90,13 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                             : folders[pageIndex - 1].color;
 
                         return TodoListContent(
-                          folderId: folderId,
+                          folderId: pageFolderId,
                           folderColor: folderColor,
                         );
                       },
                     ),
                   ),
+                  _buildComposerSection(defaultFolderId, editingTodo),
                 ],
               );
             },
@@ -107,47 +104,30 @@ class _TodosPageState extends ConsumerState<TodosPage> {
             error: (error, stack) => _buildErrorState(theme, l10n, error),
           ),
         ),
-        floatingActionButton: _buildFAB(context, l10n, foldersAsyncValue),
       ),
     );
   }
 
-  /// FAB 빌드
-  Widget _buildFAB(
-    BuildContext context,
-    AppLocalizations l10n,
-    AsyncValue foldersAsyncValue,
+  Widget _buildComposerSection(
+    int? defaultFolderId,
+    TodoEntity? editingTodo,
   ) {
-    return foldersAsyncValue.maybeWhen(
-      data: (folders) {
-        final currentPageIndex = ref.watch(selectedFolderPageIndexProvider);
-        final folderId = currentPageIndex == 0
-            ? null
-            : folders[currentPageIndex - 1].id;
+    final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
 
-        return FloatingActionButton.extended(
-          heroTag: 'todos_fab',
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => TodoFormPage(defaultFolderId: folderId),
-              ),
-            );
-          },
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          icon: const Icon(Icons.add),
-          label: Text(
-            l10n.newTodo,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
-        );
-      },
-      orElse: () => const SizedBox.shrink(),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        AppConstants.spacingLarge,
+        AppConstants.spacingMedium,
+        AppConstants.spacingLarge,
+        AppConstants.spacingMedium + bottomInset,
+      ),
+      child: TodoComposerBar(
+        key: ValueKey(editingTodo?.id ?? 'new'),
+        defaultFolderId: defaultFolderId,
+      ),
     );
   }
 
-  /// 에러 상태 위젯
   Widget _buildErrorState(
     ThemeData theme,
     AppLocalizations l10n,

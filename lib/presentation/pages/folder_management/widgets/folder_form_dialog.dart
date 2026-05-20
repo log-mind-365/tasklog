@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/ui_utils.dart';
 import '../../../../domain/entities/folder_entity.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../providers/folder_providers.dart';
 import '../../../widgets/color_picker_widget.dart';
 import '../folder_management_view_model.dart';
@@ -39,10 +40,11 @@ class _FolderFormDialogState extends ConsumerState<FolderFormDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isEditing = widget.folder != null;
 
     return AlertDialog(
-      title: Text(isEditing ? '폴더 편집' : '새 폴더'),
+      title: Text(isEditing ? l10n.editFolder : l10n.newFolder),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -50,10 +52,10 @@ class _FolderFormDialogState extends ConsumerState<FolderFormDialog> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: '폴더 이름',
-                hintText: '폴더 이름을 입력하세요',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.folderNameLabel,
+                hintText: l10n.enterFolderName,
+                border: const OutlineInputBorder(),
               ),
               autofocus: true,
             ),
@@ -65,7 +67,7 @@ class _FolderFormDialogState extends ConsumerState<FolderFormDialog> {
                   _selectedColor = color;
                 });
               },
-              label: '색상 선택',
+              label: l10n.selectColor,
             ),
           ],
         ),
@@ -73,42 +75,41 @@ class _FolderFormDialogState extends ConsumerState<FolderFormDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('취소'),
+          child: Text(l10n.cancel),
         ),
         FilledButton(
           onPressed: _saveFolder,
-          child: Text(isEditing ? '저장' : '추가'),
+          child: Text(isEditing ? l10n.saveChanges : l10n.add),
         ),
       ],
     );
   }
 
   Future<void> _saveFolder() async {
+    final l10n = AppLocalizations.of(context)!;
     final name = _nameController.text.trim();
 
     if (name.isEmpty) {
-      UiUtils.showErrorSnackBar(context, '폴더 이름을 입력하세요');
+      UiUtils.showErrorSnackBar(context, l10n.pleaseEnterFolderName);
       return;
     }
 
     final viewModel = ref.read(folderManagementViewModelProvider.notifier);
 
     if (widget.folder != null) {
-      // Update existing folder
       final updatedFolder = FolderEntity(
         id: widget.folder!.id,
         name: name,
         color: _selectedColor.toARGB32(),
         order: widget.folder!.order,
       );
-      await viewModel.updateFolder(context, updatedFolder);
+      await viewModel.updateFolder(context, updatedFolder, l10n);
     } else {
-      // Add new folder
       final foldersAsync = ref.read(foldersStreamProvider);
       final currentFolders = foldersAsync.value ?? [];
       final newOrder = currentFolders.length;
 
-      await viewModel.addFolder(context, name, _selectedColor, newOrder);
+      await viewModel.addFolder(context, name, _selectedColor, newOrder, l10n);
     }
 
     if (mounted) {

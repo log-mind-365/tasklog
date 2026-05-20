@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_constants.dart';
 import '../../l10n/app_localizations.dart';
 import '../pages/settings/settings_page.dart';
-import '../providers/settings_provider.dart';
 
 /// 앱 우측 드로어
 class AppDrawer extends ConsumerWidget {
@@ -117,7 +116,6 @@ class AppDrawer extends ConsumerWidget {
 
   Widget _buildMenuItem(
     BuildContext context, {
-    WidgetRef? ref,
     required IconData icon,
     required String title,
     required VoidCallback onTap,
@@ -170,12 +168,6 @@ class AppDrawer extends ConsumerWidget {
                 context,
                 l10n.helpTodoManagement,
                 l10n.helpTodoManagementContent,
-              ),
-              const SizedBox(height: AppConstants.spacingLarge),
-              _buildHelpSection(
-                context,
-                l10n.helpHabitTracking,
-                l10n.helpHabitTrackingContent,
               ),
               const SizedBox(height: AppConstants.spacingLarge),
               _buildHelpSection(

@@ -3,63 +3,9 @@
 
   "appTitle": "TaskLog",
 
-  "navTodos": "Todos",
-
-  "navHabits": "Habits",
-
-  "habitsPageTitle": "Habits",
-
-  "noHabitsYet": "No habits yet",
-
-  "newHabit": "New Habit",
-
-  "editHabit": "Edit Habit",
-
-  "habitName": "Habit Name",
-
-  "dailyGoal": "Daily Goal",
-
-  "selectIcon": "Select Icon",
-
-  "selectColor": "Select Color",
-
-  "createHabit": "Create Habit",
-
-  "updateHabit": "Update Habit",
-
-  "deleteHabit": "Delete Habit",
-
-  "deleteHabitConfirm": "Are you sure you want to delete \"{habitName}\"?",
-
   "cancel": "Cancel",
 
   "delete": "Delete",
-
-  "habitCreated": "Habit created",
-
-  "habitUpdated": "Habit updated",
-
-  "basicInformation": "Basic Information",
-
-  "appearance": "Appearance",
-
-  "pleaseEnterHabitName": "Please enter a habit name",
-
-  "pleaseEnterGoal": "Please enter a goal",
-
-  "goalMustBeAtLeast1": "Goal must be at least 1",
-
-  "statistics": "Statistics",
-
-  "completionRate": "Completion Rate",
-
-  "totalCount": "Total Count",
-
-  "currentStreak": "Current Streak",
-
-  "longestStreak": "Longest Streak",
-
-  "activityHeatmap": "Activity Heatmap",
 
   "newTodo": "New Todo",
 
@@ -123,7 +69,7 @@
 
   "ok": "OK",
 
-  "appDescription": "A simple app to manage todos and habits",
+  "appDescription": "A simple app to manage todos",
 
   "copyright": "© 2025 TaskLog",
 
@@ -149,19 +95,15 @@
 
   "helpTodoManagementContent": "• Add Todo: Tap + button to add a new todo\n• Complete Todo: Tap checkbox to mark as complete\n• Filter Todos: Use the filter button to select All/Active/Completed\n• Search: You can search todos in the search bar",
 
-  "helpHabitTracking": "Habit Tracking",
-
-  "helpHabitTrackingContent": "• Add Habit: Tap + button to create a new habit\n• Daily Goal: You can set a daily goal for each habit\n• Record: Use +/- buttons to record habit completion\n• Statistics: Tap on a habit to view detailed statistics",
-
   "helpSettings": "Settings",
 
   "helpSettingsContent": "• Theme: You can choose Light/Dark/System theme\n• Language: Supports Korean/English/Japanese",
 
-  "todayCheerMessage": "Let's do this! 💪",
+  "todayCheerMessage": "Let's do this",
 
   "searchTodos": "Search todos...",
 
-  "addNewTodo": "Add your first todo ✨",
+  "addNewTodo": "Add a todo to get started",
 
   "errorOccurred": "An error occurred",
 
@@ -173,10 +115,6 @@
 
   "dueDateFormat": "{month}/{day}/{year}",
 
-  "tapToCreateFirstHabit": "Tap + to create your first habit",
-
-  "days": "days",
-
   "todoDeletedMessage": "{title} deleted",
 
   "priorityLow": "Low",
@@ -185,9 +123,57 @@
 
   "priorityHigh": "High",
 
-  "habitDeletedMessage": "{name} deleted",
+  "filterTodos": "Filter Todos",
 
-  "dailyGoalWithCount": "Daily Goal: {count}",
+  "allTodos": "All Todos",
 
-  "daysCount": "{count} days"
+  "incompleteTodos": "Incomplete Todos",
+
+  "completedTodos": "Completed Todos",
+
+  "folder": "Folder",
+
+  "folderManagement": "Manage Folders",
+
+  "noFolders": "No folders yet",
+
+  "newFolder": "New Folder",
+
+  "editFolder": "Edit Folder",
+
+  "folderNameLabel": "Folder Name",
+
+  "enterFolderName": "Enter folder name",
+
+  "pleaseEnterFolderName": "Please enter a folder name",
+
+  "selectColor": "Select Color",
+
+  "add": "Add",
+
+  "edit": "Edit",
+
+  "folderAdded": "Folder added",
+
+  "folderUpdated": "Folder updated",
+
+  "folderDeleted": "Folder deleted",
+
+  "deleteFolderTitle": "Delete Folder",
+
+  "deleteFolderConfirm": "Delete \"{folderName}\"?\nTodos in this folder will move to All.",
+
+  "todoComposerHint": "What needs to be done?",
+
+  "dueToday": "Today",
+
+  "dueTomorrow": "Tomorrow",
+
+  "clearDueDate": "Clear due date",
+
+  "pickDueDate": "Pick a date",
+
+  "addDescription": "Add a description",
+
+  "noFolder": "No folder"
 }

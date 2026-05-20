@@ -12,93 +12,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'TaskLog';
 
   @override
-  String get navTodos => 'Todos';
-
-  @override
-  String get navHabits => 'Habits';
-
-  @override
-  String get habitsPageTitle => 'Habits';
-
-  @override
-  String get noHabitsYet => 'No habits yet';
-
-  @override
-  String get newHabit => 'New Habit';
-
-  @override
-  String get editHabit => 'Edit Habit';
-
-  @override
-  String get habitName => 'Habit Name';
-
-  @override
-  String get dailyGoal => 'Daily Goal';
-
-  @override
-  String get selectIcon => 'Select Icon';
-
-  @override
-  String get selectColor => 'Select Color';
-
-  @override
-  String get createHabit => 'Create Habit';
-
-  @override
-  String get updateHabit => 'Update Habit';
-
-  @override
-  String get deleteHabit => 'Delete Habit';
-
-  @override
-  String deleteHabitConfirm(String habitName) {
-    return 'Are you sure you want to delete \"$habitName\"?';
-  }
-
-  @override
   String get cancel => 'Cancel';
 
   @override
   String get delete => 'Delete';
-
-  @override
-  String get habitCreated => 'Habit created';
-
-  @override
-  String get habitUpdated => 'Habit updated';
-
-  @override
-  String get basicInformation => 'Basic Information';
-
-  @override
-  String get appearance => 'Appearance';
-
-  @override
-  String get pleaseEnterHabitName => 'Please enter a habit name';
-
-  @override
-  String get pleaseEnterGoal => 'Please enter a goal';
-
-  @override
-  String get goalMustBeAtLeast1 => 'Goal must be at least 1';
-
-  @override
-  String get statistics => 'Statistics';
-
-  @override
-  String get completionRate => 'Completion Rate';
-
-  @override
-  String get totalCount => 'Total Count';
-
-  @override
-  String get currentStreak => 'Current Streak';
-
-  @override
-  String get longestStreak => 'Longest Streak';
-
-  @override
-  String get activityHeatmap => 'Activity Heatmap';
 
   @override
   String get newTodo => 'New Todo';
@@ -194,7 +111,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ok => 'OK';
 
   @override
-  String get appDescription => 'A simple app to manage todos and habits';
+  String get appDescription => 'A simple app to manage todos';
 
   @override
   String get copyright => '© 2025 TaskLog';
@@ -234,13 +151,6 @@ class AppLocalizationsEn extends AppLocalizations {
       '• Add Todo: Tap + button to add a new todo\n• Complete Todo: Tap checkbox to mark as complete\n• Filter Todos: Use the filter button to select All/Active/Completed\n• Search: You can search todos in the search bar';
 
   @override
-  String get helpHabitTracking => 'Habit Tracking';
-
-  @override
-  String get helpHabitTrackingContent =>
-      '• Add Habit: Tap + button to create a new habit\n• Daily Goal: You can set a daily goal for each habit\n• Record: Use +/- buttons to record habit completion\n• Statistics: Tap on a habit to view detailed statistics';
-
-  @override
   String get helpSettings => 'Settings';
 
   @override
@@ -248,13 +158,13 @@ class AppLocalizationsEn extends AppLocalizations {
       '• Theme: You can choose Light/Dark/System theme\n• Language: Supports Korean/English/Japanese';
 
   @override
-  String get todayCheerMessage => 'Let\'s do this! 💪';
+  String get todayCheerMessage => 'Let\'s do this';
 
   @override
   String get searchTodos => 'Search todos...';
 
   @override
-  String get addNewTodo => 'Add your first todo ✨';
+  String get addNewTodo => 'Add a todo to get started';
 
   @override
   String get errorOccurred => 'An error occurred';
@@ -276,12 +186,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get tapToCreateFirstHabit => 'Tap + to create your first habit';
-
-  @override
-  String get days => 'days';
-
-  @override
   String todoDeletedMessage(String title) {
     return '$title deleted';
   }
@@ -296,17 +200,85 @@ class AppLocalizationsEn extends AppLocalizations {
   String get priorityHigh => 'High';
 
   @override
-  String habitDeletedMessage(String name) {
-    return '$name deleted';
+  String get filterTodos => 'Filter Todos';
+
+  @override
+  String get allTodos => 'All Todos';
+
+  @override
+  String get incompleteTodos => 'Incomplete Todos';
+
+  @override
+  String get completedTodos => 'Completed Todos';
+
+  @override
+  String get folder => 'Folder';
+
+  @override
+  String get folderManagement => 'Manage Folders';
+
+  @override
+  String get noFolders => 'No folders yet';
+
+  @override
+  String get newFolder => 'New Folder';
+
+  @override
+  String get editFolder => 'Edit Folder';
+
+  @override
+  String get folderNameLabel => 'Folder Name';
+
+  @override
+  String get enterFolderName => 'Enter folder name';
+
+  @override
+  String get pleaseEnterFolderName => 'Please enter a folder name';
+
+  @override
+  String get selectColor => 'Select Color';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get folderAdded => 'Folder added';
+
+  @override
+  String get folderUpdated => 'Folder updated';
+
+  @override
+  String get folderDeleted => 'Folder deleted';
+
+  @override
+  String get deleteFolderTitle => 'Delete Folder';
+
+  @override
+  String deleteFolderConfirm(String folderName) {
+    return 'Delete \"$folderName\"?\nTodos in this folder will move to All.';
   }
 
   @override
-  String dailyGoalWithCount(int count) {
-    return 'Daily Goal: $count';
-  }
+  String get todoComposerHint => 'What needs to be done?';
 
   @override
-  String daysCount(int count) {
-    return '$count days';
-  }
+  String get dueToday => 'Today';
+
+  @override
+  String get dueTomorrow => 'Tomorrow';
+
+  @override
+  String get clearDueDate => 'Clear due date';
+
+  @override
+  String get pickDueDate => 'Pick a date';
+
+  @override
+  String get addDescription => 'Add a description';
+
+  @override
+  String get noFolder => 'No folder';
 }

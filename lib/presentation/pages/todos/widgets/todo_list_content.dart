@@ -5,7 +5,7 @@ import '../../../../core/constants/app_constants.dart';
 import '../../../../domain/entities/todo_entity.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/todo_item.dart';
-import '../../todo_form/todo_form_page.dart';
+import '../../../providers/todo_composer_provider.dart';
 import '../todos_view_model.dart';
 import '../../../providers/todo_providers.dart';
 
@@ -47,7 +47,7 @@ class TodoListContent extends ConsumerWidget {
                 );
               }
 
-              return _buildTodoList(context, filteredTodos);
+              return _buildTodoList(context, ref, filteredTodos);
             },
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stack) =>
@@ -65,39 +65,32 @@ class TodoListContent extends ConsumerWidget {
     AppLocalizations l10n,
     bool isSearching,
   ) {
+    final mutedColor = theme.colorScheme.onSurface.withValues(
+      alpha: AppConstants.alphaStrong,
+    );
+    final subtleColor = theme.colorScheme.onSurface.withValues(
+      alpha: AppConstants.alphaMedium,
+    );
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            padding: const EdgeInsets.all(AppConstants.spacingXXLarge),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primaryContainer.withValues(
-                alpha: AppConstants.alphaHigh,
-              ),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              isSearching ? Icons.search_off : Icons.inbox_outlined,
-              size: AppConstants.iconSizeXLarge,
-              color: theme.colorScheme.primary,
-            ),
-          ),
-          const SizedBox(height: AppConstants.spacingXXLarge),
           Text(
             isSearching ? l10n.noSearchResults : l10n.noTodos,
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w600,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: mutedColor,
             ),
+            textAlign: TextAlign.center,
           ),
-          const SizedBox(height: AppConstants.spacingMedium),
+          const SizedBox(height: AppConstants.spacingSmall),
           Text(
             isSearching ? l10n.tryDifferentKeyword : l10n.addNewTodo,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(
-                alpha: AppConstants.alphaVeryStrong,
-              ),
+              color: subtleColor,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
@@ -105,11 +98,15 @@ class TodoListContent extends ConsumerWidget {
   }
 
   /// Todo 리스트 위젯
-  Widget _buildTodoList(BuildContext context, List<TodoEntity> todos) {
+  Widget _buildTodoList(
+    BuildContext context,
+    WidgetRef ref,
+    List<TodoEntity> todos,
+  ) {
     return ListView.builder(
       padding: const EdgeInsets.only(
         top: AppConstants.spacingMedium,
-        bottom: AppConstants.spacingHuge,
+        bottom: AppConstants.spacingMassive,
       ),
       itemCount: todos.length,
       itemBuilder: (context, index) {
@@ -117,10 +114,7 @@ class TodoListContent extends ConsumerWidget {
         return TodoItem(
           todo: todo,
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TodoFormPage(todo: todo)),
-            );
+            ref.read(editingTodoProvider.notifier).startEdit(todo);
           },
         );
       },

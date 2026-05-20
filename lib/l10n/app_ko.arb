@@ -6,82 +6,6 @@
     "description": "애플리케이션 제목"
   },
 
-  "navTodos": "할일",
-  "@navTodos": {
-    "description": "할일 탭 레이블"
-  },
-
-  "navHabits": "습관",
-  "@navHabits": {
-    "description": "습관 탭 레이블"
-  },
-
-  "habitsPageTitle": "습관",
-  "@habitsPageTitle": {
-    "description": "습관 페이지 제목"
-  },
-
-  "noHabitsYet": "아직 습관이 없습니다",
-  "@noHabitsYet": {
-    "description": "습관이 없을 때 표시되는 메시지"
-  },
-
-  "newHabit": "새 습관",
-  "@newHabit": {
-    "description": "새 습관 추가 버튼"
-  },
-
-  "editHabit": "습관 수정",
-  "@editHabit": {
-    "description": "습관 수정 페이지 제목"
-  },
-
-  "habitName": "습관 이름",
-  "@habitName": {
-    "description": "습관 이름 입력 필드"
-  },
-
-  "dailyGoal": "일일 목표",
-  "@dailyGoal": {
-    "description": "일일 목표 입력 필드"
-  },
-
-  "selectIcon": "아이콘 선택",
-  "@selectIcon": {
-    "description": "아이콘 선택 섹션"
-  },
-
-  "selectColor": "색상 선택",
-  "@selectColor": {
-    "description": "색상 선택 섹션"
-  },
-
-  "createHabit": "습관 생성",
-  "@createHabit": {
-    "description": "습관 생성 버튼"
-  },
-
-  "updateHabit": "습관 수정",
-  "@updateHabit": {
-    "description": "습관 수정 버튼"
-  },
-
-  "deleteHabit": "습관 삭제",
-  "@deleteHabit": {
-    "description": "습관 삭제 다이얼로그 제목"
-  },
-
-  "deleteHabitConfirm": "\"{habitName}\"을(를) 삭제하시겠습니까?",
-  "@deleteHabitConfirm": {
-    "description": "습관 삭제 확인 메시지",
-    "placeholders": {
-      "habitName": {
-        "type": "String",
-        "example": "물 마시기"
-      }
-    }
-  },
-
   "cancel": "취소",
   "@cancel": {
     "description": "취소 버튼"
@@ -90,71 +14,6 @@
   "delete": "삭제",
   "@delete": {
     "description": "삭제 버튼"
-  },
-
-  "habitCreated": "습관이 생성되었습니다",
-  "@habitCreated": {
-    "description": "습관 생성 성공 메시지"
-  },
-
-  "habitUpdated": "습관이 수정되었습니다",
-  "@habitUpdated": {
-    "description": "습관 수정 성공 메시지"
-  },
-
-  "basicInformation": "기본 정보",
-  "@basicInformation": {
-    "description": "기본 정보 섹션"
-  },
-
-  "appearance": "외형",
-  "@appearance": {
-    "description": "외형 섹션"
-  },
-
-  "pleaseEnterHabitName": "습관 이름을 입력하세요",
-  "@pleaseEnterHabitName": {
-    "description": "습관 이름 유효성 검사 오류"
-  },
-
-  "pleaseEnterGoal": "목표를 입력하세요",
-  "@pleaseEnterGoal": {
-    "description": "목표 유효성 검사 오류"
-  },
-
-  "goalMustBeAtLeast1": "목표는 최소 1 이상이어야 합니다",
-  "@goalMustBeAtLeast1": {
-    "description": "목표 최소값 유효성 검사 오류"
-  },
-
-  "statistics": "통계",
-  "@statistics": {
-    "description": "통계 섹션"
-  },
-
-  "completionRate": "완료율",
-  "@completionRate": {
-    "description": "완료율 레이블"
-  },
-
-  "totalCount": "전체 횟수",
-  "@totalCount": {
-    "description": "전체 횟수 레이블"
-  },
-
-  "currentStreak": "현재 연속 기록",
-  "@currentStreak": {
-    "description": "현재 연속 기록 레이블"
-  },
-
-  "longestStreak": "최장 연속 기록",
-  "@longestStreak": {
-    "description": "최장 연속 기록 레이블"
-  },
-
-  "activityHeatmap": "활동 히트맵",
-  "@activityHeatmap": {
-    "description": "활동 히트맵 섹션"
   },
 
   "newTodo": "새 할일",
@@ -312,7 +171,7 @@
     "description": "확인 버튼"
   },
 
-  "appDescription": "할일과 습관을 관리하는 간편한 앱",
+  "appDescription": "할일을 관리하는 간편한 앱",
   "@appDescription": {
     "description": "앱 설명"
   },
@@ -377,16 +236,6 @@
     "description": "도움말 - 할일 관리 내용"
   },
 
-  "helpHabitTracking": "습관 추적",
-  "@helpHabitTracking": {
-    "description": "도움말 - 습관 추적 제목"
-  },
-
-  "helpHabitTrackingContent": "• 습관 추가: + 버튼을 눌러 새로운 습관을 만드세요\n• 일일 목표: 각 습관의 일일 목표를 설정할 수 있습니다\n• 기록: +/- 버튼으로 습관 실행을 기록하세요\n• 통계: 습관을 터치하면 상세 통계를 볼 수 있습니다",
-  "@helpHabitTrackingContent": {
-    "description": "도움말 - 습관 추적 내용"
-  },
-
   "helpSettings": "설정",
   "@helpSettings": {
     "description": "도움말 - 설정 제목"
@@ -397,7 +246,7 @@
     "description": "도움말 - 설정 내용"
   },
 
-  "todayCheerMessage": "오늘도 화이팅! 💪",
+  "todayCheerMessage": "오늘도 화이팅",
   "@todayCheerMessage": {
     "description": "할일 페이지 응원 메시지"
   },
@@ -407,7 +256,7 @@
     "description": "할일 검색 힌트"
   },
 
-  "addNewTodo": "새로운 할일을 추가해보세요 ✨",
+  "addNewTodo": "할 일을 추가해 보세요",
   "@addNewTodo": {
     "description": "할일이 없을 때 안내 메시지"
   },
@@ -453,16 +302,6 @@
     }
   },
 
-  "tapToCreateFirstHabit": "Tap + to create your first habit",
-  "@tapToCreateFirstHabit": {
-    "description": "첫 습관 만들기 안내"
-  },
-
-  "days": "일",
-  "@days": {
-    "description": "일 단위"
-  },
-
   "todoDeletedMessage": "{title} 삭제됨",
   "@todoDeletedMessage": {
     "description": "할일 삭제 완료 메시지",
@@ -488,33 +327,143 @@
     "description": "높은 우선순위"
   },
 
-  "habitDeletedMessage": "{name} 삭제됨",
-  "@habitDeletedMessage": {
-    "description": "습관 삭제 완료 메시지",
+  "filterTodos": "할일 필터",
+  "@filterTodos": {
+    "description": "할일 필터 바텀시트 제목"
+  },
+
+  "allTodos": "전체 할일",
+  "@allTodos": {
+    "description": "전체 할일 필터"
+  },
+
+  "incompleteTodos": "미완료 할일",
+  "@incompleteTodos": {
+    "description": "미완료 할일 필터"
+  },
+
+  "completedTodos": "완료된 할일",
+  "@completedTodos": {
+    "description": "완료된 할일 필터"
+  },
+
+  "folder": "폴더",
+  "@folder": {
+    "description": "폴더 레이블"
+  },
+
+  "folderManagement": "폴더 관리",
+  "@folderManagement": {
+    "description": "폴더 관리 바텀시트 제목"
+  },
+
+  "noFolders": "폴더가 없습니다",
+  "@noFolders": {
+    "description": "폴더 없음 메시지"
+  },
+
+  "newFolder": "새 폴더",
+  "@newFolder": {
+    "description": "새 폴더 추가"
+  },
+
+  "editFolder": "폴더 편집",
+  "@editFolder": {
+    "description": "폴더 편집 다이얼로그 제목"
+  },
+
+  "folderNameLabel": "폴더 이름",
+  "@folderNameLabel": {
+    "description": "폴더 이름 입력 필드 레이블"
+  },
+
+  "enterFolderName": "폴더 이름을 입력하세요",
+  "@enterFolderName": {
+    "description": "폴더 이름 입력 힌트"
+  },
+
+  "pleaseEnterFolderName": "폴더 이름을 입력하세요",
+  "@pleaseEnterFolderName": {
+    "description": "폴더 이름 유효성 검사"
+  },
+
+  "selectColor": "색상 선택",
+  "@selectColor": {
+    "description": "색상 선택 레이블"
+  },
+
+  "add": "추가",
+  "@add": {
+    "description": "추가 버튼"
+  },
+
+  "edit": "편집",
+  "@edit": {
+    "description": "편집 버튼"
+  },
+
+  "folderAdded": "폴더가 추가되었습니다",
+  "@folderAdded": {
+    "description": "폴더 추가 성공 메시지"
+  },
+
+  "folderUpdated": "폴더가 수정되었습니다",
+  "@folderUpdated": {
+    "description": "폴더 수정 성공 메시지"
+  },
+
+  "folderDeleted": "폴더가 삭제되었습니다",
+  "@folderDeleted": {
+    "description": "폴더 삭제 성공 메시지"
+  },
+
+  "deleteFolderTitle": "폴더 삭제",
+  "@deleteFolderTitle": {
+    "description": "폴더 삭제 다이얼로그 제목"
+  },
+
+  "deleteFolderConfirm": "{folderName} 폴더를 삭제하시겠습니까?\n이 폴더의 할일들은 \"전체\"로 이동됩니다.",
+  "@deleteFolderConfirm": {
+    "description": "폴더 삭제 확인 메시지",
     "placeholders": {
-      "name": {
+      "folderName": {
         "type": "String"
       }
     }
   },
 
-  "dailyGoalWithCount": "일일 목표: {count}",
-  "@dailyGoalWithCount": {
-    "description": "일일 목표 표시",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+  "todoComposerHint": "할 일을 입력하세요",
+  "@todoComposerHint": {
+    "description": "할 일 컴포저 입력 힌트"
   },
 
-  "daysCount": "{count}일",
-  "@daysCount": {
-    "description": "일 수 표시",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+  "dueToday": "오늘",
+  "@dueToday": {
+    "description": "마감일 오늘"
+  },
+
+  "dueTomorrow": "내일",
+  "@dueTomorrow": {
+    "description": "마감일 내일"
+  },
+
+  "clearDueDate": "마감일 제거",
+  "@clearDueDate": {
+    "description": "마감일 제거"
+  },
+
+  "pickDueDate": "날짜 선택",
+  "@pickDueDate": {
+    "description": "마감일 직접 선택"
+  },
+
+  "addDescription": "설명을 입력하세요",
+  "@addDescription": {
+    "description": "설명 입력 힌트"
+  },
+
+  "noFolder": "폴더 없음",
+  "@noFolder": {
+    "description": "폴더 미지정"
   }
 }
