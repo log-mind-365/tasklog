@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../../core/utils/date_formatter.dart';
-import '../../domain/entities/priority.dart';
+import '../../core/utils/todo_card_description_parser.dart';
 import '../../domain/entities/todo_entity.dart';
 import '../../l10n/app_localizations.dart';
-import '../providers/providers.dart';
 import '../extensions/priority_extension.dart';
+import '../providers/folder_providers.dart';
+import '../providers/providers.dart';
 
 class TodoItem extends ConsumerWidget {
   final TodoEntity todo;
@@ -15,24 +16,35 @@ class TodoItem extends ConsumerWidget {
 
   const TodoItem({super.key, required this.todo, required this.onTap});
 
-  Color _getPriorityColor() {
-    switch (todo.priority) {
-      case Priority.low:
-        return Colors.green;
-      case Priority.medium:
-        return Colors.orange;
-      case Priority.high:
-        return Colors.red;
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final toggleUseCase = ref.read(toggleTodoDoneUseCaseProvider);
     final deleteUseCase = ref.read(deleteTodoUseCaseProvider);
-    final priorityColor = _getPriorityColor();
+    final foldersAsync = ref.watch(foldersStreamProvider);
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    final descParts = parseTodoCardDescription(todo.description);
+
+    final folderChipData = foldersAsync.maybeWhen(
+      data: (folders) {
+        final id = todo.folderId;
+        if (id == null) return null;
+        for (final f in folders) {
+          if (f.id == id) {
+            return (name: f.name, dot: Color(f.color));
+          }
+        }
+        return null;
+      },
+      orElse: () => null,
+    );
+
+    final onMuted = theme.colorScheme.onSurface.withValues(
+      alpha: AppConstants.alphaStrong,
+    );
+    final doneStyle = todo.isDone
+        ? TextStyle(decoration: TextDecoration.lineThrough, color: onMuted)
+        : null;
 
     return Dismissible(
       key: Key(todo.id.toString()),
@@ -43,24 +55,24 @@ class TodoItem extends ConsumerWidget {
           vertical: AppConstants.spacingSmall,
         ),
         decoration: BoxDecoration(
-          color: Colors.red.shade600,
-          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+          color: theme.colorScheme.error,
+          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
         ),
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: AppConstants.spacingXXLarge),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.delete_outline,
-              color: Colors.white,
+              color: theme.colorScheme.onError,
               size: AppConstants.iconSizeLarge,
             ),
             const SizedBox(height: AppConstants.spacingXSmall),
             Text(
               l10n.delete,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: theme.colorScheme.onError,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -75,7 +87,7 @@ class TodoItem extends ConsumerWidget {
             SnackBar(
               content: Row(
                 children: [
-                  const Icon(Icons.check_circle, color: Colors.white),
+                  Icon(Icons.check_circle, color: Colors.white),
                   const SizedBox(width: AppConstants.spacingMedium),
                   Text(l10n.todoDeletedMessage(todo.title)),
                 ],
@@ -88,231 +100,252 @@ class TodoItem extends ConsumerWidget {
           );
         }
       },
-      child: Container(
+      child: Card(
         margin: const EdgeInsets.symmetric(
           horizontal: AppConstants.spacingLarge,
           vertical: AppConstants.spacingSmall,
         ),
-        decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-          boxShadow: [
-            BoxShadow(
-              color: theme.shadowColor.withValues(
-                alpha: AppConstants.alphaVeryLight,
-              ),
-              blurRadius: AppConstants.spacingMedium,
-              offset: const Offset(0, 2),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.spacingLarge,
+              vertical: AppConstants.spacingMedium,
             ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
-                border: Border(
-                  left: BorderSide(color: priorityColor, width: 4),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(AppConstants.spacingXLarge),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        await toggleUseCase(todo.id);
-                      },
-                      child: Container(
-                        width: AppConstants.iconSizeMedium,
-                        height: AppConstants.iconSizeMedium,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: todo.isDone
-                                ? priorityColor
-                                : theme.dividerColor,
-                            width: AppConstants.borderWidthMedium,
-                          ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: AppConstants.spacingXXSmall,
+                  ),
+                  child: GestureDetector(
+                    onTap: () async {
+                      await toggleUseCase(todo.id);
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 150),
+                      width: AppConstants.iconSizeMedium,
+                      height: AppConstants.iconSizeMedium,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
                           color: todo.isDone
-                              ? priorityColor
-                              : Colors.transparent,
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.outline,
+                          width: AppConstants.borderWidthMedium,
                         ),
-                        child: todo.isDone
-                            ? const Icon(
-                                Icons.check,
-                                size: AppConstants.iconSizeSmall,
-                                color: Colors.white,
-                              )
-                            : null,
+                        color: todo.isDone
+                            ? theme.colorScheme.primary
+                            : Colors.transparent,
                       ),
+                      child: todo.isDone
+                          ? Icon(
+                              Icons.check,
+                              size: AppConstants.iconSizeSmall,
+                              color: theme.colorScheme.onPrimary,
+                            )
+                          : null,
                     ),
-                    const SizedBox(width: AppConstants.spacingXLarge),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                ),
+                const SizedBox(width: AppConstants.spacingMedium),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        todo.title,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: todo.isDone ? onMuted : null,
+                          decoration: doneStyle?.decoration,
+                        ),
+                      ),
+                      if (descParts.tagLabels.isNotEmpty) ...[
+                        const SizedBox(height: AppConstants.spacingSmall),
+                        Wrap(
+                          spacing: AppConstants.spacingSmall,
+                          runSpacing: AppConstants.spacingXSmall,
+                          children: descParts.tagLabels
+                              .map(
+                                (t) => _NeutralChip(label: '#$t', theme: theme),
+                              )
+                              .toList(),
+                        ),
+                      ],
+                      if (descParts.mentionNames.isNotEmpty) ...[
+                        const SizedBox(height: AppConstants.spacingSmall),
+                        Wrap(
+                          spacing: AppConstants.spacingSmall,
+                          runSpacing: AppConstants.spacingXSmall,
+                          children: descParts.mentionNames
+                              .map(
+                                (m) => _NeutralChip(label: '@$m', theme: theme),
+                              )
+                              .toList(),
+                        ),
+                      ],
+                      if (descParts.subTasks.isNotEmpty) ...[
+                        const SizedBox(height: AppConstants.spacingSmall),
+                        ...descParts.subTasks.map(
+                          (s) => Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: AppConstants.spacingXXSmall,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: AppConstants.spacingXXSmall,
+                                  ),
+                                  child: Icon(
+                                    Icons.fiber_manual_record,
+                                    size: 6,
+                                    color: theme.colorScheme.outline,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: AppConstants.spacingSmall,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    s,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: todo.isDone ? onMuted : null,
+                                      height: 1.35,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                      if (descParts.body.isNotEmpty) ...[
+                        if (descParts.hasStructuredContent)
+                          const SizedBox(height: AppConstants.spacingSmall),
+                        Text(
+                          descParts.body,
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: onMuted,
+                            height: 1.35,
+                            decoration: doneStyle?.decoration,
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: AppConstants.spacingMedium),
+                      Wrap(
+                        spacing: AppConstants.spacingSmall,
+                        runSpacing: AppConstants.spacingXSmall,
                         children: [
-                          Text(
-                            todo.title,
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              decoration: todo.isDone
-                                  ? TextDecoration.lineThrough
-                                  : null,
-                              color: todo.isDone
-                                  ? theme.textTheme.bodySmall?.color
-                                  : theme.textTheme.titleMedium?.color,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          _NeutralChip(
+                            theme: theme,
+                            label: todo.priority.getLocalizedName(context),
                           ),
-                          if (todo.description.isNotEmpty) ...[
-                            const SizedBox(height: AppConstants.spacingSmall),
-                            Text(
-                              todo.description,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: todo.isDone
-                                    ? theme.textTheme.bodySmall?.color
-                                          ?.withValues(
-                                            alpha: AppConstants.alphaStrong,
-                                          )
-                                    : theme.textTheme.bodySmall?.color,
+                          if (todo.dueDate != null)
+                            _NeutralChip(
+                              theme: theme,
+                              label: DateFormatter.formatDisplayDate(
+                                todo.dueDate!,
                               ),
+                              icon: Icons.calendar_today_outlined,
                             ),
-                          ],
-                          const SizedBox(height: AppConstants.spacingMedium),
-                          Wrap(
-                            spacing: AppConstants.spacingMedium,
-                            runSpacing: AppConstants.spacingXSmall,
-                            children: [
-                              _PriorityChip(priority: todo.priority),
-                              if (todo.dueDate != null)
-                                _DueDateChip(dueDate: todo.dueDate!),
-                            ],
-                          ),
+                          if (folderChipData != null)
+                            _NeutralChip(
+                              theme: theme,
+                              label: folderChipData.name,
+                              leadingDot: folderChipData.dot,
+                            ),
                         ],
                       ),
-                    ),
-                    Icon(Icons.chevron_right, color: theme.dividerColor),
-                  ],
+                    ],
+                  ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: AppConstants.spacingXXSmall,
+                  ),
+                  child: Icon(
+                    Icons.chevron_right,
+                    color: theme.colorScheme.outline,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// [TodoComposerBar]의 요약 칩과 동일한 톤
+class _NeutralChip extends StatelessWidget {
+  const _NeutralChip({
+    required this.theme,
+    required this.label,
+    this.icon,
+    this.leadingDot,
+  });
+
+  final ThemeData theme;
+  final String label;
+  final IconData? icon;
+  final Color? leadingDot;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppConstants.spacingMedium,
+        vertical: AppConstants.spacingXSmall,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.onSurface.withValues(
+          alpha: AppConstants.alphaVeryLight,
+        ),
+        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+        border: Border.all(
+          color: theme.colorScheme.onSurface.withValues(
+            alpha: AppConstants.alphaMediumLight,
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (leadingDot != null) ...[
+            Container(
+              width: AppConstants.spacingSmall,
+              height: AppConstants.spacingSmall,
+              decoration: BoxDecoration(
+                color: leadingDot,
+                shape: BoxShape.circle,
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PriorityChip extends StatelessWidget {
-  final Priority priority;
-
-  const _PriorityChip({required this.priority});
-
-  @override
-  Widget build(BuildContext context) {
-    Color color;
-    IconData icon;
-    switch (priority) {
-      case Priority.low:
-        color = Colors.green;
-        icon = Icons.arrow_downward;
-        break;
-      case Priority.medium:
-        color = Colors.orange;
-        icon = Icons.remove;
-        break;
-      case Priority.high:
-        color = Colors.red;
-        icon = Icons.arrow_upward;
-        break;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppConstants.spacingSmall,
-        vertical: AppConstants.spacingXSmall,
-      ),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: AppConstants.alphaMediumLight),
-        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        border: Border.all(
-          color: color.withValues(alpha: AppConstants.alphaHigh),
-          width: AppConstants.borderWidthThin,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(icon, size: AppConstants.iconSizeXSmall, color: color),
-          const SizedBox(width: AppConstants.spacingXSmall),
-          Text(
-            priority.getLocalizedName(context),
-            style: TextStyle(
-              fontSize: AppConstants.fontSizeSmall,
-              fontWeight: FontWeight.w600,
-              color: color,
+            const SizedBox(width: AppConstants.spacingSmall),
+          ],
+          if (icon != null) ...[
+            Icon(
+              icon,
+              size: AppConstants.iconSizeXSmall,
+              color: theme.colorScheme.onSurface.withValues(
+                alpha: AppConstants.alphaVeryStrong,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DueDateChip extends StatelessWidget {
-  final DateTime dueDate;
-
-  const _DueDateChip({required this.dueDate});
-
-  @override
-  Widget build(BuildContext context) {
-    final isOverdue = DateFormatter.isOverdue(dueDate);
-    final isDueToday = DateFormatter.isDueToday(dueDate);
-
-    Color color;
-    if (isOverdue) {
-      color = Colors.red;
-    } else if (isDueToday) {
-      color = Colors.orange;
-    } else {
-      color = Colors.blue;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppConstants.spacingSmall,
-        vertical: AppConstants.spacingXSmall,
-      ),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: AppConstants.alphaMediumLight),
-        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        border: Border.all(
-          color: color.withValues(alpha: AppConstants.alphaHigh),
-          width: AppConstants.borderWidthThin,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.calendar_today_outlined,
-            size: AppConstants.fontSizeSmall,
-            color: color,
-          ),
-          const SizedBox(width: AppConstants.spacingXSmall),
+            const SizedBox(width: AppConstants.spacingXSmall),
+          ],
           Text(
-            DateFormatter.formatDisplayDate(dueDate),
-            style: TextStyle(
-              fontSize: AppConstants.fontSizeSmall,
-              fontWeight: FontWeight.w600,
-              color: color,
+            label,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: theme.colorScheme.onSurface.withValues(
+                alpha: AppConstants.alphaVeryStrong,
+              ),
             ),
           ),
         ],

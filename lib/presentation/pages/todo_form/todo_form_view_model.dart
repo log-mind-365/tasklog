@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../domain/entities/folder_entity.dart';
 import '../../../domain/entities/priority.dart';
 import '../../../domain/entities/todo_entity.dart';
+import '../../../domain/utils/parsed_todo_draft_mapper.dart';
 import '../../providers/providers.dart';
 
 part 'todo_form_view_model.freezed.dart';
@@ -87,7 +89,42 @@ class TodoFormViewModel extends _$TodoFormViewModel {
     return null;
   }
 
-  Future<bool> saveTodo(TodoEntity? initialTodo) async {
+  /// 신규 할 일 저장 전에 자연어 파싱을 적용한다. [initialTodo]가 있으면 호출하지 않는다.
+  Future<void> applyNaturalLanguageParsing(List<FolderEntity> folders) async {
+    final raw = titleController.text.trim();
+    if (raw.isEmpty) return;
+
+    final useCase = ref.read(parseNaturalLanguageTodoUseCaseProvider);
+    final draft = await useCase(
+      rawInput: titleController.text,
+      referenceTime: DateTime.now(),
+    );
+
+    final merged = mapDraftToFormFields(
+      draft: draft,
+      folders: folders,
+      existingDescription: descriptionController.text,
+    );
+
+    titleController.text = merged.title;
+    descriptionController.text = merged.description;
+    state = state.copyWith(
+      title: merged.title,
+      description: merged.description,
+      priority: merged.priority ?? state.priority,
+      dueDate: merged.dueDate ?? state.dueDate,
+      folderId: merged.folderId ?? state.folderId,
+    );
+  }
+
+  Future<bool> saveTodo(
+    TodoEntity? initialTodo, {
+    List<FolderEntity> folders = const [],
+  }) async {
+    if (initialTodo == null) {
+      await applyNaturalLanguageParsing(folders);
+    }
+
     // 유효성 검증
     final titleError = validateTitle();
     if (titleError != null) {

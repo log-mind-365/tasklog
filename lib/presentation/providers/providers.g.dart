@@ -239,5 +239,46 @@ final deleteFolderUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DeleteFolderUseCaseRef = AutoDisposeProviderRef<DeleteFolderUseCase>;
+String _$naturalLanguageTaskParserHash() =>
+    r'29c8a27d8bfe59cb1e98d612b92ba8babdca9d8a';
+
+/// `OPENAI_API_KEY`가 비어 있으면 null (로컬 파싱만 사용).
+///
+/// Copied from [naturalLanguageTaskParser].
+@ProviderFor(naturalLanguageTaskParser)
+final naturalLanguageTaskParserProvider =
+    Provider<NaturalLanguageTaskParser?>.internal(
+      naturalLanguageTaskParser,
+      name: r'naturalLanguageTaskParserProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$naturalLanguageTaskParserHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef NaturalLanguageTaskParserRef = ProviderRef<NaturalLanguageTaskParser?>;
+String _$parseNaturalLanguageTodoUseCaseHash() =>
+    r'db609641baa239b8c6f99bf7d413cb648d5a122f';
+
+/// See also [parseNaturalLanguageTodoUseCase].
+@ProviderFor(parseNaturalLanguageTodoUseCase)
+final parseNaturalLanguageTodoUseCaseProvider =
+    AutoDisposeProvider<ParseNaturalLanguageTodoUseCase>.internal(
+      parseNaturalLanguageTodoUseCase,
+      name: r'parseNaturalLanguageTodoUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$parseNaturalLanguageTodoUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ParseNaturalLanguageTodoUseCaseRef =
+    AutoDisposeProviderRef<ParseNaturalLanguageTodoUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

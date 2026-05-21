@@ -18,10 +18,7 @@ import 'todo_composer_option_button.dart';
 class TodoComposerBar extends ConsumerWidget {
   final int? defaultFolderId;
 
-  const TodoComposerBar({
-    super.key,
-    required this.defaultFolderId,
-  });
+  const TodoComposerBar({super.key, required this.defaultFolderId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -147,8 +144,12 @@ class TodoComposerBar extends ConsumerWidget {
                   icon: Icons.event_outlined,
                   isActive: state.dueDate != null,
                   tooltip: l10n.dueDate,
-                  menuChildren:
-                      _dueDateMenuItems(context, l10n, viewModel, state),
+                  menuChildren: _dueDateMenuItems(
+                    context,
+                    l10n,
+                    viewModel,
+                    state,
+                  ),
                 ),
                 TodoComposerOptionButton(
                   icon: Icons.notes_outlined,
@@ -177,8 +178,7 @@ class TodoComposerBar extends ConsumerWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       color: pillFillColor,
-                      borderRadius:
-                          BorderRadius.circular(pillBorderRadius),
+                      borderRadius: BorderRadius.circular(pillBorderRadius),
                       border: isDark
                           ? Border.all(
                               color: theme.colorScheme.onSurface.withValues(
@@ -235,11 +235,12 @@ class TodoComposerBar extends ConsumerWidget {
                   onPressed: state.isSaving
                       ? null
                       : () => _handleSave(
-                            context,
-                            ref,
-                            viewModel,
-                            editingTodo,
-                          ),
+                          context,
+                          ref,
+                          viewModel,
+                          editingTodo,
+                          folders,
+                        ),
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(
                       AppConstants.spacingXHuge,
@@ -295,10 +296,7 @@ class TodoComposerBar extends ConsumerWidget {
     if (state.dueDate != null) {
       final d = state.dueDate!;
       chips.add(
-        _summaryChip(
-          theme,
-          l10n.dueDateFormat(d.year, d.month, d.day),
-        ),
+        _summaryChip(theme, l10n.dueDateFormat(d.year, d.month, d.day)),
       );
     }
 
@@ -361,10 +359,7 @@ class TodoComposerBar extends ConsumerWidget {
           Container(
             width: AppConstants.spacingSmall,
             height: AppConstants.spacingSmall,
-            decoration: BoxDecoration(
-              color: dotColor,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
           ),
           const SizedBox(width: AppConstants.spacingMedium),
           Text(
@@ -480,9 +475,10 @@ class TodoComposerBar extends ConsumerWidget {
     WidgetRef ref,
     TodoFormViewModel viewModel,
     TodoEntity? editingTodo,
+    List<FolderEntity> folders,
   ) async {
     final l10n = AppLocalizations.of(context)!;
-    final success = await viewModel.saveTodo(editingTodo);
+    final success = await viewModel.saveTodo(editingTodo, folders: folders);
 
     if (!context.mounted) return;
 

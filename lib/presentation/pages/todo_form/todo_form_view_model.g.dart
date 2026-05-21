@@ -6,7 +6,7 @@ part of 'todo_form_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todoFormViewModelHash() => r'd5ea180bdcd1deb99dce54371f294b84521bd2de';
+String _$todoFormViewModelHash() => r'23d7b251f4891b464dc3f874db922f3c34873df8';
 
 /// Copied from Dart SDK
 class _SystemHash {

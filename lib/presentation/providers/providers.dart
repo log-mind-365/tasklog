@@ -15,6 +15,10 @@ import '../../domain/usecases/get_folders_usecase.dart';
 import '../../domain/usecases/add_folder_usecase.dart';
 import '../../domain/usecases/update_folder_usecase.dart';
 import '../../domain/usecases/delete_folder_usecase.dart';
+import '../../domain/repositories/natural_language_task_parser.dart';
+import '../../domain/usecases/parse_natural_language_todo_usecase.dart';
+import '../../data/datasources/remote/openai_chat_client.dart';
+import '../../data/datasources/remote/openai_natural_language_task_parser.dart';
 
 part 'providers.g.dart';
 
@@ -96,4 +100,19 @@ UpdateFolderUseCase updateFolderUseCase(Ref ref) {
 DeleteFolderUseCase deleteFolderUseCase(Ref ref) {
   final repository = ref.watch(folderRepositoryProvider);
   return DeleteFolderUseCase(repository);
+}
+
+/// `OPENAI_API_KEY`가 비어 있으면 null (로컬 파싱만 사용).
+@Riverpod(keepAlive: true)
+NaturalLanguageTaskParser? naturalLanguageTaskParser(Ref ref) {
+  const key = String.fromEnvironment('OPENAI_API_KEY');
+  if (key.isEmpty) return null;
+  final client = OpenAiChatClient(apiKey: key);
+  return OpenAiNaturalLanguageTaskParser(client: client);
+}
+
+@riverpod
+ParseNaturalLanguageTodoUseCase parseNaturalLanguageTodoUseCase(Ref ref) {
+  final parser = ref.watch(naturalLanguageTaskParserProvider);
+  return ParseNaturalLanguageTodoUseCase(parser);
 }
