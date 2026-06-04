@@ -5,9 +5,9 @@ import '../../../../core/constants/app_constants.dart';
 import '../../../../domain/entities/todo_entity.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/todo_item.dart';
-import '../../../providers/todo_composer_provider.dart';
 import '../todos_view_model.dart';
 import '../../../providers/todo_providers.dart';
+import 'todo_edit_bottom_sheet.dart';
 
 /// Todo 리스트 콘텐츠
 class TodoListContent extends ConsumerWidget {
@@ -87,9 +87,7 @@ class TodoListContent extends ConsumerWidget {
           const SizedBox(height: AppConstants.spacingSmall),
           Text(
             isSearching ? l10n.tryDifferentKeyword : l10n.addNewTodo,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: subtleColor,
-            ),
+            style: theme.textTheme.bodyMedium?.copyWith(color: subtleColor),
             textAlign: TextAlign.center,
           ),
         ],
@@ -114,7 +112,11 @@ class TodoListContent extends ConsumerWidget {
         return TodoItem(
           todo: todo,
           onTap: () {
-            ref.read(editingTodoProvider.notifier).startEdit(todo);
+            TodoEditBottomSheet.show(
+              context,
+              todo: todo,
+              defaultFolderId: folderId,
+            );
           },
         );
       },

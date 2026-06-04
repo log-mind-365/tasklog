@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'card_color.dart';
 import 'priority.dart';
 
 part 'todo_entity.freezed.dart';
@@ -13,6 +14,8 @@ class TodoEntity with _$TodoEntity {
     required Priority priority,
     DateTime? dueDate,
     int? folderId,
+    @Default(<String>[]) List<String> labels,
+    CardColor? cardColor,
     required DateTime createdAt,
   }) = _TodoEntity;
 }

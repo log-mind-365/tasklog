@@ -12,12 +12,21 @@ class TodoComposerOptionButton extends StatefulWidget {
   final String tooltip;
   final List<Widget> menuChildren;
 
+  /// 지정되면 아이콘 대신 이 색의 원형을 표시한다 (예: 카드 색 선택 버튼).
+  final Color? swatchColor;
+
+  /// 지정되면 탭 시 드롭다운 메뉴 대신 이 콜백을 호출한다 (예: 바텀시트 열기).
+  /// 이 경우 [menuChildren]은 비워 둔다.
+  final VoidCallback? onTap;
+
   const TodoComposerOptionButton({
     super.key,
     required this.icon,
     required this.isActive,
     required this.tooltip,
     required this.menuChildren,
+    this.swatchColor,
+    this.onTap,
   });
 
   @override
@@ -58,10 +67,7 @@ class _TodoComposerOptionButtonState extends State<TodoComposerOptionButton>
     final dropdownStyle = DropdownStyle.of(context);
 
     final animatedMenuChildren = widget.menuChildren.map((child) {
-      return FadeTransition(
-        opacity: _curve,
-        child: child,
-      );
+      return FadeTransition(opacity: _curve, child: child);
     }).toList();
 
     return MenuAnchor(
@@ -89,20 +95,38 @@ class _TodoComposerOptionButtonState extends State<TodoComposerOptionButton>
             ),
             iconSize: AppConstants.iconSizeMedium,
             onPressed: () {
+              if (widget.onTap != null) {
+                widget.onTap!();
+                return;
+              }
               if (controller.isOpen) {
                 controller.close();
               } else {
                 controller.open();
               }
             },
-            icon: Icon(
-              widget.icon,
-              color: widget.isActive
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.onSurface.withValues(
-                      alpha: AppConstants.alphaVeryStrong,
+            icon: widget.swatchColor != null
+                ? Container(
+                    width: AppConstants.iconSizeMedium,
+                    height: AppConstants.iconSizeMedium,
+                    decoration: BoxDecoration(
+                      color: widget.swatchColor,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: theme.colorScheme.onSurface.withValues(
+                          alpha: AppConstants.alphaMediumLight,
+                        ),
+                      ),
                     ),
-            ),
+                  )
+                : Icon(
+                    widget.icon,
+                    color: widget.isActive
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.onSurface.withValues(
+                            alpha: AppConstants.alphaVeryStrong,
+                          ),
+                  ),
           ),
         );
       },

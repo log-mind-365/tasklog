@@ -130,6 +130,84 @@ abstract class AppLocalizations {
   /// **'할일 수정'**
   String get editTodo;
 
+  /// 할일 편집 바텀시트 제목
+  ///
+  /// In ko, this message translates to:
+  /// **'할 일 편집'**
+  String get todoEditSheetTitle;
+
+  /// 할일 폼 라벨 섹션 제목
+  ///
+  /// In ko, this message translates to:
+  /// **'라벨'**
+  String get todoLabelsSectionTitle;
+
+  /// 할일 라벨 입력 힌트
+  ///
+  /// In ko, this message translates to:
+  /// **'라벨 입력 후 추가'**
+  String get todoLabelHint;
+
+  /// 라벨 추가 버튼
+  ///
+  /// In ko, this message translates to:
+  /// **'추가'**
+  String get todoLabelAdd;
+
+  /// 요약 칩에 표시할 라벨 개수
+  ///
+  /// In ko, this message translates to:
+  /// **'라벨 {count}개'**
+  String todoLabelsChip(int count);
+
+  /// 카드 배경색 옵션 버튼 툴팁
+  ///
+  /// In ko, this message translates to:
+  /// **'색상'**
+  String get cardColorTooltip;
+
+  /// 카드 배경색 없음(기본) 옵션
+  ///
+  /// In ko, this message translates to:
+  /// **'없음'**
+  String get cardColorNone;
+
+  /// 라벨 선택 바텀시트 제목 / 옵션 버튼 툴팁
+  ///
+  /// In ko, this message translates to:
+  /// **'라벨'**
+  String get labelSheetTitle;
+
+  /// 라벨 추가 입력 힌트
+  ///
+  /// In ko, this message translates to:
+  /// **'새 라벨 입력'**
+  String get labelAddHint;
+
+  /// 라벨 추가 버튼
+  ///
+  /// In ko, this message translates to:
+  /// **'추가'**
+  String get labelAddButton;
+
+  /// 카탈로그에서 라벨 삭제 버튼 툴팁
+  ///
+  /// In ko, this message translates to:
+  /// **'라벨 삭제'**
+  String get labelDeleteTooltip;
+
+  /// 라벨 삭제 확인 메시지
+  ///
+  /// In ko, this message translates to:
+  /// **'이 라벨을 삭제할까요?'**
+  String get labelDeleteConfirm;
+
+  /// 라벨 카탈로그가 비었을 때 안내
+  ///
+  /// In ko, this message translates to:
+  /// **'저장된 라벨이 없습니다'**
+  String get labelSheetEmpty;
+
   /// 제목 입력 필드
   ///
   /// In ko, this message translates to:

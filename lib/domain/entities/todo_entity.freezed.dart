@@ -24,6 +24,8 @@ mixin _$TodoEntity {
   Priority get priority => throw _privateConstructorUsedError;
   DateTime? get dueDate => throw _privateConstructorUsedError;
   int? get folderId => throw _privateConstructorUsedError;
+  List<String> get labels => throw _privateConstructorUsedError;
+  CardColor? get cardColor => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Create a copy of TodoEntity
@@ -48,6 +50,8 @@ abstract class $TodoEntityCopyWith<$Res> {
     Priority priority,
     DateTime? dueDate,
     int? folderId,
+    List<String> labels,
+    CardColor? cardColor,
     DateTime createdAt,
   });
 }
@@ -74,6 +78,8 @@ class _$TodoEntityCopyWithImpl<$Res, $Val extends TodoEntity>
     Object? priority = null,
     Object? dueDate = freezed,
     Object? folderId = freezed,
+    Object? labels = null,
+    Object? cardColor = freezed,
     Object? createdAt = null,
   }) {
     return _then(
@@ -106,6 +112,14 @@ class _$TodoEntityCopyWithImpl<$Res, $Val extends TodoEntity>
                 ? _value.folderId
                 : folderId // ignore: cast_nullable_to_non_nullable
                       as int?,
+            labels: null == labels
+                ? _value.labels
+                : labels // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            cardColor: freezed == cardColor
+                ? _value.cardColor
+                : cardColor // ignore: cast_nullable_to_non_nullable
+                      as CardColor?,
             createdAt: null == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -133,6 +147,8 @@ abstract class _$$TodoEntityImplCopyWith<$Res>
     Priority priority,
     DateTime? dueDate,
     int? folderId,
+    List<String> labels,
+    CardColor? cardColor,
     DateTime createdAt,
   });
 }
@@ -158,6 +174,8 @@ class __$$TodoEntityImplCopyWithImpl<$Res>
     Object? priority = null,
     Object? dueDate = freezed,
     Object? folderId = freezed,
+    Object? labels = null,
+    Object? cardColor = freezed,
     Object? createdAt = null,
   }) {
     return _then(
@@ -190,6 +208,14 @@ class __$$TodoEntityImplCopyWithImpl<$Res>
             ? _value.folderId
             : folderId // ignore: cast_nullable_to_non_nullable
                   as int?,
+        labels: null == labels
+            ? _value._labels
+            : labels // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        cardColor: freezed == cardColor
+            ? _value.cardColor
+            : cardColor // ignore: cast_nullable_to_non_nullable
+                  as CardColor?,
         createdAt: null == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -210,8 +236,10 @@ class _$TodoEntityImpl implements _TodoEntity {
     required this.priority,
     this.dueDate,
     this.folderId,
+    final List<String> labels = const <String>[],
+    this.cardColor,
     required this.createdAt,
-  });
+  }) : _labels = labels;
 
   @override
   final int id;
@@ -227,12 +255,23 @@ class _$TodoEntityImpl implements _TodoEntity {
   final DateTime? dueDate;
   @override
   final int? folderId;
+  final List<String> _labels;
+  @override
+  @JsonKey()
+  List<String> get labels {
+    if (_labels is EqualUnmodifiableListView) return _labels;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_labels);
+  }
+
+  @override
+  final CardColor? cardColor;
   @override
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'TodoEntity(id: $id, title: $title, description: $description, isDone: $isDone, priority: $priority, dueDate: $dueDate, folderId: $folderId, createdAt: $createdAt)';
+    return 'TodoEntity(id: $id, title: $title, description: $description, isDone: $isDone, priority: $priority, dueDate: $dueDate, folderId: $folderId, labels: $labels, cardColor: $cardColor, createdAt: $createdAt)';
   }
 
   @override
@@ -250,6 +289,9 @@ class _$TodoEntityImpl implements _TodoEntity {
             (identical(other.dueDate, dueDate) || other.dueDate == dueDate) &&
             (identical(other.folderId, folderId) ||
                 other.folderId == folderId) &&
+            const DeepCollectionEquality().equals(other._labels, _labels) &&
+            (identical(other.cardColor, cardColor) ||
+                other.cardColor == cardColor) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -264,6 +306,8 @@ class _$TodoEntityImpl implements _TodoEntity {
     priority,
     dueDate,
     folderId,
+    const DeepCollectionEquality().hash(_labels),
+    cardColor,
     createdAt,
   );
 
@@ -285,6 +329,8 @@ abstract class _TodoEntity implements TodoEntity {
     required final Priority priority,
     final DateTime? dueDate,
     final int? folderId,
+    final List<String> labels,
+    final CardColor? cardColor,
     required final DateTime createdAt,
   }) = _$TodoEntityImpl;
 
@@ -302,6 +348,10 @@ abstract class _TodoEntity implements TodoEntity {
   DateTime? get dueDate;
   @override
   int? get folderId;
+  @override
+  List<String> get labels;
+  @override
+  CardColor? get cardColor;
   @override
   DateTime get createdAt;
 

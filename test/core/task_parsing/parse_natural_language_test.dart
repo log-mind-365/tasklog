@@ -83,6 +83,7 @@ void main() {
       expect(fields.folderId, 1);
       expect(fields.title, '정리');
       expect(fields.description, '태그: #a');
+      expect(fields.labels, ['a']);
     });
   });
 

@@ -3,10 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/constants/app_constants.dart';
-import '../../../domain/entities/todo_entity.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/folder_providers.dart';
-import '../../providers/todo_composer_provider.dart';
 import '../todo_form/widgets/todo_composer_bar.dart';
 import 'widgets/folder_navigation_content.dart';
 import 'widgets/todo_list_content.dart';
@@ -43,8 +41,6 @@ class _TodosPageState extends ConsumerState<TodosPage> {
     final l10n = AppLocalizations.of(context)!;
     final foldersAsyncValue = ref.watch(foldersStreamProvider);
     final currentPageIndex = ref.watch(selectedFolderPageIndexProvider);
-    final editingTodo = ref.watch(editingTodoProvider);
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarBrightness: theme.brightness,
@@ -96,7 +92,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
                       },
                     ),
                   ),
-                  _buildComposerSection(defaultFolderId, editingTodo),
+                  _buildComposerSection(defaultFolderId),
                 ],
               );
             },
@@ -108,10 +104,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
     );
   }
 
-  Widget _buildComposerSection(
-    int? defaultFolderId,
-    TodoEntity? editingTodo,
-  ) {
+  Widget _buildComposerSection(int? defaultFolderId) {
     final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
 
     return Padding(
@@ -122,7 +115,7 @@ class _TodosPageState extends ConsumerState<TodosPage> {
         AppConstants.spacingMedium + bottomInset,
       ),
       child: TodoComposerBar(
-        key: ValueKey(editingTodo?.id ?? 'new'),
+        key: ValueKey(defaultFolderId ?? 'all'),
         defaultFolderId: defaultFolderId,
       ),
     );

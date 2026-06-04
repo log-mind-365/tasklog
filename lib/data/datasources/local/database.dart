@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+
+import '../../../core/constants/app_constants.dart';
+import '../../../core/utils/todo_card_description_parser.dart';
 
 part 'database.g.dart';
 
@@ -34,15 +39,31 @@ class Todos extends Table {
     onDelete: KeyAction.setNull,
   )();
 
+  /// JSON 배열 문자열, 예: `["업무","긴급"]`
+  TextColumn get labelsJson => text().withDefault(const Constant('[]'))();
+
+  /// 카드 배경색 (`CardColor.value`, null = 없음)
+  IntColumn get cardColor => integer().nullable()();
+
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-@DriftDatabase(tables: [Folders, Todos])
+// Labels (tag) catalog table — 재사용 가능한 라벨 카탈로그
+class Labels extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  TextColumn get name =>
+      text().withLength(min: 1, max: AppConstants.maxTodoLabelCharacterLength)();
+
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+@DriftDatabase(tables: [Folders, Todos, Labels])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration {
@@ -64,6 +85,62 @@ class AppDatabase extends _$AppDatabase {
         if (from < 4) {
           await customStatement('DROP TABLE IF EXISTS habit_logs');
           await customStatement('DROP TABLE IF EXISTS habits');
+        }
+        if (from < 5) {
+          await m.addColumn(todos, todos.labelsJson);
+          final rows = await customSelect(
+            'SELECT id, description FROM todos',
+            readsFrom: {todos},
+          ).get();
+          for (final row in rows) {
+            final id = row.read<int>('id');
+            final description = row.read<String>('description');
+            final tags = parseTodoCardDescription(description).tagLabels;
+            if (tags.isNotEmpty) {
+              await customStatement(
+                'UPDATE todos SET labels_json = ? WHERE id = ?',
+                [jsonEncode(tags), id],
+              );
+            }
+          }
+        }
+        if (from < 6) {
+          // 개발 중 스키마 버전이 어긋나 컬럼이 이미 있을 수 있으므로
+          // 중복 추가(SqliteException: duplicate column)를 방지한다.
+          final columns = await customSelect("PRAGMA table_info('todos')").get();
+          final hasCardColor = columns.any(
+            (row) => row.read<String>('name') == 'card_color',
+          );
+          if (!hasCardColor) {
+            await m.addColumn(todos, todos.cardColor);
+          }
+        }
+        if (from < 7) {
+          await m.createTable(labels);
+          // 기존 할 일의 labelsJson에 있던 이름들을 카탈로그로 백필.
+          final rows = await customSelect(
+            'SELECT labels_json FROM todos',
+            readsFrom: {todos},
+          ).get();
+          final seen = <String>{};
+          for (final row in rows) {
+            final raw = row.read<String?>('labels_json');
+            if (raw == null || raw.isEmpty) continue;
+            try {
+              final decoded = jsonDecode(raw);
+              if (decoded is! List) continue;
+              for (final e in decoded) {
+                final name = e.toString().trim();
+                if (name.isEmpty) continue;
+                final key = name.toLowerCase();
+                if (seen.contains(key)) continue;
+                seen.add(key);
+                await into(labels).insert(LabelsCompanion.insert(name: name));
+              }
+            } on FormatException {
+              // 손상된 JSON은 건너뛴다.
+            }
+          }
         }
       },
     );
@@ -93,6 +170,21 @@ class AppDatabase extends _$AppDatabase {
   Future<int> deleteFolder(int id) =>
       (delete(folders)..where((tbl) => tbl.id.equals(id))).go();
 
+  // Label (tag) catalog operations
+  Stream<List<Label>> watchAllLabels() => (select(
+    labels,
+  )..orderBy([(t) => OrderingTerm(expression: t.name)])).watch();
+
+  Future<int> insertLabel(LabelsCompanion label) => into(labels).insert(label);
+
+  Future<int> deleteLabel(int id) =>
+      (delete(labels)..where((tbl) => tbl.id.equals(id))).go();
+
+  Future<Label?> getLabelByName(String name) =>
+      (select(labels)
+            ..where((tbl) => tbl.name.lower().equals(name.toLowerCase())))
+          .getSingleOrNull();
+
   // Todo operations
   Future<List<Todo>> getAllTodos() => select(todos).get();
 
@@ -113,7 +205,9 @@ class AppDatabase extends _$AppDatabase {
   Future<List<Todo>> searchTodos(String query) =>
       (select(todos)..where(
             (tbl) =>
-                tbl.title.like('%$query%') | tbl.description.like('%$query%'),
+                tbl.title.like('%$query%') |
+                tbl.description.like('%$query%') |
+                tbl.labelsJson.like('%$query%'),
           ))
           .get();
 

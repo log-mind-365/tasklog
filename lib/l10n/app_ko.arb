@@ -26,6 +26,76 @@
     "description": "할일 수정 페이지 제목"
   },
 
+  "todoEditSheetTitle": "할 일 편집",
+  "@todoEditSheetTitle": {
+    "description": "할일 편집 바텀시트 제목"
+  },
+
+  "todoLabelsSectionTitle": "라벨",
+  "@todoLabelsSectionTitle": {
+    "description": "할일 폼 라벨 섹션 제목"
+  },
+
+  "todoLabelHint": "라벨 입력 후 추가",
+  "@todoLabelHint": {
+    "description": "할일 라벨 입력 힌트"
+  },
+
+  "todoLabelAdd": "추가",
+  "@todoLabelAdd": {
+    "description": "라벨 추가 버튼"
+  },
+
+  "todoLabelsChip": "라벨 {count}개",
+  "@todoLabelsChip": {
+    "description": "요약 칩에 표시할 라벨 개수",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "cardColorTooltip": "색상",
+  "@cardColorTooltip": {
+    "description": "카드 배경색 옵션 버튼 툴팁"
+  },
+
+  "cardColorNone": "없음",
+  "@cardColorNone": {
+    "description": "카드 배경색 없음(기본) 옵션"
+  },
+
+  "labelSheetTitle": "라벨",
+  "@labelSheetTitle": {
+    "description": "라벨 선택 바텀시트 제목 / 옵션 버튼 툴팁"
+  },
+
+  "labelAddHint": "새 라벨 입력",
+  "@labelAddHint": {
+    "description": "라벨 추가 입력 힌트"
+  },
+
+  "labelAddButton": "추가",
+  "@labelAddButton": {
+    "description": "라벨 추가 버튼"
+  },
+
+  "labelDeleteTooltip": "라벨 삭제",
+  "@labelDeleteTooltip": {
+    "description": "카탈로그에서 라벨 삭제 버튼 툴팁"
+  },
+
+  "labelDeleteConfirm": "이 라벨을 삭제할까요?",
+  "@labelDeleteConfirm": {
+    "description": "라벨 삭제 확인 메시지"
+  },
+
+  "labelSheetEmpty": "저장된 라벨이 없습니다",
+  "@labelSheetEmpty": {
+    "description": "라벨 카탈로그가 비었을 때 안내"
+  },
+
   "title": "제목",
   "@title": {
     "description": "제목 입력 필드"

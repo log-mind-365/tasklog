@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/constants/app_constants.dart';
+import '../../../domain/entities/card_color.dart';
 import '../../../domain/entities/folder_entity.dart';
 import '../../../domain/entities/priority.dart';
 import '../../../domain/entities/todo_entity.dart';
@@ -19,6 +21,8 @@ class TodoFormState with _$TodoFormState {
     required Priority priority,
     DateTime? dueDate,
     int? folderId,
+    required List<String> labels,
+    CardColor? cardColor,
     @Default(false) bool isSaving,
     String? errorMessage,
   }) = _TodoFormState;
@@ -55,6 +59,8 @@ class TodoFormViewModel extends _$TodoFormViewModel {
       priority: initialTodo?.priority ?? Priority.medium,
       dueDate: initialTodo?.dueDate,
       folderId: initialTodo?.folderId ?? defaultFolderId,
+      labels: List<String>.from(initialTodo?.labels ?? const []),
+      cardColor: initialTodo?.cardColor,
     );
   }
 
@@ -82,6 +88,38 @@ class TodoFormViewModel extends _$TodoFormViewModel {
     state = state.copyWith(folderId: folderId);
   }
 
+  void setCardColor(CardColor? color) {
+    state = state.copyWith(cardColor: color);
+  }
+
+  void clearCardColor() {
+    state = state.copyWith(cardColor: null);
+  }
+
+  void setLabels(List<String> labels) {
+    state = state.copyWith(labels: List<String>.from(labels));
+  }
+
+  void clearLabels() {
+    state = state.copyWith(labels: const []);
+  }
+
+  void addLabel(String raw) {
+    final t = raw.trim();
+    if (t.isEmpty) return;
+    if (t.length > AppConstants.maxTodoLabelCharacterLength) return;
+    if (state.labels.length >= AppConstants.maxTodoLabelsCount) return;
+    final lower = t.toLowerCase();
+    if (state.labels.any((e) => e.toLowerCase() == lower)) return;
+    state = state.copyWith(labels: [...state.labels, t]);
+  }
+
+  void removeLabel(String label) {
+    state = state.copyWith(
+      labels: state.labels.where((e) => e != label).toList(),
+    );
+  }
+
   String? validateTitle() {
     if (state.title.trim().isEmpty) {
       return 'pleaseEnterTitle'; // L10n 키
@@ -106,6 +144,25 @@ class TodoFormViewModel extends _$TodoFormViewModel {
       existingDescription: descriptionController.text,
     );
 
+    var nextLabels = state.labels;
+    if (merged.labels != null && merged.labels!.isNotEmpty) {
+      final seen = state.labels.map((e) => e.toLowerCase()).toSet();
+      final combined = [...state.labels];
+      for (final tag in merged.labels!) {
+        final trimmed = tag.trim();
+        if (trimmed.isEmpty) continue;
+        if (trimmed.length > AppConstants.maxTodoLabelCharacterLength) {
+          continue;
+        }
+        final k = trimmed.toLowerCase();
+        if (seen.contains(k)) continue;
+        seen.add(k);
+        combined.add(trimmed);
+        if (combined.length >= AppConstants.maxTodoLabelsCount) break;
+      }
+      nextLabels = combined;
+    }
+
     titleController.text = merged.title;
     descriptionController.text = merged.description;
     state = state.copyWith(
@@ -114,6 +171,7 @@ class TodoFormViewModel extends _$TodoFormViewModel {
       priority: merged.priority ?? state.priority,
       dueDate: merged.dueDate ?? state.dueDate,
       folderId: merged.folderId ?? state.folderId,
+      labels: nextLabels,
     );
   }
 
@@ -143,6 +201,8 @@ class TodoFormViewModel extends _$TodoFormViewModel {
         priority: state.priority,
         dueDate: state.dueDate,
         folderId: state.folderId,
+        labels: List<String>.from(state.labels),
+        cardColor: state.cardColor,
         createdAt: initialTodo?.createdAt ?? DateTime.now(),
       );
 

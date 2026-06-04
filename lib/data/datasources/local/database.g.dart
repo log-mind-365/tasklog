@@ -386,6 +386,29 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
       'REFERENCES folders (id) ON DELETE SET NULL',
     ),
   );
+  static const VerificationMeta _labelsJsonMeta = const VerificationMeta(
+    'labelsJson',
+  );
+  @override
+  late final GeneratedColumn<String> labelsJson = GeneratedColumn<String>(
+    'labels_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('[]'),
+  );
+  static const VerificationMeta _cardColorMeta = const VerificationMeta(
+    'cardColor',
+  );
+  @override
+  late final GeneratedColumn<int> cardColor = GeneratedColumn<int>(
+    'card_color',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -407,6 +430,8 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
     priority,
     dueDate,
     folderId,
+    labelsJson,
+    cardColor,
     createdAt,
   ];
   @override
@@ -465,6 +490,18 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
         folderId.isAcceptableOrUnknown(data['folder_id']!, _folderIdMeta),
       );
     }
+    if (data.containsKey('labels_json')) {
+      context.handle(
+        _labelsJsonMeta,
+        labelsJson.isAcceptableOrUnknown(data['labels_json']!, _labelsJsonMeta),
+      );
+    }
+    if (data.containsKey('card_color')) {
+      context.handle(
+        _cardColorMeta,
+        cardColor.isAcceptableOrUnknown(data['card_color']!, _cardColorMeta),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -508,6 +545,14 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
         DriftSqlType.int,
         data['${effectivePrefix}folder_id'],
       ),
+      labelsJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}labels_json'],
+      )!,
+      cardColor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}card_color'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -529,6 +574,12 @@ class Todo extends DataClass implements Insertable<Todo> {
   final int priority;
   final DateTime? dueDate;
   final int? folderId;
+
+  /// JSON 배열 문자열, 예: `["업무","긴급"]`
+  final String labelsJson;
+
+  /// 카드 배경색 (`CardColor.value`, null = 없음)
+  final int? cardColor;
   final DateTime createdAt;
   const Todo({
     required this.id,
@@ -538,6 +589,8 @@ class Todo extends DataClass implements Insertable<Todo> {
     required this.priority,
     this.dueDate,
     this.folderId,
+    required this.labelsJson,
+    this.cardColor,
     required this.createdAt,
   });
   @override
@@ -553,6 +606,10 @@ class Todo extends DataClass implements Insertable<Todo> {
     }
     if (!nullToAbsent || folderId != null) {
       map['folder_id'] = Variable<int>(folderId);
+    }
+    map['labels_json'] = Variable<String>(labelsJson);
+    if (!nullToAbsent || cardColor != null) {
+      map['card_color'] = Variable<int>(cardColor);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
@@ -571,6 +628,10 @@ class Todo extends DataClass implements Insertable<Todo> {
       folderId: folderId == null && nullToAbsent
           ? const Value.absent()
           : Value(folderId),
+      labelsJson: Value(labelsJson),
+      cardColor: cardColor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cardColor),
       createdAt: Value(createdAt),
     );
   }
@@ -588,6 +649,8 @@ class Todo extends DataClass implements Insertable<Todo> {
       priority: serializer.fromJson<int>(json['priority']),
       dueDate: serializer.fromJson<DateTime?>(json['dueDate']),
       folderId: serializer.fromJson<int?>(json['folderId']),
+      labelsJson: serializer.fromJson<String>(json['labelsJson']),
+      cardColor: serializer.fromJson<int?>(json['cardColor']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
@@ -602,6 +665,8 @@ class Todo extends DataClass implements Insertable<Todo> {
       'priority': serializer.toJson<int>(priority),
       'dueDate': serializer.toJson<DateTime?>(dueDate),
       'folderId': serializer.toJson<int?>(folderId),
+      'labelsJson': serializer.toJson<String>(labelsJson),
+      'cardColor': serializer.toJson<int?>(cardColor),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
@@ -614,6 +679,8 @@ class Todo extends DataClass implements Insertable<Todo> {
     int? priority,
     Value<DateTime?> dueDate = const Value.absent(),
     Value<int?> folderId = const Value.absent(),
+    String? labelsJson,
+    Value<int?> cardColor = const Value.absent(),
     DateTime? createdAt,
   }) => Todo(
     id: id ?? this.id,
@@ -623,6 +690,8 @@ class Todo extends DataClass implements Insertable<Todo> {
     priority: priority ?? this.priority,
     dueDate: dueDate.present ? dueDate.value : this.dueDate,
     folderId: folderId.present ? folderId.value : this.folderId,
+    labelsJson: labelsJson ?? this.labelsJson,
+    cardColor: cardColor.present ? cardColor.value : this.cardColor,
     createdAt: createdAt ?? this.createdAt,
   );
   Todo copyWithCompanion(TodosCompanion data) {
@@ -636,6 +705,10 @@ class Todo extends DataClass implements Insertable<Todo> {
       priority: data.priority.present ? data.priority.value : this.priority,
       dueDate: data.dueDate.present ? data.dueDate.value : this.dueDate,
       folderId: data.folderId.present ? data.folderId.value : this.folderId,
+      labelsJson: data.labelsJson.present
+          ? data.labelsJson.value
+          : this.labelsJson,
+      cardColor: data.cardColor.present ? data.cardColor.value : this.cardColor,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -650,6 +723,8 @@ class Todo extends DataClass implements Insertable<Todo> {
           ..write('priority: $priority, ')
           ..write('dueDate: $dueDate, ')
           ..write('folderId: $folderId, ')
+          ..write('labelsJson: $labelsJson, ')
+          ..write('cardColor: $cardColor, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -664,6 +739,8 @@ class Todo extends DataClass implements Insertable<Todo> {
     priority,
     dueDate,
     folderId,
+    labelsJson,
+    cardColor,
     createdAt,
   );
   @override
@@ -677,6 +754,8 @@ class Todo extends DataClass implements Insertable<Todo> {
           other.priority == this.priority &&
           other.dueDate == this.dueDate &&
           other.folderId == this.folderId &&
+          other.labelsJson == this.labelsJson &&
+          other.cardColor == this.cardColor &&
           other.createdAt == this.createdAt);
 }
 
@@ -688,6 +767,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   final Value<int> priority;
   final Value<DateTime?> dueDate;
   final Value<int?> folderId;
+  final Value<String> labelsJson;
+  final Value<int?> cardColor;
   final Value<DateTime> createdAt;
   const TodosCompanion({
     this.id = const Value.absent(),
@@ -697,6 +778,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     this.priority = const Value.absent(),
     this.dueDate = const Value.absent(),
     this.folderId = const Value.absent(),
+    this.labelsJson = const Value.absent(),
+    this.cardColor = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
   TodosCompanion.insert({
@@ -707,6 +790,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     this.priority = const Value.absent(),
     this.dueDate = const Value.absent(),
     this.folderId = const Value.absent(),
+    this.labelsJson = const Value.absent(),
+    this.cardColor = const Value.absent(),
     this.createdAt = const Value.absent(),
   }) : title = Value(title);
   static Insertable<Todo> custom({
@@ -717,6 +802,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     Expression<int>? priority,
     Expression<DateTime>? dueDate,
     Expression<int>? folderId,
+    Expression<String>? labelsJson,
+    Expression<int>? cardColor,
     Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
@@ -727,6 +814,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       if (priority != null) 'priority': priority,
       if (dueDate != null) 'due_date': dueDate,
       if (folderId != null) 'folder_id': folderId,
+      if (labelsJson != null) 'labels_json': labelsJson,
+      if (cardColor != null) 'card_color': cardColor,
       if (createdAt != null) 'created_at': createdAt,
     });
   }
@@ -739,6 +828,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     Value<int>? priority,
     Value<DateTime?>? dueDate,
     Value<int?>? folderId,
+    Value<String>? labelsJson,
+    Value<int?>? cardColor,
     Value<DateTime>? createdAt,
   }) {
     return TodosCompanion(
@@ -749,6 +840,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       priority: priority ?? this.priority,
       dueDate: dueDate ?? this.dueDate,
       folderId: folderId ?? this.folderId,
+      labelsJson: labelsJson ?? this.labelsJson,
+      cardColor: cardColor ?? this.cardColor,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -777,6 +870,12 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     if (folderId.present) {
       map['folder_id'] = Variable<int>(folderId.value);
     }
+    if (labelsJson.present) {
+      map['labels_json'] = Variable<String>(labelsJson.value);
+    }
+    if (cardColor.present) {
+      map['card_color'] = Variable<int>(cardColor.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -793,6 +892,250 @@ class TodosCompanion extends UpdateCompanion<Todo> {
           ..write('priority: $priority, ')
           ..write('dueDate: $dueDate, ')
           ..write('folderId: $folderId, ')
+          ..write('labelsJson: $labelsJson, ')
+          ..write('cardColor: $cardColor, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LabelsTable extends Labels with TableInfo<$LabelsTable, Label> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LabelsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'labels';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Label> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Label map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Label(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $LabelsTable createAlias(String alias) {
+    return $LabelsTable(attachedDatabase, alias);
+  }
+}
+
+class Label extends DataClass implements Insertable<Label> {
+  final int id;
+  final String name;
+  final DateTime createdAt;
+  const Label({required this.id, required this.name, required this.createdAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  LabelsCompanion toCompanion(bool nullToAbsent) {
+    return LabelsCompanion(
+      id: Value(id),
+      name: Value(name),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Label.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Label(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Label copyWith({int? id, String? name, DateTime? createdAt}) => Label(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Label copyWithCompanion(LabelsCompanion data) {
+    return Label(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Label(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Label &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.createdAt == this.createdAt);
+}
+
+class LabelsCompanion extends UpdateCompanion<Label> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<DateTime> createdAt;
+  const LabelsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  LabelsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.createdAt = const Value.absent(),
+  }) : name = Value(name);
+  static Insertable<Label> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  LabelsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<DateTime>? createdAt,
+  }) {
+    return LabelsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LabelsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -804,11 +1147,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $FoldersTable folders = $FoldersTable(this);
   late final $TodosTable todos = $TodosTable(this);
+  late final $LabelsTable labels = $LabelsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [folders, todos];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [folders, todos, labels];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
     WritePropagation(
@@ -1100,6 +1444,8 @@ typedef $$TodosTableCreateCompanionBuilder =
       Value<int> priority,
       Value<DateTime?> dueDate,
       Value<int?> folderId,
+      Value<String> labelsJson,
+      Value<int?> cardColor,
       Value<DateTime> createdAt,
     });
 typedef $$TodosTableUpdateCompanionBuilder =
@@ -1111,6 +1457,8 @@ typedef $$TodosTableUpdateCompanionBuilder =
       Value<int> priority,
       Value<DateTime?> dueDate,
       Value<int?> folderId,
+      Value<String> labelsJson,
+      Value<int?> cardColor,
       Value<DateTime> createdAt,
     });
 
@@ -1171,6 +1519,16 @@ class $$TodosTableFilterComposer extends Composer<_$AppDatabase, $TodosTable> {
 
   ColumnFilters<DateTime> get dueDate => $composableBuilder(
     column: $table.dueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get labelsJson => $composableBuilder(
+    column: $table.labelsJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cardColor => $composableBuilder(
+    column: $table.cardColor,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1242,6 +1600,16 @@ class $$TodosTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get labelsJson => $composableBuilder(
+    column: $table.labelsJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cardColor => $composableBuilder(
+    column: $table.cardColor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -1299,6 +1667,14 @@ class $$TodosTableAnnotationComposer
 
   GeneratedColumn<DateTime> get dueDate =>
       $composableBuilder(column: $table.dueDate, builder: (column) => column);
+
+  GeneratedColumn<String> get labelsJson => $composableBuilder(
+    column: $table.labelsJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get cardColor =>
+      $composableBuilder(column: $table.cardColor, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -1362,6 +1738,8 @@ class $$TodosTableTableManager
                 Value<int> priority = const Value.absent(),
                 Value<DateTime?> dueDate = const Value.absent(),
                 Value<int?> folderId = const Value.absent(),
+                Value<String> labelsJson = const Value.absent(),
+                Value<int?> cardColor = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => TodosCompanion(
                 id: id,
@@ -1371,6 +1749,8 @@ class $$TodosTableTableManager
                 priority: priority,
                 dueDate: dueDate,
                 folderId: folderId,
+                labelsJson: labelsJson,
+                cardColor: cardColor,
                 createdAt: createdAt,
               ),
           createCompanionCallback:
@@ -1382,6 +1762,8 @@ class $$TodosTableTableManager
                 Value<int> priority = const Value.absent(),
                 Value<DateTime?> dueDate = const Value.absent(),
                 Value<int?> folderId = const Value.absent(),
+                Value<String> labelsJson = const Value.absent(),
+                Value<int?> cardColor = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => TodosCompanion.insert(
                 id: id,
@@ -1391,6 +1773,8 @@ class $$TodosTableTableManager
                 priority: priority,
                 dueDate: dueDate,
                 folderId: folderId,
+                labelsJson: labelsJson,
+                cardColor: cardColor,
                 createdAt: createdAt,
               ),
           withReferenceMapper: (p0) => p0
@@ -1458,6 +1842,152 @@ typedef $$TodosTableProcessedTableManager =
       Todo,
       PrefetchHooks Function({bool folderId})
     >;
+typedef $$LabelsTableCreateCompanionBuilder =
+    LabelsCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<DateTime> createdAt,
+    });
+typedef $$LabelsTableUpdateCompanionBuilder =
+    LabelsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<DateTime> createdAt,
+    });
+
+class $$LabelsTableFilterComposer
+    extends Composer<_$AppDatabase, $LabelsTable> {
+  $$LabelsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LabelsTableOrderingComposer
+    extends Composer<_$AppDatabase, $LabelsTable> {
+  $$LabelsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LabelsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LabelsTable> {
+  $$LabelsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$LabelsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LabelsTable,
+          Label,
+          $$LabelsTableFilterComposer,
+          $$LabelsTableOrderingComposer,
+          $$LabelsTableAnnotationComposer,
+          $$LabelsTableCreateCompanionBuilder,
+          $$LabelsTableUpdateCompanionBuilder,
+          (Label, BaseReferences<_$AppDatabase, $LabelsTable, Label>),
+          Label,
+          PrefetchHooks Function()
+        > {
+  $$LabelsTableTableManager(_$AppDatabase db, $LabelsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LabelsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LabelsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LabelsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => LabelsCompanion(id: id, name: name, createdAt: createdAt),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => LabelsCompanion.insert(
+                id: id,
+                name: name,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LabelsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LabelsTable,
+      Label,
+      $$LabelsTableFilterComposer,
+      $$LabelsTableOrderingComposer,
+      $$LabelsTableAnnotationComposer,
+      $$LabelsTableCreateCompanionBuilder,
+      $$LabelsTableUpdateCompanionBuilder,
+      (Label, BaseReferences<_$AppDatabase, $LabelsTable, Label>),
+      Label,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1466,4 +1996,6 @@ class $AppDatabaseManager {
       $$FoldersTableTableManager(_db, _db.folders);
   $$TodosTableTableManager get todos =>
       $$TodosTableTableManager(_db, _db.todos);
+  $$LabelsTableTableManager get labels =>
+      $$LabelsTableTableManager(_db, _db.labels);
 }

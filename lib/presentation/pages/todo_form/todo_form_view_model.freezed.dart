@@ -22,6 +22,8 @@ mixin _$TodoFormState {
   Priority get priority => throw _privateConstructorUsedError;
   DateTime? get dueDate => throw _privateConstructorUsedError;
   int? get folderId => throw _privateConstructorUsedError;
+  List<String> get labels => throw _privateConstructorUsedError;
+  CardColor? get cardColor => throw _privateConstructorUsedError;
   bool get isSaving => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -45,6 +47,8 @@ abstract class $TodoFormStateCopyWith<$Res> {
     Priority priority,
     DateTime? dueDate,
     int? folderId,
+    List<String> labels,
+    CardColor? cardColor,
     bool isSaving,
     String? errorMessage,
   });
@@ -70,6 +74,8 @@ class _$TodoFormStateCopyWithImpl<$Res, $Val extends TodoFormState>
     Object? priority = null,
     Object? dueDate = freezed,
     Object? folderId = freezed,
+    Object? labels = null,
+    Object? cardColor = freezed,
     Object? isSaving = null,
     Object? errorMessage = freezed,
   }) {
@@ -95,6 +101,14 @@ class _$TodoFormStateCopyWithImpl<$Res, $Val extends TodoFormState>
                 ? _value.folderId
                 : folderId // ignore: cast_nullable_to_non_nullable
                       as int?,
+            labels: null == labels
+                ? _value.labels
+                : labels // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            cardColor: freezed == cardColor
+                ? _value.cardColor
+                : cardColor // ignore: cast_nullable_to_non_nullable
+                      as CardColor?,
             isSaving: null == isSaving
                 ? _value.isSaving
                 : isSaving // ignore: cast_nullable_to_non_nullable
@@ -124,6 +138,8 @@ abstract class _$$TodoFormStateImplCopyWith<$Res>
     Priority priority,
     DateTime? dueDate,
     int? folderId,
+    List<String> labels,
+    CardColor? cardColor,
     bool isSaving,
     String? errorMessage,
   });
@@ -148,6 +164,8 @@ class __$$TodoFormStateImplCopyWithImpl<$Res>
     Object? priority = null,
     Object? dueDate = freezed,
     Object? folderId = freezed,
+    Object? labels = null,
+    Object? cardColor = freezed,
     Object? isSaving = null,
     Object? errorMessage = freezed,
   }) {
@@ -173,6 +191,14 @@ class __$$TodoFormStateImplCopyWithImpl<$Res>
             ? _value.folderId
             : folderId // ignore: cast_nullable_to_non_nullable
                   as int?,
+        labels: null == labels
+            ? _value._labels
+            : labels // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        cardColor: freezed == cardColor
+            ? _value.cardColor
+            : cardColor // ignore: cast_nullable_to_non_nullable
+                  as CardColor?,
         isSaving: null == isSaving
             ? _value.isSaving
             : isSaving // ignore: cast_nullable_to_non_nullable
@@ -195,9 +221,11 @@ class _$TodoFormStateImpl implements _TodoFormState {
     required this.priority,
     this.dueDate,
     this.folderId,
+    required final List<String> labels,
+    this.cardColor,
     this.isSaving = false,
     this.errorMessage,
-  });
+  }) : _labels = labels;
 
   @override
   final String title;
@@ -209,6 +237,16 @@ class _$TodoFormStateImpl implements _TodoFormState {
   final DateTime? dueDate;
   @override
   final int? folderId;
+  final List<String> _labels;
+  @override
+  List<String> get labels {
+    if (_labels is EqualUnmodifiableListView) return _labels;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_labels);
+  }
+
+  @override
+  final CardColor? cardColor;
   @override
   @JsonKey()
   final bool isSaving;
@@ -217,7 +255,7 @@ class _$TodoFormStateImpl implements _TodoFormState {
 
   @override
   String toString() {
-    return 'TodoFormState(title: $title, description: $description, priority: $priority, dueDate: $dueDate, folderId: $folderId, isSaving: $isSaving, errorMessage: $errorMessage)';
+    return 'TodoFormState(title: $title, description: $description, priority: $priority, dueDate: $dueDate, folderId: $folderId, labels: $labels, cardColor: $cardColor, isSaving: $isSaving, errorMessage: $errorMessage)';
   }
 
   @override
@@ -233,6 +271,9 @@ class _$TodoFormStateImpl implements _TodoFormState {
             (identical(other.dueDate, dueDate) || other.dueDate == dueDate) &&
             (identical(other.folderId, folderId) ||
                 other.folderId == folderId) &&
+            const DeepCollectionEquality().equals(other._labels, _labels) &&
+            (identical(other.cardColor, cardColor) ||
+                other.cardColor == cardColor) &&
             (identical(other.isSaving, isSaving) ||
                 other.isSaving == isSaving) &&
             (identical(other.errorMessage, errorMessage) ||
@@ -247,6 +288,8 @@ class _$TodoFormStateImpl implements _TodoFormState {
     priority,
     dueDate,
     folderId,
+    const DeepCollectionEquality().hash(_labels),
+    cardColor,
     isSaving,
     errorMessage,
   );
@@ -267,6 +310,8 @@ abstract class _TodoFormState implements TodoFormState {
     required final Priority priority,
     final DateTime? dueDate,
     final int? folderId,
+    required final List<String> labels,
+    final CardColor? cardColor,
     final bool isSaving,
     final String? errorMessage,
   }) = _$TodoFormStateImpl;
@@ -281,6 +326,10 @@ abstract class _TodoFormState implements TodoFormState {
   DateTime? get dueDate;
   @override
   int? get folderId;
+  @override
+  List<String> get labels;
+  @override
+  CardColor? get cardColor;
   @override
   bool get isSaving;
   @override

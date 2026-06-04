@@ -27,10 +27,18 @@ class AppTheme {
       scaffoldBackgroundColor: colorScheme.surface,
       cardTheme: CardThemeData(
         elevation: AppConstants.elevationNone,
-        color: colorScheme.surface,
+        // 배경(scaffold = surface)보다 한 단계 밝은 컨테이너 색을 써서
+        // 다크모드에서 카드가 배경에 묻혀 투명해 보이는 문제를 막는다.
+        color: colorScheme.surfaceContainer,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+          side: BorderSide(
+            color: colorScheme.outlineVariant.withValues(
+              alpha: AppConstants.alphaStrong,
+            ),
+            width: AppConstants.borderWidthThin,
+          ),
         ),
       ),
       appBarTheme: AppBarTheme(

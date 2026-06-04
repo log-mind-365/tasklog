@@ -24,6 +24,47 @@ class AppLocalizationsKo extends AppLocalizations {
   String get editTodo => '할일 수정';
 
   @override
+  String get todoEditSheetTitle => '할 일 편집';
+
+  @override
+  String get todoLabelsSectionTitle => '라벨';
+
+  @override
+  String get todoLabelHint => '라벨 입력 후 추가';
+
+  @override
+  String get todoLabelAdd => '추가';
+
+  @override
+  String todoLabelsChip(int count) {
+    return '라벨 $count개';
+  }
+
+  @override
+  String get cardColorTooltip => '색상';
+
+  @override
+  String get cardColorNone => '없음';
+
+  @override
+  String get labelSheetTitle => '라벨';
+
+  @override
+  String get labelAddHint => '새 라벨 입력';
+
+  @override
+  String get labelAddButton => '추가';
+
+  @override
+  String get labelDeleteTooltip => '라벨 삭제';
+
+  @override
+  String get labelDeleteConfirm => '이 라벨을 삭제할까요?';
+
+  @override
+  String get labelSheetEmpty => '저장된 라벨이 없습니다';
+
+  @override
   String get title => '제목';
 
   @override

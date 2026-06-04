@@ -11,6 +11,39 @@
 
   "editTodo": "Edit Todo",
 
+  "todoEditSheetTitle": "Edit todo",
+
+  "todoLabelsSectionTitle": "Labels",
+
+  "todoLabelHint": "Type a label, then add",
+
+  "todoLabelAdd": "Add",
+
+  "todoLabelsChip": "Labels ({count})",
+  "@todoLabelsChip": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "cardColorTooltip": "Color",
+
+  "cardColorNone": "None",
+
+  "labelSheetTitle": "Labels",
+
+  "labelAddHint": "Add a new label",
+
+  "labelAddButton": "Add",
+
+  "labelDeleteTooltip": "Delete label",
+
+  "labelDeleteConfirm": "Delete this label?",
+
+  "labelSheetEmpty": "No saved labels yet",
+
   "title": "Title",
 
   "enterTodoTitle": "Enter todo title",

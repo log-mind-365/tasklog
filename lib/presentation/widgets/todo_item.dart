@@ -6,9 +6,29 @@ import '../../core/utils/date_formatter.dart';
 import '../../core/utils/todo_card_description_parser.dart';
 import '../../domain/entities/todo_entity.dart';
 import '../../l10n/app_localizations.dart';
+import '../extensions/card_color_extension.dart';
 import '../extensions/priority_extension.dart';
 import '../providers/folder_providers.dart';
 import '../providers/providers.dart';
+
+/// [todo.labels]와 설명 파서 태그를 합치되, 대소문자 무시 중복은 제거한다.
+List<String> mergedTodoLabelTags(TodoEntity todo, List<String> descTagLabels) {
+  final seen = <String>{};
+  final out = <String>[];
+  for (final l in todo.labels) {
+    final k = l.toLowerCase();
+    if (k.isEmpty || seen.contains(k)) continue;
+    seen.add(k);
+    out.add(l);
+  }
+  for (final l in descTagLabels) {
+    final k = l.toLowerCase();
+    if (k.isEmpty || seen.contains(k)) continue;
+    seen.add(k);
+    out.add(l);
+  }
+  return out;
+}
 
 class TodoItem extends ConsumerWidget {
   final TodoEntity todo;
@@ -24,6 +44,7 @@ class TodoItem extends ConsumerWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final descParts = parseTodoCardDescription(todo.description);
+    final mergedTagLabels = mergedTodoLabelTags(todo, descParts.tagLabels);
 
     final folderChipData = foldersAsync.maybeWhen(
       data: (folders) {
@@ -42,6 +63,7 @@ class TodoItem extends ConsumerWidget {
     final onMuted = theme.colorScheme.onSurface.withValues(
       alpha: AppConstants.alphaStrong,
     );
+    final cardColor = todo.cardColor?.background(theme.brightness);
     final doneStyle = todo.isDone
         ? TextStyle(decoration: TextDecoration.lineThrough, color: onMuted)
         : null;
@@ -101,6 +123,7 @@ class TodoItem extends ConsumerWidget {
         }
       },
       child: Card(
+        color: cardColor,
         margin: const EdgeInsets.symmetric(
           horizontal: AppConstants.spacingLarge,
           vertical: AppConstants.spacingSmall,
@@ -163,12 +186,12 @@ class TodoItem extends ConsumerWidget {
                           decoration: doneStyle?.decoration,
                         ),
                       ),
-                      if (descParts.tagLabels.isNotEmpty) ...[
+                      if (mergedTagLabels.isNotEmpty) ...[
                         const SizedBox(height: AppConstants.spacingSmall),
                         Wrap(
                           spacing: AppConstants.spacingSmall,
                           runSpacing: AppConstants.spacingXSmall,
-                          children: descParts.tagLabels
+                          children: mergedTagLabels
                               .map(
                                 (t) => _NeutralChip(label: '#$t', theme: theme),
                               )

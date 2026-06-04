@@ -10,6 +10,7 @@ class ParsedTodoFormFields {
     this.priority,
     this.dueDate,
     this.folderId,
+    this.labels,
   });
 
   final String title;
@@ -19,6 +20,9 @@ class ParsedTodoFormFields {
   final Priority? priority;
   final DateTime? dueDate;
   final int? folderId;
+
+  /// null이면 기존 폼 라벨 유지. 비어 있지 않으면 NLP에서 추출한 태그.
+  final List<String>? labels;
 }
 
 /// [draft]를 기존 설명과 폴더 목록에 맞춰 저장 가능한 필드로 변환.
@@ -72,6 +76,9 @@ ParsedTodoFormFields mapDraftToFormFields({
     priority: draft.priority,
     dueDate: draft.dueDate,
     folderId: folderId,
+    labels: draft.tags.isEmpty
+        ? null
+        : draft.tags.map((t) => t.trim()).where((t) => t.isNotEmpty).toList(),
   );
 }
 

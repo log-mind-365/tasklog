@@ -3,8 +3,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../data/datasources/local/database.dart';
 import '../../data/repositories/todo_repository_impl.dart';
 import '../../data/repositories/folder_repository_impl.dart';
+import '../../data/repositories/label_repository_impl.dart';
 import '../../domain/repositories/todo_repository.dart';
 import '../../domain/repositories/folder_repository.dart';
+import '../../domain/repositories/label_repository.dart';
 import '../../domain/usecases/get_todos_usecase.dart';
 import '../../domain/usecases/add_todo_usecase.dart';
 import '../../domain/usecases/update_todo_usecase.dart';
@@ -15,6 +17,9 @@ import '../../domain/usecases/get_folders_usecase.dart';
 import '../../domain/usecases/add_folder_usecase.dart';
 import '../../domain/usecases/update_folder_usecase.dart';
 import '../../domain/usecases/delete_folder_usecase.dart';
+import '../../domain/usecases/get_labels_usecase.dart';
+import '../../domain/usecases/add_label_usecase.dart';
+import '../../domain/usecases/delete_label_usecase.dart';
 import '../../domain/repositories/natural_language_task_parser.dart';
 import '../../domain/usecases/parse_natural_language_todo_usecase.dart';
 import '../../data/datasources/remote/openai_chat_client.dart';
@@ -39,6 +44,12 @@ TodoRepository todoRepository(Ref ref) {
 FolderRepository folderRepository(Ref ref) {
   final database = ref.watch(appDatabaseProvider);
   return FolderRepositoryImpl(database);
+}
+
+@riverpod
+LabelRepository labelRepository(Ref ref) {
+  final database = ref.watch(appDatabaseProvider);
+  return LabelRepositoryImpl(database);
 }
 
 // UseCase providers
@@ -100,6 +111,24 @@ UpdateFolderUseCase updateFolderUseCase(Ref ref) {
 DeleteFolderUseCase deleteFolderUseCase(Ref ref) {
   final repository = ref.watch(folderRepositoryProvider);
   return DeleteFolderUseCase(repository);
+}
+
+@riverpod
+GetLabelsUseCase getLabelsUseCase(Ref ref) {
+  final repository = ref.watch(labelRepositoryProvider);
+  return GetLabelsUseCase(repository);
+}
+
+@riverpod
+AddLabelUseCase addLabelUseCase(Ref ref) {
+  final repository = ref.watch(labelRepositoryProvider);
+  return AddLabelUseCase(repository);
+}
+
+@riverpod
+DeleteLabelUseCase deleteLabelUseCase(Ref ref) {
+  final repository = ref.watch(labelRepositoryProvider);
+  return DeleteLabelUseCase(repository);
 }
 
 /// `OPENAI_API_KEY`가 비어 있으면 null (로컬 파싱만 사용).

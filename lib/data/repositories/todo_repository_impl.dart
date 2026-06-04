@@ -56,21 +56,21 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Stream<List<TodoEntity>> watchTodos() {
     return database.watchAllTodos().map(
-          (todos) => todos.map((todo) => todo.toEntity()).toList(),
-        );
+      (todos) => todos.map((todo) => todo.toEntity()).toList(),
+    );
   }
 
   @override
   Stream<List<TodoEntity>> watchTodosByStatus(bool isDone) {
-    return database.watchTodosByStatus(isDone).map(
-          (todos) => todos.map((todo) => todo.toEntity()).toList(),
-        );
+    return database
+        .watchTodosByStatus(isDone)
+        .map((todos) => todos.map((todo) => todo.toEntity()).toList());
   }
 
   @override
   Stream<List<TodoEntity>> watchTodosByPriority(Priority priority) {
-    return database.watchTodosByPriority(priority.value).map(
-          (todos) => todos.map((todo) => todo.toEntity()).toList(),
-        );
+    return database
+        .watchTodosByPriority(priority.value)
+        .map((todos) => todos.map((todo) => todo.toEntity()).toList());
   }
 }

@@ -24,6 +24,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editTodo => 'Edit Todo';
 
   @override
+  String get todoEditSheetTitle => 'Edit todo';
+
+  @override
+  String get todoLabelsSectionTitle => 'Labels';
+
+  @override
+  String get todoLabelHint => 'Type a label, then add';
+
+  @override
+  String get todoLabelAdd => 'Add';
+
+  @override
+  String todoLabelsChip(int count) {
+    return 'Labels ($count)';
+  }
+
+  @override
+  String get cardColorTooltip => 'Color';
+
+  @override
+  String get cardColorNone => 'None';
+
+  @override
+  String get labelSheetTitle => 'Labels';
+
+  @override
+  String get labelAddHint => 'Add a new label';
+
+  @override
+  String get labelAddButton => 'Add';
+
+  @override
+  String get labelDeleteTooltip => 'Delete label';
+
+  @override
+  String get labelDeleteConfirm => 'Delete this label?';
+
+  @override
+  String get labelSheetEmpty => 'No saved labels yet';
+
+  @override
   String get title => 'Title';
 
   @override

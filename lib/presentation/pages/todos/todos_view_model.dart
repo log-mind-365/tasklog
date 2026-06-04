@@ -80,11 +80,14 @@ class TodosViewModel extends _$TodosViewModel {
 
   /// 검색어로 필터링
   List<TodoEntity> _filterBySearch(List<TodoEntity> todos, String query) {
-    if (query.isEmpty) return todos;
+    final trimmed = query.trim();
+    if (trimmed.isEmpty) return todos;
 
+    final q = trimmed.toLowerCase();
     return todos.where((todo) {
-      return todo.title.toLowerCase().contains(query) ||
-          todo.description.toLowerCase().contains(query);
+      return todo.title.toLowerCase().contains(q) ||
+          todo.description.toLowerCase().contains(q) ||
+          todo.labels.any((l) => l.toLowerCase().contains(q));
     }).toList();
   }
 

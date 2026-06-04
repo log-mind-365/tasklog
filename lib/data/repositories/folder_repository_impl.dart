@@ -38,7 +38,7 @@ class FolderRepositoryImpl implements FolderRepository {
   @override
   Stream<List<FolderEntity>> watchFolders() {
     return database.watchAllFolders().map(
-          (folders) => folders.map((folder) => folder.toEntity()).toList(),
-        );
+      (folders) => folders.map((folder) => folder.toEntity()).toList(),
+    );
   }
 }

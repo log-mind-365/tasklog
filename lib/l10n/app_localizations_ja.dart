@@ -24,6 +24,47 @@ class AppLocalizationsJa extends AppLocalizations {
   String get editTodo => 'タスクを編集';
 
   @override
+  String get todoEditSheetTitle => 'タスクを編集';
+
+  @override
+  String get todoLabelsSectionTitle => 'ラベル';
+
+  @override
+  String get todoLabelHint => 'ラベルを入力して追加';
+
+  @override
+  String get todoLabelAdd => '追加';
+
+  @override
+  String todoLabelsChip(int count) {
+    return 'ラベル $count件';
+  }
+
+  @override
+  String get cardColorTooltip => '色';
+
+  @override
+  String get cardColorNone => 'なし';
+
+  @override
+  String get labelSheetTitle => 'ラベル';
+
+  @override
+  String get labelAddHint => '新しいラベルを入力';
+
+  @override
+  String get labelAddButton => '追加';
+
+  @override
+  String get labelDeleteTooltip => 'ラベルを削除';
+
+  @override
+  String get labelDeleteConfirm => 'このラベルを削除しますか？';
+
+  @override
+  String get labelSheetEmpty => '保存されたラベルがありません';
+
+  @override
   String get title => 'タイトル';
 
   @override

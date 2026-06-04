@@ -57,6 +57,23 @@ final folderRepositoryProvider = AutoDisposeProvider<FolderRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FolderRepositoryRef = AutoDisposeProviderRef<FolderRepository>;
+String _$labelRepositoryHash() => r'48d343729914d746ec3691334c19c78055ea3aeb';
+
+/// See also [labelRepository].
+@ProviderFor(labelRepository)
+final labelRepositoryProvider = AutoDisposeProvider<LabelRepository>.internal(
+  labelRepository,
+  name: r'labelRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$labelRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef LabelRepositoryRef = AutoDisposeProviderRef<LabelRepository>;
 String _$getTodosUseCaseHash() => r'3750b0600f0b1a0a8625f69d4aabeca764eecd53';
 
 /// See also [getTodosUseCase].
@@ -239,6 +256,59 @@ final deleteFolderUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DeleteFolderUseCaseRef = AutoDisposeProviderRef<DeleteFolderUseCase>;
+String _$getLabelsUseCaseHash() => r'0ba4e64d0e80029ba0cc5d21ada7b11d0e47b25e';
+
+/// See also [getLabelsUseCase].
+@ProviderFor(getLabelsUseCase)
+final getLabelsUseCaseProvider = AutoDisposeProvider<GetLabelsUseCase>.internal(
+  getLabelsUseCase,
+  name: r'getLabelsUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getLabelsUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetLabelsUseCaseRef = AutoDisposeProviderRef<GetLabelsUseCase>;
+String _$addLabelUseCaseHash() => r'0b887e6734e8e9074b4ea488693b4213231fcd64';
+
+/// See also [addLabelUseCase].
+@ProviderFor(addLabelUseCase)
+final addLabelUseCaseProvider = AutoDisposeProvider<AddLabelUseCase>.internal(
+  addLabelUseCase,
+  name: r'addLabelUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$addLabelUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AddLabelUseCaseRef = AutoDisposeProviderRef<AddLabelUseCase>;
+String _$deleteLabelUseCaseHash() =>
+    r'402161149e076147044ff8924fd9a7cad7e2c6d8';
+
+/// See also [deleteLabelUseCase].
+@ProviderFor(deleteLabelUseCase)
+final deleteLabelUseCaseProvider =
+    AutoDisposeProvider<DeleteLabelUseCase>.internal(
+      deleteLabelUseCase,
+      name: r'deleteLabelUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$deleteLabelUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef DeleteLabelUseCaseRef = AutoDisposeProviderRef<DeleteLabelUseCase>;
 String _$naturalLanguageTaskParserHash() =>
     r'29c8a27d8bfe59cb1e98d612b92ba8babdca9d8a';
 

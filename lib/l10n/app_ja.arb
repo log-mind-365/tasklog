@@ -11,6 +11,39 @@
 
   "editTodo": "タスクを編集",
 
+  "todoEditSheetTitle": "タスクを編集",
+
+  "todoLabelsSectionTitle": "ラベル",
+
+  "todoLabelHint": "ラベルを入力して追加",
+
+  "todoLabelAdd": "追加",
+
+  "todoLabelsChip": "ラベル {count}件",
+  "@todoLabelsChip": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "cardColorTooltip": "色",
+
+  "cardColorNone": "なし",
+
+  "labelSheetTitle": "ラベル",
+
+  "labelAddHint": "新しいラベルを入力",
+
+  "labelAddButton": "追加",
+
+  "labelDeleteTooltip": "ラベルを削除",
+
+  "labelDeleteConfirm": "このラベルを削除しますか？",
+
+  "labelSheetEmpty": "保存されたラベルがありません",
+
   "title": "タイトル",
 
   "enterTodoTitle": "タスクのタイトルを入力してください",

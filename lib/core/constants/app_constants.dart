@@ -89,6 +89,12 @@ class AppConstants {
   static const int defaultWeeksToShow = 12;
   static const int daysPerWeek = 7;
   static const int defaultHistoryDays = 84; // 12 weeks
+
+  /// 할 일 라벨 최대 개수
+  static const int maxTodoLabelsCount = 12;
+
+  /// 할 일 라벨 한 줄 최대 글자 수
+  static const int maxTodoLabelCharacterLength = 24;
 }
 
 /// UI 색상 팔레트 및 아이콘 상수
